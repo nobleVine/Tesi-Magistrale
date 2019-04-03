@@ -1,9 +1,13 @@
 <html>
 
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <title>
         Graph Visualization
     </title>
+
+    <link rel="stylesheet" href="jquery-ui.css">
 
     <style type="text/css">
         body {
@@ -12,6 +16,10 @@
             background-position: center;
             background-repeat: no-repeat;
             background-size: cover;
+        }
+
+        #accordion {
+            width: 25%;
         }
 
         #graphSection {
@@ -24,14 +32,9 @@
             word-spacing: 5px;
         }
 
-        #formSection {
-            width: 23%;
-        }
-
         #buttonDraw {
             width: 90px;
             height: 35px;
-            margin-left: 80px;
         }
 
         #startingSequence {
@@ -43,7 +46,17 @@
         }
     </style>
 
- </head>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <script>
+        $(function () {
+            $("#accordion").accordion({
+                collapsible: true
+            });
+        });
+    </script>
+</head>
 
 <body style="font-size: 15pt; font-family: Comics Sans MS; color: darkorange">
 
@@ -54,44 +67,45 @@
         <br>
         <br>
     </center>
-    <div id="formSection" style="float: left;">
-        <form action="javascript:drawSpecializedGraph()">
-            <table>
-                <tr>
-                    <td>
-                        starting sequence
-                    </td>
-                    <td>
-                        <input type="text" id="startingSequence"
-                            title="Insert the id of the sequence that you want to see all the references">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        number of nodes
-                    </td>
-                    <td>
-                        <input type="text" id="numberOfNodes"
-                            title="Insert the maximum number of related sequences that you want to see">
-                    </td>
-                </tr>
-            </table>
-            <br>
-            <input type="submit" value="Draw It!" id="buttonDraw"
-                title="Click here to draw the graph with all the referenced sequences from starting sequence">
-        </form>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        graph with the fetched sequences
-        <br>
-        <br>
-        <form action="javascript:drawFetchedSequencesGraph()">
-            <input type="submit" value="Draw It!" id="buttonDraw"
-                title="Click here to draw the graph with all the fetched referenced sequences">
-        </form>
+    <div id="accordion" style="float: left;">
+        <h3>Section 1</h3>
+        <div>
+            <form action="javascript:drawSpecializedGraph()">
+                <table>
+                    <tr>
+                        <td>
+                            starting sequence
+                        </td>
+                        <td>
+                            <input type="text" id="startingSequence"
+                                title="Insert the id of the sequence that you want to see all the references">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            number of nodes
+                        </td>
+                        <td>
+                            <input type="text" id="numberOfNodes"
+                                title="Insert the maximum number of related sequences that you want to see">
+                        </td>
+                    </tr>
+                </table>
+                <br>
+                <input type="submit" value="Draw It!" id="buttonDraw"
+                    title="Click here to draw the graph with all the referenced sequences from starting sequence">
+            </form>
+        </div>
+        <h3>Section 2</h3>
+        <div>
+            <form action="javascript:drawFetchedSequencesGraph()">
+                graph with the fetched sequences
+                <br>
+                <br>
+                <input type="submit" value="Draw It!" id="buttonDraw"
+                    title="Click here to draw the graph with all the fetched referenced sequences">
+            </form>
+        </div>
     </div>
 
     <div id="graphSection" style="float: left;"></div>
@@ -99,6 +113,9 @@
     <script src="C:\Users\Marco\Desktop\Marco\Università\Magistrale\Tesi\libraries\build\sigma.min.js"></script>
 
     <script src="C:\Users\Marco\Desktop\Marco\Università\Magistrale\Tesi\common_framework\GlobalJSON.json"></script>
+
+
+
 
     <script>
 
