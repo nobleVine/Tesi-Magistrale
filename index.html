@@ -150,7 +150,7 @@
             edge_number = 0;
             sequence = document.getElementById("startingSequence").value;
             nodesToAdd = document.getElementById("numberOfNodes").value;
-            for (d=0; d < json_list.length; d++) {
+            for (d = 0; d < json_list.length; d++) {
                 if (json_list[d].query.substring(3, 11) === sequence) {
                     s.graph.addNode({
                         id: '' + sequence,
@@ -225,7 +225,6 @@
                     }
                 }
             }
-            //document.write(s.graph.edges().length);
             s.refresh();
         }
 
