@@ -12,10 +12,11 @@
     <style type="text/css">
         body {
             margin: 10;
-            background-image: url("back.jpg");
+            /*background-image: url("back1.jpg");
             background-position: center;
             background-repeat: no-repeat;
-            background-size: cover;
+            background-size: cover;*/
+            background-color: #D3D3D3;
         }
 
         #accordion {
@@ -35,6 +36,10 @@
         #buttonDraw {
             width: 90px;
             height: 35px;
+            background-color: #d6d6c2;
+            border-radius: 6px;
+            font-style: italic;
+            font-size: 20;
         }
 
         #startingSequence {
@@ -44,6 +49,15 @@
         #numberOfNodes {
             width: 70px;
         }
+
+        #section1 {
+            background-color: #ebebe0;
+            text-align: justify;
+        }
+
+        #section2 {
+            background-color: #ebebe0;
+        }
     </style>
 
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -52,29 +66,39 @@
     <script>
         $(function () {
             $("#accordion").accordion({
-                collapsible: true
+                collapsible: true,
+                heightStyle: "content",
+                active: false
             });
         });
     </script>
 </head>
 
-<body style="font-size: 15pt; font-family: Comics Sans MS; color: darkorange">
-
+<body>
     <center>
-        <font size="10">
+        <font size="10" color="Black">
             Interactive Graph
         </font>
         <br>
         <br>
     </center>
     <div id="accordion" style="float: left;">
-        <h3>Section 1</h3>
-        <div>
+        <h3>
+            <b>
+                Starting sequence references
+            </b>
+        </h3>
+        <div id="section1">
             <form action="javascript:drawSpecializedGraph()">
                 <table>
+                    Insert the id of the sequence that you want to see all the references and the maximum number of
+                    related sequences that you want to show, to draw the graph with these sequences related to the
+                    starting sequence.
+                    <br>
+                    <br>
                     <tr>
                         <td>
-                            starting sequence
+                            <b>starting sequence</b>
                         </td>
                         <td>
                             <input type="text" id="startingSequence"
@@ -83,11 +107,11 @@
                     </tr>
                     <tr>
                         <td>
-                            number of nodes
+                            <b>number of nodes</b>
                         </td>
                         <td>
                             <input type="text" id="numberOfNodes"
-                                title="Insert the maximum number of related sequences that you want to see">
+                                title="Insert the maximum number of related sequences that you want to show">
                         </td>
                     </tr>
                 </table>
@@ -96,10 +120,14 @@
                     title="Click here to draw the graph with all the referenced sequences from starting sequence">
             </form>
         </div>
-        <h3>Section 2</h3>
-        <div>
-            <form action="javascript:drawFetchedSequencesGraph()">
-                graph with the fetched sequences
+        <h3>
+            <b>
+                Fetched sequences
+            </b>
+        </h3>
+        <div id="section2">
+            <form action="javascript:drawFetchedSequencesGraph()" id="form2">
+                Draw the graph with the fetched sequences
                 <br>
                 <br>
                 <input type="submit" value="Draw It!" id="buttonDraw"
