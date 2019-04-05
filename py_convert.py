@@ -15,21 +15,11 @@ def inizializzazioneJSON(nomeFile, var_js):
     with open(nomeFile, 'a') as f:
         f.write(contenuto)
 
-
 listaFile = os.listdir('../materiale_Nocentini/oeis-tools-master/src/fetched')
 
 index = 0
 inizializzazioneSequenze = []
 
-'''for j in listaFile:
-    if j.endswith(".json"):
-        with open(j, 'r') as f:
-            testo = f.read()
-            if testo[0] == 's':
-                scritto = True
-                break'''
-
-'''if scritto == False:'''
 for i in listaFile:
     if i.endswith(".json"):
         cosaScrivo = "sequenzaJSON" + str(index) + " = "
@@ -54,7 +44,6 @@ with open('GlobalJSON.json', 'a+') as f:
     f.write('json_list = [')
     print(inizializzazioneSequenze)
     for j in inizializzazioneSequenze:
-
         if (j != inizializzazioneSequenze[len(inizializzazioneSequenze)-1]):
             f.write(j + ', ')
     f.write(inizializzazioneSequenze[len(inizializzazioneSequenze)-1])
