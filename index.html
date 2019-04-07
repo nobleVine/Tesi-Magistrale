@@ -12,10 +12,6 @@
     <style type="text/css">
         body {
             margin: 10;
-            /*background-image: url("back1.jpg");
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;*/
             background-color: #D3D3D3;
         }
 
@@ -42,7 +38,20 @@
             font-size: 20;
         }
 
+        #buttonCompute {
+            width: 100px;
+            height: 35px;
+            background-color: #d6d6c2;
+            border-radius: 6px;
+            font-style: italic;
+            font-size: 20;
+        }
+
         #startingSequence {
+            width: 70px;
+        }
+
+        #sequence {
             width: 70px;
         }
 
@@ -58,6 +67,10 @@
         #section2 {
             background-color: #ebebe0;
         }
+
+        #result {
+            width: 70px;
+        }
     </style>
 
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -72,6 +85,7 @@
             });
         });
     </script>
+
 </head>
 
 <body>
@@ -133,6 +147,14 @@
                 <input type="submit" value="Draw It!" id="buttonDraw"
                     title="Click here to draw the graph with all the fetched related sequences">
             </form>
+            <form action="javascript:numberOfRelatedSequences()">
+                Calculates how many related sequences there are compared to the one given among those fetched.
+                <br>
+                <br>
+                <input type="text" id="sequence" title="Insert the sequence id">
+                <input type="submit" value="Compute" id="buttonCompute" title="Click here to compute">
+                <input type="text" id="result">
+            </form>
         </div>
     </div>
 
@@ -160,7 +182,8 @@
             labelColor: "default",
             labelHoverShadow: "default",
             labelHoverShadowColor: "#000099",
-            labelThreshold: 100
+            labelThreshold: 100,
+            enableCamera: false
         });
 
         function take_sequences(sequenzaJSON) {
@@ -204,6 +227,10 @@
                     initial_sequence = json_list[d];
                     break;
                 }
+            }
+            if (typeof initial_sequence === 'undefined') {
+                alert("La sequenza " + sequence + " non è stata scaricata!");
+                return;
             }
             nodes_list = take_sequences(initial_sequence);
             if (nodesToAdd > nodes_list.length) {
@@ -263,11 +290,58 @@
                                 target: '' + json_list[k].query.substring(3, 11),
                                 size: 1
                             });
+                            lista_archi = s.graph.edges();
+                            for(q=0; q < lista_archi.length; q++) {
+                                if (lista_archi[q].source === json_list[k].query.substring(3, 11) && lista_archi[q].target === json_list[i].query.substring(3, 11)) {
+                                    s.graph.dropEdge('e' + '(' + k + ',' + i + ')');
+                                    break;
+                                }
+                            }
                         }
                     }
                 }
             }
+
             s.refresh();
+        }
+
+        function numberOfRelatedSequences() {
+
+            sequenceToEvaluate = document.getElementById("sequence").value;    
+
+            var numberOfReferences = 0;
+            v = s.graph.edges()
+
+            if (v.length === 0) {
+                alert("You have to draw the graph first!");
+                return;
+            }
+
+            for (l = 0; l < v.length; l++) {
+                if (v[l].source === sequenceToEvaluate || v[l].target === sequenceToEvaluate) {
+                    numberOfReferences = numberOfReferences + 1;
+                }
+            }
+
+            if (numberOfReferences === 0) {
+                alert("the selected sequence is not present in the graph");
+                return;
+            }
+
+            s.graph.nodes().forEach(element => {
+                if (element.id === sequenceToEvaluate) {
+                    element.color = "#ff0000";
+                    element.size = 2;
+                } else {
+                    element.size = 1;
+                    element.color = "#007fff";
+                }
+            });
+
+            s.refresh();        
+
+            document.getElementById("result").value = numberOfReferences;
+
         }
 
     </script>

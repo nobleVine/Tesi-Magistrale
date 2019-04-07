@@ -6,7 +6,6 @@ listaFileRepo = os.listdir()
 if("GlobalJSON.json" in listaFileRepo):
     os.remove("GlobalJSON.json")
 
-
 def inizializzazioneJSON(nomeFile, var_js):
     with open(nomeFile, 'r') as f:
         contenuto = f.read()
@@ -42,7 +41,6 @@ with open('GlobalJSON.json', 'a+') as f:
     for i in JSONtotale:
         f.write(i + '\n')
     f.write('json_list = [')
-    print(inizializzazioneSequenze)
     for j in inizializzazioneSequenze:
         if (j != inizializzazioneSequenze[len(inizializzazioneSequenze)-1]):
             f.write(j + ', ')
