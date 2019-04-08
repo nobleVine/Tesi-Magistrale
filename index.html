@@ -7,6 +7,8 @@
         Graph Visualization
     </title>
 
+    <link rel="icon" type="image/ico" href="iconGraph.png" />
+
     <link rel="stylesheet" href="jquery-ui.css">
 
     <style type="text/css">
@@ -147,6 +149,13 @@
                 <input type="submit" value="Draw It!" id="buttonDraw"
                     title="Click here to draw the graph with all the fetched related sequences">
             </form>
+        </div>
+        <h3>
+            <b>
+                Number of related sequences
+            </b>
+        </h3>
+        <div>
             <form action="javascript:numberOfRelatedSequences()">
                 Calculates how many related sequences there are compared to the one given among those fetched.
                 <br>
@@ -229,7 +238,7 @@
                 }
             }
             if (typeof initial_sequence === 'undefined') {
-                alert("La sequenza " + sequence + " non è stata scaricata!");
+                alert("The sequence " + sequence + " has not been fetched!");
                 return;
             }
             nodes_list = take_sequences(initial_sequence);
@@ -254,6 +263,10 @@
                 }
                 s.refresh();
             }
+
+            document.getElementById("startingSequence").addEventListener("click", clearInput);
+
+
         }
 
         function drawFetchedSequencesGraph() {
@@ -291,7 +304,7 @@
                                 size: 1
                             });
                             lista_archi = s.graph.edges();
-                            for(q=0; q < lista_archi.length; q++) {
+                            for (q = 0; q < lista_archi.length; q++) {
                                 if (lista_archi[q].source === json_list[k].query.substring(3, 11) && lista_archi[q].target === json_list[i].query.substring(3, 11)) {
                                     s.graph.dropEdge('e' + '(' + k + ',' + i + ')');
                                     break;
@@ -307,7 +320,7 @@
 
         function numberOfRelatedSequences() {
 
-            sequenceToEvaluate = document.getElementById("sequence").value;    
+            sequenceToEvaluate = document.getElementById("sequence").value;
 
             var numberOfReferences = 0;
             v = s.graph.edges()
@@ -324,7 +337,7 @@
             }
 
             if (numberOfReferences === 0) {
-                alert("the selected sequence is not present in the graph");
+                alert("The selected sequence is not present in the graph");
                 return;
             }
 
@@ -338,10 +351,18 @@
                 }
             });
 
-            s.refresh();        
+            s.refresh();
 
             document.getElementById("result").value = numberOfReferences;
+            document.getElementById("sequence").addEventListener("click", clearInput);
 
+        }
+
+        function clearInput() {
+            document.getElementById("sequence").value = "";
+            document.getElementById("result").value = "";
+            document.getElementById("startingSequence").value = "";
+            document.getElementById("numberOfNodes").value = "";
         }
 
     </script>
