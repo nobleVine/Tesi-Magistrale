@@ -76,6 +76,11 @@
             font-family: "Comic Sans MS";
         }
 
+        #section3 {
+            background-color: #ebebe0;
+            font-family: "Comic Sans MS";
+        }
+
         #result {
             width: 70px;
         }
@@ -169,7 +174,7 @@
                 Number of related sequences
             </b>
         </h3>
-        <div>
+        <div id="section3">
             <form action="javascript:numberOfRelatedSequences()">
                 Calculates how many related sequences there are compared to the one given among those fetched.
                 <br>
@@ -250,6 +255,8 @@
         }
 
         function drawSpecializedGraph() {
+            var present = false;
+            document.getElementById("startingSequence").addEventListener("click", clearInput);
             s.graph.clear();
             edge_number = 0;
             sequence = document.getElementById("startingSequence").value;
@@ -264,14 +271,18 @@
                         size: 5
                     });
                     initial_sequence = json_list[d];
+                    present = true;
                     break;
                 }
             }
-            if (typeof initial_sequence === 'undefined') {
+
+            if (typeof initial_sequence === 'undefined' || present === false) {
                 alert("The sequence " + sequence + " has not been fetched!");
                 return;
             }
+
             nodes_list = take_sequences(initial_sequence);
+
             if (nodesToAdd > nodes_list.length) {
                 alert("The maximum number of nodes that can be requested is " + nodes_list.length);
             } else {
@@ -294,9 +305,6 @@
                 showInformation();
                 s.refresh();
             }
-
-            document.getElementById("startingSequence").addEventListener("click", clearInput);
-
 
         }
 
@@ -380,6 +388,8 @@
 
         function numberOfRelatedSequences() {
 
+            document.getElementById("sequence").addEventListener("click", clearInput);
+
             sequenceToEvaluate = document.getElementById("sequence").value;
 
             var numberOfReferences = 0;
@@ -414,7 +424,6 @@
             s.refresh();
 
             document.getElementById("result").value = numberOfReferences;
-            document.getElementById("sequence").addEventListener("click", clearInput);
 
         }
 
