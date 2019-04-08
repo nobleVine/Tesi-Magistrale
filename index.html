@@ -92,6 +92,13 @@
         #sequenceNumber {
             font-family: "Comic Sans MS";
         }
+
+        #nodesClick {
+            font-family: "Comic Sans MS";
+            color: #3d3d29;
+            text-shadow: 7px 7px 7px rgb(122, 122, 82);
+            font-size: 20;
+        }
     </style>
 
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -185,11 +192,9 @@
             </form>
         </div>
     </div>
-
     <div id="accordion2" style="float: right;">
         <h3>
             <b id="Title1">
-
             </b>
         </h3>
         <div id="sequenceName"></div>
@@ -202,7 +207,10 @@
         <div id="sequenceNumber"></div>
     </div>
 
-    <div id="graphSection" style="float: left;"></div>
+    <div id="graphSection" style="float: left;">
+    </div>
+
+    <p hidden id="nodesClick">Click on a node to show the associated informations</p>
 
     <script src="libraries\build\sigma.min.js"></script>
 
@@ -261,6 +269,18 @@
             edge_number = 0;
             sequence = document.getElementById("startingSequence").value;
             nodesToAdd = document.getElementById("numberOfNodes").value;
+
+            if (sequence === "" && nodesToAdd === "") {
+                alert("Both the starting sequence and the number of nodes not inserted");
+                return;
+            } else if (sequence === "") {
+                alert("There is no sequence inserted");
+                return;
+            } else if (nodesToAdd === "") {
+                alert("Number of nodes not inserted");
+                return;
+            }
+
             for (d = 0; d < json_list.length; d++) {
                 if (json_list[d].query.substring(3, 11) === sequence) {
                     s.graph.addNode({
@@ -304,19 +324,18 @@
                 }
                 showInformation();
                 s.refresh();
+                showHelp();
             }
 
         }
 
         function showInformation() {
             s.bind("clickNode", function (e) {
-
                 $("#accordion2").accordion({
                     collapsible: true,
                     heightStyle: "content",
                     active: 0
                 });
-
                 document.getElementById("Title1").innerHTML = "Sequence Name and Recurrence Function";
                 document.getElementById("Title2").innerHTML = "Sequence Number";
 
@@ -334,6 +353,13 @@
                     alert("The clicked sequence " + e.data.node.label + " has not been fetched");
                 }
 
+            });
+        }
+
+        function showHelp() {
+            document.getElementById("nodesClick").style.display = "block";
+            s.bind("clickNode", function () {
+                document.getElementById("nodesClick").style.display = "none";
             });
         }
 
@@ -382,8 +408,9 @@
                     }
                 }
             }
-
+            showInformation();
             s.refresh();
+            showHelp();
         }
 
         function numberOfRelatedSequences() {
@@ -391,6 +418,11 @@
             document.getElementById("sequence").addEventListener("click", clearInput);
 
             sequenceToEvaluate = document.getElementById("sequence").value;
+
+            if (sequenceToEvaluate === "") {
+                alert("There is no sequence inserted");
+                return;
+            }
 
             var numberOfReferences = 0;
             v = s.graph.edges()
@@ -422,6 +454,7 @@
             });
 
             s.refresh();
+            showHelp();
 
             document.getElementById("result").value = numberOfReferences;
 
