@@ -184,7 +184,6 @@
     <div id="accordion2" style="float: right;">
         <h3>
             <b id="Title1">
-
             </b>
         </h3>
         <div id="sequenceName"></div>
@@ -197,7 +196,8 @@
         <div id="sequenceNumber"></div>
     </div>
 
-    <div id="graphSection" style="float: left;"></div>
+    <div id="graphSection" style="float: left;">
+    </div>
 
     <script src="libraries\build\sigma.min.js"></script>
 
@@ -301,14 +301,13 @@
         }
 
         function showInformation() {
+            //document.getElementById("accordion2").innerHTML="Click"
             s.bind("clickNode", function (e) {
-
                 $("#accordion2").accordion({
                     collapsible: true,
                     heightStyle: "content",
                     active: 0
                 });
-
                 document.getElementById("Title1").innerHTML = "Sequence Name and Recurrence Function";
                 document.getElementById("Title2").innerHTML = "Sequence Number";
 
@@ -374,7 +373,7 @@
                     }
                 }
             }
-
+            showInformation();
             s.refresh();
         }
 
