@@ -21,8 +21,12 @@
             width: 25%;
         }
 
+        #accordion2 {
+            width: 25%;
+        }
+
         #graphSection {
-            width: 60%;
+            width: 50%;
             height: 80%;
         }
 
@@ -64,14 +68,24 @@
         #section1 {
             background-color: #ebebe0;
             text-align: justify;
+            font-family: "Comic Sans MS";
         }
 
         #section2 {
             background-color: #ebebe0;
+            font-family: "Comic Sans MS";
         }
 
         #result {
             width: 70px;
+        }
+
+        #sequenceName {
+            font-family: "Comic Sans MS";
+        }
+
+        #sequenceNumber {
+            font-family: "Comic Sans MS";
         }
     </style>
 
@@ -165,6 +179,22 @@
                 <input type="text" id="result">
             </form>
         </div>
+    </div>
+
+    <div id="accordion2" style="float: right;">
+        <h3>
+            <b id="Title1">
+
+            </b>
+        </h3>
+        <div id="sequenceName"></div>
+
+        <h3>
+            <b id="Title2">
+
+            </b>
+        </h3>
+        <div id="sequenceNumber"></div>
     </div>
 
     <div id="graphSection" style="float: left;"></div>
@@ -261,12 +291,42 @@
                     });
                     edge_number++;
                 }
+                showInformation();
                 s.refresh();
             }
 
             document.getElementById("startingSequence").addEventListener("click", clearInput);
 
 
+        }
+
+        function showInformation() {
+            s.bind("clickNode", function (e) {
+
+                $("#accordion2").accordion({
+                    collapsible: true,
+                    heightStyle: "content",
+                    active: 0
+                });
+
+                document.getElementById("Title1").innerHTML = "Sequence Name and Recurrence Function";
+                document.getElementById("Title2").innerHTML = "Sequence Number";
+
+                for (h = 0; h < json_list.length; h++) {
+                    entrato = false;
+                    if (e.data.node.label === json_list[h].query.substring(3, 11)) {
+                        document.getElementById("sequenceName").innerHTML = json_list[h].query.substring(3, 11) + "<br>" + json_list[h].results[0].name;
+                        document.getElementById("sequenceNumber").innerHTML = json_list[h].results[0].data;
+                        entrato = true;
+                        break;
+                    }
+
+                }
+                if (entrato === false) {
+                    alert("The clicked sequence " + e.data.node.label + " has not been fetched");
+                }
+
+            });
         }
 
         function drawFetchedSequencesGraph() {
