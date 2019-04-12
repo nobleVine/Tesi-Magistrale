@@ -44,6 +44,15 @@
             font-size: 20;
         }
 
+        #buttonDraw2 {
+            width: 90px;
+            height: 35px;
+            background-color: #d6d6c2;
+            border-radius: 6px;
+            font-style: italic;
+            font-size: 20;
+        }
+
         #buttonCompute {
             width: 100px;
             height: 35px;
@@ -172,7 +181,7 @@
                 Draw the graph with the fetched sequences.
                 <br>
                 <br>
-                <input type="submit" value="Draw It!" id="buttonDraw"
+                <input type="submit" value="Draw It!" id="buttonDraw2"
                     title="Click here to draw the graph with all the fetched related sequences">
             </form>
         </div>
@@ -263,9 +272,10 @@
         }
 
         function drawSpecializedGraph() {
+            s.graph.clear();
             var present = false;
             document.getElementById("startingSequence").addEventListener("click", clearInput);
-            s.graph.clear();
+            document.getElementById("buttonDraw").addEventListener("click", hideAccordion);
             edge_number = 0;
             sequence = document.getElementById("startingSequence").value;
             nodesToAdd = document.getElementById("numberOfNodes").value;
@@ -322,22 +332,26 @@
                     });
                     edge_number++;
                 }
-                showInformation();
                 s.refresh();
                 showHelp();
+                showInformation();
             }
-
         }
 
         function showInformation() {
             s.bind("clickNode", function (e) {
+                
                 $("#accordion2").accordion({
                     collapsible: true,
                     heightStyle: "content",
                     active: 0
                 });
+
+                document.getElementById("accordion2").style.display = "block";
                 document.getElementById("Title1").innerHTML = "Sequence Name and Recurrence Function";
                 document.getElementById("Title2").innerHTML = "Sequence Number";
+
+                var h = 0;
 
                 for (h = 0; h < json_list.length; h++) {
                     entrato = false;
@@ -347,8 +361,8 @@
                         entrato = true;
                         break;
                     }
-
                 }
+
                 if (entrato === false) {
                     alert("The clicked sequence " + e.data.node.label + " has not been fetched");
                 }
@@ -366,6 +380,8 @@
         function drawFetchedSequencesGraph() {
 
             s.graph.clear();
+
+            document.getElementById("buttonDraw2").addEventListener("click", hideAccordion);
 
             lista_refs = [];
 
@@ -408,9 +424,10 @@
                     }
                 }
             }
-            showInformation();
             s.refresh();
             showHelp();
+            showInformation();
+
         }
 
         function numberOfRelatedSequences() {
@@ -455,6 +472,7 @@
 
             s.refresh();
             showHelp();
+            showInformation();
 
             document.getElementById("result").value = numberOfReferences;
 
@@ -465,6 +483,10 @@
             document.getElementById("result").value = "";
             document.getElementById("startingSequence").value = "";
             document.getElementById("numberOfNodes").value = "";
+        }
+
+        function hideAccordion() {
+            document.getElementById("accordion2").style.display = "none";
         }
 
     </script>
