@@ -462,6 +462,16 @@
 
             document.getElementById("buttonCompute").addEventListener("click", hideAccordion);
 
+            s.graph.edges().forEach(element => {
+                element.color = "#000000";
+            });
+
+            s.graph.nodes().forEach(element => {
+                element.color = "#007fff";
+            });
+
+            s.refresh();
+
             sequenceToEvaluate = document.getElementById("sequence").value;
 
             if (sequenceToEvaluate === "") {
@@ -503,6 +513,15 @@
             showInformation();
 
             document.getElementById("result").value = numberOfReferences;
+
+            s.graph.edges().forEach(element => {
+                if (element.source !== sequenceToEvaluate && element.target !== sequenceToEvaluate) {
+                    element.color = "#b3b3b3";
+                }
+            });
+
+            s.refresh();
+
 
         }
 
