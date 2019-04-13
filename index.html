@@ -108,6 +108,19 @@
             text-shadow: 7px 7px 7px rgb(122, 122, 82);
             font-size: 20;
         }
+
+        #download2 {
+            width: auto;
+            height: 35px;
+            background-color: #d6d6c2;
+            border-radius: 6px;
+            font-style: italic;
+            font-size: 20;
+        }
+
+        #download {
+            width: 70px;
+        }
     </style>
 
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -170,6 +183,18 @@
                 <input type="submit" value="Draw It!" id="buttonDraw"
                     title="Click here to draw the graph with all the related sequences from starting sequence">
             </form>
+            <form action="https://localhost/tesi-magistrale/fetchAndRebuild.php" method="POST">
+                <table>
+                    <tr>
+                        <td>
+                            <input type="text" name='sequence' id="download">
+                        </td>
+                        <td>
+                            <input type="submit" value="Download It!" method="POST" id="download2">
+                        </td>
+                    </tr>
+                </table>
+            </form>
         </div>
         <h3>
             <b>
@@ -228,6 +253,7 @@
     <script>
 
         array_numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+        document.getElementById("download").addEventListener("click", clearInput);
 
         var s = new sigma('graphSection');
 
@@ -340,7 +366,7 @@
 
         function showInformation() {
             s.bind("clickNode", function (e) {
-                
+
                 $("#accordion2").accordion({
                     collapsible: true,
                     heightStyle: "content",
@@ -434,6 +460,8 @@
 
             document.getElementById("sequence").addEventListener("click", clearInput);
 
+            document.getElementById("buttonCompute").addEventListener("click", hideAccordion);
+
             sequenceToEvaluate = document.getElementById("sequence").value;
 
             if (sequenceToEvaluate === "") {
@@ -483,6 +511,7 @@
             document.getElementById("result").value = "";
             document.getElementById("startingSequence").value = "";
             document.getElementById("numberOfNodes").value = "";
+            document.getElementById("download").value = "";
         }
 
         function hideAccordion() {
