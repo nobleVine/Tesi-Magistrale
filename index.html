@@ -217,7 +217,8 @@
         </h3>
         <div id="section3">
             <form action="javascript:numberOfRelatedSequences()">
-                Calculates how many related sequences there are compared to the one given among those fetched.
+                Calculates how many related sequences there are compared to the one given among those fetched and shows
+                only the nodes and the edges directly connected to the input sequence.
                 <br>
                 <br>
                 <input type="text" id="sequence" title="Insert the sequence id">
@@ -302,6 +303,9 @@
             var present = false;
             document.getElementById("startingSequence").addEventListener("click", clearInput);
             document.getElementById("buttonDraw").addEventListener("click", hideAccordion);
+            document.getElementById("buttonDraw2").addEventListener("click", hideAccordion);
+            document.getElementById("buttonCompute").addEventListener("click", hideAccordion);
+
             edge_number = 0;
             sequence = document.getElementById("startingSequence").value;
             nodesToAdd = document.getElementById("numberOfNodes").value;
@@ -407,7 +411,9 @@
 
             s.graph.clear();
 
+            document.getElementById("buttonDraw").addEventListener("click", hideAccordion);
             document.getElementById("buttonDraw2").addEventListener("click", hideAccordion);
+            document.getElementById("buttonCompute").addEventListener("click", hideAccordion);
 
             lista_refs = [];
 
@@ -461,6 +467,8 @@
             document.getElementById("sequence").addEventListener("click", clearInput);
 
             document.getElementById("buttonCompute").addEventListener("click", hideAccordion);
+            document.getElementById("buttonDraw").addEventListener("click", hideAccordion);
+            document.getElementById("buttonDraw2").addEventListener("click", hideAccordion);
 
             s.graph.edges().forEach(element => {
                 element.color = "#000000";
