@@ -255,8 +255,11 @@
 
         var array_numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
         document.getElementById("download").addEventListener("click", clearInput);
-
+        
         var s = new sigma('graphSection');
+
+        showHelp();
+        showInformation();
 
         s.settings({
             hoverFont: "Comic Sans MS",
@@ -367,8 +370,7 @@
                     edge_number++;
                 }
                 s.refresh();
-                showHelp();
-                showInformation();
+                document.getElementById("nodesClick").style.display = "block";
             }
         }
 
@@ -386,17 +388,18 @@
                 document.getElementById("Title1").innerHTML = "Sequence Name and Recurrence Function";
                 document.getElementById("Title2").innerHTML = "Sequence Number";
 
-                for (h = 0; h < json_list.length; h++) {
-                    entrato = false;
-                    if (e.data.node.label === json_list[h].query.substring(3, 11)) {
-                        document.getElementById("sequenceName").innerHTML = json_list[h].query.substring(3, 11) + "<br>" + json_list[h].results[0].name;
-                        document.getElementById("sequenceNumber").innerHTML = json_list[h].results[0].data;
-                        entrato = true;
-                        break;
-                    }
-                }
+                entered = false;
 
-                if (!entrato) {
+                json_list.forEach(element => {
+                    if (e.data.node.id === element.query.substring(3, 11)) {
+                        document.getElementById("sequenceName").innerHTML = element.query.substring(3, 11) + "<br>" + element.results[0].name;
+                        document.getElementById("sequenceNumber").innerHTML = element.results[0].data;
+                        entered = true;
+                        return;
+                    }
+                })
+
+                if (!entered) {
                     alert("The clicked sequence " + e.data.node.label + " has not been fetched");
                     document.getElementById("accordion2").style.display = "none";
                     document.getElementById("nodesClick").style.display = "block";
@@ -406,7 +409,6 @@
         }
 
         function showHelp() {
-            document.getElementById("nodesClick").style.display = "block";
             s.bind("clickNode", function () {
                 document.getElementById("nodesClick").style.display = "none";
             });
@@ -462,9 +464,7 @@
                 }
             }
             s.refresh();
-            showHelp();
-            showInformation();
-
+            document.getElementById("nodesClick").style.display = "block";
         }
 
         function numberOfRelatedSequences() {
@@ -521,9 +521,9 @@
             });
 
             s.refresh();
-            showHelp();
-            showInformation();
-
+            
+            document.getElementById("nodesClick").style.display = "block";
+           
             document.getElementById("result").value = numberOfReferences;
 
             s.graph.edges().forEach(element => {
