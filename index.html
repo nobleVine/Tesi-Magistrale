@@ -393,8 +393,10 @@
                     }
                 }
 
-                if (entrato === false) {
+                if (!entrato) {
                     alert("The clicked sequence " + e.data.node.label + " has not been fetched");
+                    document.getElementById("accordion2").style.display = "none";
+                    document.getElementById("nodesClick").style.display = "block";
                 }
 
             });
