@@ -253,7 +253,7 @@
 
     <script>
 
-        array_numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+        var array_numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
         document.getElementById("download").addEventListener("click", clearInput);
 
         var s = new sigma('graphSection');
@@ -277,36 +277,40 @@
         function take_sequences(sequenzaJSON) {
             xref_list = sequenzaJSON.results[0].xref;
             if (typeof xref_list !== 'undefined') {
-                array_sequenze = [];
-                for (i = 0; i < xref_list.length; i++) {
+                let array_sequences = [];
+                for (i = 0; i < xref_list.length; i++) { // Loop that scans xref elements.
                     element = xref_list[i];
-                    for (j = 0; j < element.length; j++) {
-                        if (element[j] === "A") {
+                    for (j = 0; j < element.length; j++) { // Loop that scans the letters of xref elements.
+                        if (element[j] === "A") { // Each sequences has the form Axxxxxx.
                             for (v = 0; v < array_numbers.length; v++) {
                                 if (element[j + 1] === array_numbers[v]) {
-                                    array_sequenze.push("A" + element.substring(j + 1, j + 7));
+                                    array_sequences.push("A" + element.substring(j + 1, j + 7));
+                                    j = j + 7; // Useful for optimizing the code. If you find a "A", you can jump the next xxxxxx.
                                     break;
                                 }
                             }
                         }
                     }
                 }
-                let set_sequenze = [...new Set(array_sequenze)];
-                return set_sequenze;
+                let set_sequences = [...new Set(array_sequences)];
+                return set_sequences;
             } else {
                 return 'undefined';
             }
         }
 
         function drawSpecializedGraph() {
+
             s.graph.clear();
             var present = false;
+
             document.getElementById("startingSequence").addEventListener("click", clearInput);
             document.getElementById("buttonDraw").addEventListener("click", hideAccordion);
             document.getElementById("buttonDraw2").addEventListener("click", hideAccordion);
             document.getElementById("buttonCompute").addEventListener("click", hideAccordion);
 
-            edge_number = 0;
+            let edge_number = 0;
+
             sequence = document.getElementById("startingSequence").value;
             nodesToAdd = document.getElementById("numberOfNodes").value;
 
@@ -321,8 +325,8 @@
                 return;
             }
 
-            for (d = 0; d < json_list.length; d++) {
-                if (json_list[d].query.substring(3, 11) === sequence) {
+            json_list.forEach(element => {
+                if (element.query.substring(3, 11) === sequence) {
                     s.graph.addNode({
                         id: '' + sequence,
                         label: '' + sequence,
@@ -330,18 +334,18 @@
                         y: 1,
                         size: 5
                     });
-                    initial_sequence = json_list[d];
+                    initial_sequence = element;
                     present = true;
-                    break;
+                    return;
                 }
-            }
+            });
 
             if (typeof initial_sequence === 'undefined' || present === false) {
                 alert("The sequence " + sequence + " has not been fetched!");
                 return;
             }
 
-            nodes_list = take_sequences(initial_sequence);
+            let nodes_list = take_sequences(initial_sequence);
 
             if (nodesToAdd > nodes_list.length) {
                 alert("The maximum number of nodes that can be requested is " + nodes_list.length);
@@ -368,10 +372,11 @@
             }
         }
 
-        function showInformation() {
+        function showInformation() { // This function shows informations about the selected sequence.
+
             s.bind("clickNode", function (e) {
 
-                $("#accordion2").accordion({
+                $("#accordion2").accordion({ // This is the accordion where informations'll shown.
                     collapsible: true,
                     heightStyle: "content",
                     active: 0
@@ -380,8 +385,6 @@
                 document.getElementById("accordion2").style.display = "block";
                 document.getElementById("Title1").innerHTML = "Sequence Name and Recurrence Function";
                 document.getElementById("Title2").innerHTML = "Sequence Number";
-
-                var h = 0;
 
                 for (h = 0; h < json_list.length; h++) {
                     entrato = false;
@@ -417,12 +420,12 @@
             document.getElementById("buttonDraw2").addEventListener("click", hideAccordion);
             document.getElementById("buttonCompute").addEventListener("click", hideAccordion);
 
-            lista_refs = [];
+            var list_refs = [];
 
             for (z = 0; z < json_list.length; z++) {
                 seq = take_sequences(json_list[z]);
                 if (typeof seq !== 'undefined') {
-                    lista_refs.push(seq);
+                    list_refs.push(seq);
                 }
             }
 
@@ -438,18 +441,18 @@
             }
 
             for (i = 0; i < json_list.length; i++) {
-                for (j = 0; j < lista_refs[i].length; j++) {
+                for (j = 0; j < list_refs[i].length; j++) {
                     for (k = 0; k < json_list.length; k++) {
-                        if (lista_refs[i][j] === json_list[k].query.substring(3, 11)) {
+                        if (list_refs[i][j] === json_list[k].query.substring(3, 11)) {
                             s.graph.addEdge({
                                 id: 'e' + '(' + i + ',' + k + ')',
                                 source: '' + json_list[i].query.substring(3, 11),
                                 target: '' + json_list[k].query.substring(3, 11),
                                 size: 1
                             });
-                            lista_archi = s.graph.edges();
-                            for (q = 0; q < lista_archi.length; q++) {
-                                if (lista_archi[q].source === json_list[k].query.substring(3, 11) && lista_archi[q].target === json_list[i].query.substring(3, 11)) {
+                            list_edges = s.graph.edges();
+                            for (q = 0; q < list_edges.length; q++) {
+                                if (list_edges[q].source === json_list[k].query.substring(3, 11) && list_edges[q].target === json_list[i].query.substring(3, 11)) {
                                     s.graph.dropEdge('e' + '(' + k + ',' + i + ')');
                                     break;
                                 }
@@ -490,18 +493,17 @@
             }
 
             var numberOfReferences = 0;
-            v = s.graph.edges()
 
-            if (v.length === 0) {
+            if (s.graph.edges().length === 0) {
                 alert("You have to draw the graph first!");
                 return;
             }
 
-            for (l = 0; l < v.length; l++) {
-                if (v[l].source === sequenceToEvaluate || v[l].target === sequenceToEvaluate) {
+            s.graph.edges().forEach(element => {
+                if (element.source === sequenceToEvaluate || element.target === sequenceToEvaluate)
                     numberOfReferences = numberOfReferences + 1;
-                }
-            }
+            });
+
 
             if (numberOfReferences === 0) {
                 alert("The selected sequence is not present in the graph");
@@ -531,7 +533,6 @@
             });
 
             s.refresh();
-
 
         }
 
