@@ -521,13 +521,22 @@
             s.refresh();
             document.getElementById("result").value = numberOfReferences;
 
-            s.graph.edges().forEach(element => {
+            s.graph.edges().forEach(element => { //First of all, we have to draw the edges to hide.
                 if (element.source !== sequenceToEvaluate && element.target !== sequenceToEvaluate) {
                     element.color = "#b3b3b3";
+                } else {
+                    s.graph.dropEdge(element.id);
+                    s.graph.addEdge(element);
                 }
             });
 
+            /* And then, we have to draw the edges to show and highlight.
+            * step 1: draw all edges to highlight and save them.
+            * step 2: redraw the edges to highlight, and now we don't have problems with the overlap.
+            */
+
             s.refresh();
+
             document.getElementById("nodesClick").style.display = "block";
         }
 
