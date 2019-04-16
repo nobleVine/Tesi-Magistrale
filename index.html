@@ -255,8 +255,13 @@
 
         var array_numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
         document.getElementById("download").addEventListener("click", clearInput);
-        
-        var s = new sigma('graphSection');
+
+        var s = new sigma({
+            renderer: {
+                container: document.getElementById('graphSection'),
+                type: 'canvas'
+            }
+        });
 
         hideHelp();
         showInformation();
@@ -274,8 +279,13 @@
             labelHoverShadow: "default",
             labelHoverShadowColor: "#000099",
             labelThreshold: 100,
-            enableCamera: false
-        });
+            enableCamera: false,
+            enableEdgeHovering: true,
+            edgeHoverColor: 'default',
+            defaultEdgeHoverColor: '#000080',
+            edgeHoverSizeRatio: 4,
+            edgeHoverExtremities: true
+                });
 
         function take_sequences(sequenzaJSON) {
             xref_list = sequenzaJSON.results[0].xref;
