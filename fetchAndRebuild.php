@@ -10,7 +10,7 @@
 
         #back {
             width: 70px;
-            height: 50px;
+            height: 60px;
         }
     </style>
 
@@ -26,7 +26,7 @@
     <br>
 
     <form action="index.html" id="form">
-        <input type="image" src="backIcon.png" class="btTxt submit" id="back"/>
+        <input type="image" src="back.png" class="btTxt submit" id="back"/>
     </form>
 
     <?php
