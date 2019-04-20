@@ -314,7 +314,8 @@
             edgeHoverColor: 'default',
             defaultEdgeHoverColor: '#000080',
             edgeHoverSizeRatio: 4,
-            edgeHoverExtremities: true
+            edgeHoverExtremities: true,
+            maxNodeSize: 4
         });
 
         function take_sequences(sequenzaJSON) {
@@ -454,6 +455,10 @@
             });
         }
 
+        function getRandomArbitrary(min, max) {
+            return Math.random() * (max - min) + min;
+        }
+
         function drawFetchedSequencesGraph() {
 
             s.graph.clear();
@@ -471,13 +476,23 @@
                 }
             }
 
+            var setPositions = new Set();
+
+            while (setPositions.size < json_list.length * 2) {
+                xPosition = Math.round(getRandomArbitrary(0, 10000));
+                yPosition = Math.round(getRandomArbitrary(0, 10000));
+                setPositions.add(xPosition);
+                setPositions.add(yPosition);
+            }
+
+            var arrayPositions = Array.from(setPositions);
+
             for (i = 0; i < json_list.length; i++) {
-                var theta = i * 2 * Math.PI / json_list.length;
                 s.graph.addNode({
                     id: '' + json_list[i].query.substring(3, 11),
                     label: '' + json_list[i].query.substring(3, 11),
-                    x: 10 * Math.sin(theta),
-                    y: 10 * Math.cos(theta),
+                    x: arrayPositions[i],
+                    y: arrayPositions[i+1],
                     size: 1
                 });
             }
@@ -503,6 +518,7 @@
                     }
                 }
             }
+
             s.refresh();
             document.getElementById("nodesClick").style.display = "block";
 
@@ -612,10 +628,6 @@
 
             current_sequence = document.getElementById("startingSequence").value; // current_sequence = sequence written in the input text.
             nodesToAdd_current = document.getElementById("numberOfNodes").value;
-
-            var l = s.graph.nodes();
-
-            var nodeExtract = l.pop();
 
             var nodes_list2 = [];
 
