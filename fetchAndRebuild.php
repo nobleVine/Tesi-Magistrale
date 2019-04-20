@@ -1,37 +1,7 @@
-<html>
-
-<head>
-
-    <style>
-        body {
-            margin: 10;
-            background-color: #D3D3D3;
-        }
-
-        #back {
-            width: 70px;
-            height: 50px;
-        }
-    </style>
-
-</head>
-
-<body>
-
-    <font face="Comics Sans MC" size=5>
-        The sequence has been fetched correctly! 
-    </font>
-
-    <br>
-    <br>
-
-    <form action="index.html" id="form">
-        <input type="image" src="backIcon.png" class="btTxt submit" id="back"/>
-    </form>
-
+    
     <?php
 
-    $sequence = $_POST['sequence'];
+    $sequence = $_GET['download'];
 
     $wd = getcwd();
 
@@ -50,7 +20,3 @@
     shell_exec("py py_convert.py");
 
     ?>
-
-    <body>
-
-</html>

@@ -62,6 +62,15 @@
             font-size: 20;
         }
 
+        #buttonAddNode {
+            width: 110px;
+            height: 35px;
+            background-color: #d6d6c2;
+            border-radius: 6px;
+            font-style: italic;
+            font-size: 20;
+        }
+
         #startingSequence {
             width: 70px;
         }
@@ -86,6 +95,12 @@
         }
 
         #section3 {
+            background-color: #ebebe0;
+            font-family: "Comic Sans MS";
+            text-align: justify;
+        }
+
+        #section4 {
             background-color: #ebebe0;
             font-family: "Comic Sans MS";
         }
@@ -183,17 +198,11 @@
                 <input type="submit" value="Draw It!" id="buttonDraw"
                     title="Click here to draw the graph with all the related sequences from starting sequence">
             </form>
-            <form action="https://localhost/tesi-magistrale/fetchAndRebuild.php" method="POST">
-                <table>
-                    <tr>
-                        <td>
-                            <input type="text" name='sequence' id="download">
-                        </td>
-                        <td>
-                            <input type="submit" value="Download It!" method="POST" id="download2">
-                        </td>
-                    </tr>
-                </table>
+            <form action="javascript: addNodeToSpecializedGraph()">
+                <select id="selectSequences">
+                    <option>Choose</option>
+                </select>
+                <input type="submit" value="Add node" id="buttonAddNode">
             </form>
         </div>
         <h3>
@@ -226,6 +235,25 @@
                 <input type="text" id="result">
             </form>
         </div>
+        <h3>
+            <b>
+                Download Sequences
+            </b>
+        </h3>
+        <div id="section4">
+            <form action="javascript: downloadSequence()">
+                <table>
+                    <tr>
+                        <td>
+                            <input type="text" name='sequence' id="download">
+                        </td>
+                        <td>
+                            <input type="submit" value="Download It!" method="POST" id="download2">
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
     </div>
     <div id="accordion2" style="float: right;">
         <h3>
@@ -251,7 +279,7 @@
 
     <script src="libraries/sigma/plugins/sigma.plugins.dragNodes/sigma.plugins.dragNodes.js"></script>
 
-    <script src="./GlobalJSON.json"></script>
+    <script src="./GlobalJSON.json" id="scriptJSON"></script>
 
     <script>
 
@@ -287,7 +315,7 @@
             defaultEdgeHoverColor: '#000080',
             edgeHoverSizeRatio: 4,
             edgeHoverExtremities: true
-                });
+        });
 
         function take_sequences(sequenzaJSON) {
             xref_list = sequenzaJSON.results[0].xref;
@@ -317,14 +345,13 @@
         function drawSpecializedGraph() {
 
             s.graph.clear();
+
             var present = false;
 
             document.getElementById("startingSequence").addEventListener("click", clearInput);
             document.getElementById("buttonDraw").addEventListener("click", hideAccordion);
             document.getElementById("buttonDraw2").addEventListener("click", hideAccordion);
             document.getElementById("buttonCompute").addEventListener("click", hideAccordion);
-
-            let edge_number = 0;
 
             sequence = document.getElementById("startingSequence").value;
             nodesToAdd = document.getElementById("numberOfNodes").value;
@@ -374,15 +401,15 @@
                         y: 10 * Math.cos(theta),
                         size: 3
                     }).addEdge({
-                        id: 'e' + edge_number,
+                        id: 'e' + s.graph.edges().length,
                         source: '' + sequence,
                         target: '' + nodes_list[i],
                         size: 3
                     });
-                    edge_number++;
                 }
                 s.refresh();
                 document.getElementById("nodesClick").style.display = "block";
+                optionsInitialization();
             }
         }
 
@@ -401,6 +428,7 @@
                 document.getElementById("Title2").innerHTML = "Sequence Number";
 
                 entered = false;
+
                 json_list.forEach(element => {
                     if (e.data.node.label === element.query.substring(3, 11)) {
                         document.getElementById("sequenceName").innerHTML = element.query.substring(3, 11) + "<br>" + element.results[0].name;
@@ -417,6 +445,7 @@
                 }
 
             });
+
         }
 
         function hideHelp() {
@@ -476,6 +505,7 @@
             }
             s.refresh();
             document.getElementById("nodesClick").style.display = "block";
+
         }
 
         function numberOfRelatedSequences() {
@@ -516,7 +546,19 @@
 
 
             if (numberOfReferences === 0) {
-                alert("The selected sequence is not present in the graph");
+                var here = false;
+                s.graph.nodes().forEach(element => {
+                    if (element.id === sequenceToEvaluate) {
+                        element.color = "#ff0000";
+                        here = true;
+                        return;
+                    }
+                });
+                if (here) {
+                    alert("The selected sequence is present in the graph but it hasn't references");
+                } else {
+                    alert("The selected sequence is not present in the graph");
+                }
                 return;
             }
 
@@ -565,6 +607,110 @@
         }
 
         sigma.plugins.dragNodes(s, s.renderers[0]); // This statement allows to do drag and drops with nodes of every drawed graph.
+
+        function optionsInitialization() {
+
+            current_sequence = document.getElementById("startingSequence").value; // current_sequence = sequence written in the input text.
+            nodesToAdd_current = document.getElementById("numberOfNodes").value;
+
+            var l = s.graph.nodes();
+
+            var nodeExtract = l.pop();
+
+            var nodes_list2 = [];
+
+            json_list.forEach(element => {
+                if (element.query.substring(3, 11) === current_sequence) {
+                    nodes_list2 = take_sequences(element);
+                    return;
+                }
+            });
+
+            var options = [];
+
+            for (f = nodesToAdd_current; f < nodes_list2.length; f++) {
+                options.push(nodes_list2[f]);
+            }
+
+            $("#selectSequences").empty().append('<option value="">Choose</option>');
+
+            var select = document.getElementById("selectSequences");
+
+            for (d = 0; d < options.length; d++) {
+                var option = options[d];
+                var optionHTML = document.createElement("option");
+                optionHTML.textContent = option;
+                optionHTML.value = option;
+                select.appendChild(optionHTML);
+            }
+
+        }
+
+        function addNodeToSpecializedGraph() {
+
+            var sequenceToDraw = document.getElementById("selectSequences").value;
+
+            s.graph.addNode({
+                id: '' + sequenceToDraw,
+                label: '' + sequenceToDraw,
+                size: 3
+            }).addEdge({
+                id: 'e' + s.graph.edges().length,
+                source: '' + document.getElementById("startingSequence").value,
+                target: '' + sequenceToDraw,
+                size: 3
+            });
+
+            s.graph.nodes().forEach(function (element, k) {
+                if (k === 0) {
+                    s.graph.nodes()[0].x = 1;
+                    s.graph.nodes()[0].y = 1;
+                } else {
+                    var theta = k * 2 * Math.PI / (s.graph.nodes().length - 1);
+                    element.x = 10 * Math.sin(theta);
+                    element.y = 10 * Math.cos(theta);
+                }
+            });
+
+            s.refresh();
+
+            var select = document.getElementById("selectSequences");
+
+            for (i = 0; i < select.options.length; i++) { // Removal of the added sequence.
+                if (select.options[i].value === sequenceToDraw) {
+                    select.options[i] = null; // Update of the menù.
+                    break;
+                }
+            }
+
+        }
+
+        function downloadSequence() {
+            var sequenceToFetch = document.getElementById("download").value;
+            $.ajax({
+                type: "GET",
+                cache: false,
+                url: "https://localhost/tesi-magistrale/fetchAndRebuild.php",
+                async: false,
+                data: { download: sequenceToFetch },
+                success: function () {
+                    alert("Sequence " + sequenceToFetch + " has been correctly fetched!");
+                },
+                error: function () {
+                    alert("Error!");
+                }
+            });
+            $("#scriptJSON").remove();
+            reloadJsonScript();
+        }
+
+        function reloadJsonScript() {
+            var head = document.getElementsByTagName('head')[0];
+            var script = document.createElement('script');
+            script.src = "./GlobalJSON.json";
+            script.id = "scriptJSON";
+            head.appendChild(script);
+        }
 
     </script>
 
