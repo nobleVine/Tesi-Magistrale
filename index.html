@@ -71,6 +71,15 @@
             font-size: 20;
         }
 
+        #buttonRemoveNode {
+            width: 150px;
+            height: 35px;
+            background-color: #d6d6c2;
+            border-radius: 6px;
+            font-style: italic;
+            font-size: 20;
+        }
+
         #startingSequence {
             width: 70px;
         }
@@ -203,6 +212,12 @@
                     <option>Choose</option>
                 </select>
                 <input type="submit" value="Add node" id="buttonAddNode">
+            </form>
+            <form action="javascript: removeNodeToSpecializedGraph()">
+                <select id="selectSequences2">
+                    <option>Choose</option>
+                </select>
+                <input type="submit" value="Remove node" id="buttonRemoveNode">
             </form>
         </div>
         <h3>
@@ -409,7 +424,8 @@
                 }
                 s.refresh();
                 document.getElementById("nodesClick").style.display = "block";
-                optionsInitialization();
+                optionsInitializationAddNodes();
+                optionsInitializationRemoveNodes();
             }
         }
 
@@ -608,14 +624,10 @@
 
         sigma.plugins.dragNodes(s, s.renderers[0]); // This statement allows to do drag and drops with nodes of every drawed graph.
 
-        function optionsInitialization() {
+        function optionsInitializationAddNodes() {
 
             current_sequence = document.getElementById("startingSequence").value; // current_sequence = sequence written in the input text.
             nodesToAdd_current = document.getElementById("numberOfNodes").value;
-
-            var l = s.graph.nodes();
-
-            var nodeExtract = l.pop();
 
             var nodes_list2 = [];
 
@@ -655,7 +667,7 @@
                 label: '' + sequenceToDraw,
                 size: 3
             }).addEdge({
-                id: 'e' + s.graph.edges().length,
+                id: 'e' + document.getElementById("startingSequence").value + sequenceToDraw,
                 source: '' + document.getElementById("startingSequence").value,
                 target: '' + sequenceToDraw,
                 size: 3
@@ -675,14 +687,89 @@
             s.refresh();
 
             var select = document.getElementById("selectSequences");
+            var select2 = document.getElementById("selectSequences2");
 
             for (i = 0; i < select.options.length; i++) { // Removal of the added sequence.
                 if (select.options[i].value === sequenceToDraw) {
-                    select.options[i] = null; // Update of the menù.
+                    var option = select.options[i].value;
+                    select.options[i] = null; // Update of the add menù.
+                    var optionHTML = document.createElement("option");
+                    optionHTML.textContent = option;
+                    optionHTML.value = option;
+                    select2.appendChild(optionHTML); //Update of remove menù
                     break;
                 }
             }
 
+        }
+
+        function optionsInitializationRemoveNodes() {
+
+            current_sequence = document.getElementById("startingSequence").value;
+            showedNodes_current = document.getElementById("numberOfNodes").value;
+
+            var nodes_list3 = [];
+
+            json_list.forEach(element => {
+                if (element.query.substring(3, 11) === current_sequence) {
+                    nodes_list3 = take_sequences(element);
+                    return;
+                }
+            });
+
+            var options2 = [];
+
+            for (g = 0; g < showedNodes_current; g++) {
+                options2.push(nodes_list3[g]);
+            }
+
+            $("#selectSequences2").empty().append('<option value="">Choose</option>');
+
+            var select = document.getElementById("selectSequences2");
+
+            for (p = 0; p < options2.length; p++) {
+                var option = options2[p];
+                var optionHTML = document.createElement("option");
+                optionHTML.textContent = option;
+                optionHTML.value = option;
+                select.appendChild(optionHTML);
+            }
+
+        }
+
+        function removeNodeToSpecializedGraph() {
+            var sequenceToRemove = document.getElementById("selectSequences2").value;
+            var current_sequence = document.getElementById("startingSequence").value;
+
+            s.graph.dropNode(sequenceToRemove);
+
+            s.graph.nodes().forEach(function (element, k) {
+                if (k === 0) {
+                    s.graph.nodes()[0].x = 1;
+                    s.graph.nodes()[0].y = 1;
+                } else {
+                    var theta = k * 2 * Math.PI / (s.graph.nodes().length - 1);
+                    element.x = 10 * Math.sin(theta);
+                    element.y = 10 * Math.cos(theta);
+                }
+            });
+
+            s.refresh();
+
+            var select = document.getElementById("selectSequences");
+            var select2 = document.getElementById("selectSequences2");
+
+            for (i = 0; i < select2.options.length; i++) { // Removal of the selected sequence.
+                if (select2.options[i].value === sequenceToRemove) {
+                    var option2 = select2.options[i].value;
+                    select2.options[i] = null; // Update of the remove menù.
+                    var optionHTML2 = document.createElement("option");
+                    optionHTML2.textContent = option2;
+                    optionHTML2.value = option2;
+                    select.appendChild(optionHTML2); //Update of the add menù
+                    break;
+                }
+            }
         }
 
         function downloadSequence() {
