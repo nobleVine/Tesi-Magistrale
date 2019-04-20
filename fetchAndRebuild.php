@@ -1,4 +1,3 @@
-    
     <?php
 
     $sequence = $_GET['download'];
