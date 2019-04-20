@@ -7,7 +7,7 @@ for i in listaFile:
         with open('../materiale_Nocentini/oeis-tools-master/src/fetched/' + i, 'r') as f:
             testo = f.read()
             if (testo[0] == "s"):
-                testo = testo[16:]
+                testo = testo[24:]
                 with open('../materiale_Nocentini/oeis-tools-master/src/fetched/' + i, 'w') as f1:
                     f1.write(testo)
 
