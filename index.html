@@ -208,6 +208,7 @@
                     title="Click here to draw the graph with all the related sequences from starting sequence">
             </form>
             <form action="javascript: addNodeToSpecializedGraph()">
+                <select required oninvalid="this.setCustomValidity('Please select an item of the list')"
                     oninput="this.setCustomValidity('')" id="selectSequences">
                     <option>Choose</option>
                 </select>
