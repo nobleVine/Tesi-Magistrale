@@ -21,7 +21,7 @@ inizializzazioneSequenze = []
 
 for i in listaFile:
     if i.endswith(".json"):
-        cosaScrivo = "sequenzaJSON" + str(index) + "         = "
+        cosaScrivo = "sequenzaJSON" + str(index) + " = "
         inizializzazioneSequenze.append(cosaScrivo[0:-3])
         with open('../materiale_Nocentini/oeis-tools-master/src/fetched/' + i, 'r') as f:
             testo = f.read()

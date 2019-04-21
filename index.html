@@ -508,7 +508,7 @@
                     id: '' + json_list[i].query.substring(3, 11),
                     label: '' + json_list[i].query.substring(3, 11),
                     x: arrayPositions[i],
-                    y: arrayPositions[i+1],
+                    y: arrayPositions[i + 1],
                     size: 1
                 });
             }
@@ -516,21 +516,31 @@
             for (i = 0; i < json_list.length; i++) {
                 for (j = 0; j < list_refs[i].length; j++) {
                     for (k = 0; k < json_list.length; k++) {
-                        if (list_refs[i][j] === json_list[k].query.substring(3, 11)) {
+                        if (list_refs[i][j] === json_list[k].query.substring(3, 11) && (i !== k) ) {
                             s.graph.addEdge({
                                 id: 'e' + '(' + i + ',' + k + ')',
                                 source: '' + json_list[i].query.substring(3, 11),
                                 target: '' + json_list[k].query.substring(3, 11),
                                 size: 1
                             });
-                            list_edges = s.graph.edges();
+                            /*list_edges = s.graph.edges();
                             for (q = 0; q < list_edges.length; q++) {
                                 if (list_edges[q].source === json_list[k].query.substring(3, 11) && list_edges[q].target === json_list[i].query.substring(3, 11)) {
                                     s.graph.dropEdge('e' + '(' + k + ',' + i + ')');
                                     break;
                                 }
-                            }
+                            }*/
                         }
+                    }
+                }
+            }
+
+            list_edges = s.graph.edges();
+
+            for ( q = 0; q < list_edges.length; q++) {
+                for (p = q + 1; p < list_edges.length; p++) {
+                    if ( (list_edges[q].source === list_edges[p].target) && (list_edges[q].target === list_edges[p].source) ) {
+                        s.graph.dropEdge(list_edges[p].id);
                     }
                 }
             }
