@@ -208,13 +208,14 @@
                     title="Click here to draw the graph with all the related sequences from starting sequence">
             </form>
             <form action="javascript: addNodeToSpecializedGraph()">
-                <select id="selectSequences">
+                    oninput="this.setCustomValidity('')" id="selectSequences">
                     <option>Choose</option>
                 </select>
                 <input type="submit" value="Add node" id="buttonAddNode">
             </form>
             <form action="javascript: removeNodeToSpecializedGraph()">
-                <select id="selectSequences2">
+                <select required oninvalid="this.setCustomValidity('Please select an item of the list')"
+                    oninput="this.setCustomValidity('')" id="selectSequences2">
                     <option>Choose</option>
                 </select>
                 <input type="submit" value="Remove node" id="buttonRemoveNode">
@@ -508,7 +509,7 @@
                     id: '' + json_list[i].query.substring(3, 11),
                     label: '' + json_list[i].query.substring(3, 11),
                     x: arrayPositions[i],
-                    y: arrayPositions[i+1],
+                    y: arrayPositions[i + 1],
                     size: 1
                 });
             }
@@ -676,6 +677,11 @@
 
         function addNodeToSpecializedGraph() {
 
+            if (s.graph.edges().length === 0) {
+                alert("You have to draw the graph first!");
+                return;
+            }
+
             var sequenceToDraw = document.getElementById("selectSequences").value;
 
             s.graph.addNode({
@@ -754,6 +760,12 @@
         }
 
         function removeNodeToSpecializedGraph() {
+
+            if (s.graph.edges().length === 0) {
+                alert("You have to draw the graph first!");
+                return;
+            }
+
             var sequenceToRemove = document.getElementById("selectSequences2").value;
             var current_sequence = document.getElementById("startingSequence").value;
 
