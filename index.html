@@ -208,6 +208,7 @@
                     title="Click here to draw the graph with all the related sequences from starting sequence">
             </form>
             <form action="javascript: addNodeToSpecializedGraph()">
+                <select required oninvalid="this.setCustomValidity('Please select an item of the list')"
                     oninput="this.setCustomValidity('')" id="selectSequences">
                     <option>Choose</option>
                 </select>
@@ -517,7 +518,7 @@
             for (i = 0; i < json_list.length; i++) {
                 for (j = 0; j < list_refs[i].length; j++) {
                     for (k = 0; k < json_list.length; k++) {
-                        if (list_refs[i][j] === json_list[k].query.substring(3, 11) && (i !== k) ) {
+                        if (list_refs[i][j] === json_list[k].query.substring(3, 11) && (i !== k)) {
                             s.graph.addEdge({
                                 id: 'e' + '(' + i + ',' + k + ')',
                                 source: '' + json_list[i].query.substring(3, 11),
@@ -538,9 +539,9 @@
 
             list_edges = s.graph.edges();
 
-            for ( q = 0; q < list_edges.length; q++) {
+            for (q = 0; q < list_edges.length; q++) {
                 for (p = q + 1; p < list_edges.length; p++) {
-                    if ( (list_edges[q].source === list_edges[p].target) && (list_edges[q].target === list_edges[p].source) ) {
+                    if ((list_edges[q].source === list_edges[p].target) && (list_edges[q].target === list_edges[p].source)) {
                         s.graph.dropEdge(list_edges[p].id);
                     }
                 }
