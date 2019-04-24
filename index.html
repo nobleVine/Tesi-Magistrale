@@ -30,7 +30,7 @@
             height: 80%;
         }
 
-        input {
+        #input {
             width: 10%;
             word-spacing: 5px;
         }
@@ -296,12 +296,45 @@
 
     <script src="libraries/sigma/plugins/sigma.plugins.dragNodes/sigma.plugins.dragNodes.js"></script>
 
-    <script src="./GlobalJSON.json" id="scriptJSON"></script>
-
     <script>
 
         var array_numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
         document.getElementById("download").addEventListener("click", clearInput);
+        var json_list = [];
+        var json_list_support = [];
+
+        $.ajax({
+            type: "POST",
+            cache: false,
+            url: "https://localhost/tesi-magistrale/getFetchedInfo.php",
+            async: false,
+            success: function (list) {
+                end = 9;
+                for (p = 2; p < list.length; p = p + 15) {
+                    json_list_support.push(list.substring(p, end));
+                    end = end + 15;
+                }
+            },
+            error: function () {
+                alert("Error in json files reading");
+            }
+        });
+
+        json_list_support.forEach(element => {
+            $.ajax({
+                type: "POST",
+                cache: false,
+                url: "https://localhost/materiale_Nocentini/oeis-tools-master/src/fetched/" + element + ".json",
+                async: false,
+                success: function (fileJSON) {
+                    json_list.push(fileJSON);
+                },
+                error: function () {
+                    alert("Error in json_list construction");
+                }
+            });
+        });
+
 
         var s = new sigma({
             renderer: {
@@ -328,11 +361,11 @@
             labelThreshold: 100,
             enableCamera: false,
             enableEdgeHovering: true,
-            edgeHoverColor: 'default',
-            defaultEdgeHoverColor: '#000080',
-            edgeHoverSizeRatio: 4,
-            edgeHoverExtremities: true,
-            maxNodeSize: 4
+            maxNodeSize: 6
+            //edgeHoverColor: 'default',
+            //defaultEdgeHoverColor: '#000080',
+            //edgeHoverSizeRatio: 4,
+            //edgeHoverExtremities: true,
         });
 
         function take_sequences(sequenzaJSON) {
@@ -344,7 +377,7 @@
                     for (j = 0; j < element.length; j++) { // Loop that scans the letters of xref elements.
                         if (element[j] === "A") { // Each sequences has the form Axxxxxx.
                             for (v = 0; v < array_numbers.length; v++) {
-                                if (element[j + 1] === array_numbers[v]) {
+                                if (element[j + 1] === array_numbers[v] && element.substring(j, j + 7) !== sequenzaJSON.query.substring(3, 11)) {
                                     array_sequences.push("A" + element.substring(j + 1, j + 7));
                                     j = j + 7; // Useful for optimizing the code. If you find a "A", you can jump the next xxxxxx.
                                     break;
@@ -353,7 +386,7 @@
                         }
                     }
                 }
-                let set_sequences = [...new Set(array_sequences)];
+                var set_sequences = [...new Set(array_sequences)];             
                 return set_sequences;
             } else {
                 return 'undefined';
@@ -816,26 +849,28 @@
             $.ajax({
                 type: "GET",
                 cache: false,
-                url: "https://localhost/tesi-magistrale/fetchAndRebuild.php",
+                url: "https://localhost/tesi-magistrale/fetch.php",
                 async: false,
                 data: { download: sequenceToFetch },
-                success: function () {
+                success: function (JSONfile) {
                     alert("Sequence " + sequenceToFetch + " has been correctly fetched!");
+                    $.ajax({
+                        type: "POST",
+                        cache: false,
+                        url: "https://localhost/materiale_Nocentini/oeis-tools-master/src/fetched/" + sequenceToFetch + ".json",
+                        async: false,
+                        success: function (fileJSON) {
+                            json_list.push(fileJSON);
+                        },
+                        error: function () {
+                            alert("Error in json_list construction");
+                        }
+                    });
                 },
                 error: function () {
-                    alert("Error!");
+                    alert("Error in the fetch of the sequence!");
                 }
             });
-            $("#scriptJSON").remove();
-            reloadJsonScript();
-        }
-
-        function reloadJsonScript() {
-            var head = document.getElementsByTagName('head')[0];
-            var script = document.createElement('script');
-            script.src = "./GlobalJSON.json";
-            script.id = "scriptJSON";
-            head.appendChild(script);
         }
 
     </script>
