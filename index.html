@@ -53,6 +53,15 @@
             font-size: 20;
         }
 
+        #buttonDraw3 {
+            width: 90px;
+            height: 35px;
+            background-color: #d6d6c2;
+            border-radius: 6px;
+            font-style: italic;
+            font-size: 20;
+        }
+
         #buttonCompute {
             width: 100px;
             height: 35px;
@@ -80,7 +89,29 @@
             font-size: 20;
         }
 
+        #buttonAddNode2 {
+            width: 110px;
+            height: 35px;
+            background-color: #d6d6c2;
+            border-radius: 6px;
+            font-style: italic;
+            font-size: 20;
+        }
+
+        #buttonRemoveNode2 {
+            width: 150px;
+            height: 35px;
+            background-color: #d6d6c2;
+            border-radius: 6px;
+            font-style: italic;
+            font-size: 20;
+        }
+
         #startingSequence {
+            width: 70px;
+        }
+
+        #initialSequence {
             width: 70px;
         }
 
@@ -110,6 +141,11 @@
         }
 
         #section4 {
+            background-color: #ebebe0;
+            font-family: "Comic Sans MS";
+        }
+
+        #section5 {
             background-color: #ebebe0;
             font-family: "Comic Sans MS";
         }
@@ -254,10 +290,50 @@
         </div>
         <h3>
             <b>
-                Download Sequences
+                Incremental Graph
             </b>
         </h3>
         <div id="section4">
+            <form action="javascript: drawIncrementalGraph()">
+                <table>
+                    Insert the id of the initial sequence from which starting to build the incremental graph
+                    <br>
+                    <br>
+                    <tr>
+                        <td>
+                            <b>starting sequence</b>
+                        </td>
+                        <td>
+                            <input type="text" id="initialSequence"
+                                title="Insert the id of the sequence which you want to draw the first node">
+                        </td>
+                    </tr>
+                </table>
+                <br>
+                <input type="submit" value="Draw It!" id="buttonDraw3"
+                    title="Click here to draw the first node of the incremental graph">
+            </form>
+            <form action="javascript: addNodeToIncrementalGraph()">
+                <select required oninvalid="this.setCustomValidity('Please select an item of the list')"
+                    oninput="this.setCustomValidity('')" id="selectSequences3">
+                    <option>Choose</option>
+                </select>
+                <input type="submit" value="Add node" id="buttonAddNode2">
+            </form>
+            <form action="javascript: removeNodeToIncrementalGraph()">
+                <select required oninvalid="this.setCustomValidity('Please select an item of the list')"
+                    oninput="this.setCustomValidity('')" id="selectSequences4">
+                    <option>Choose</option>
+                </select>
+                <input type="submit" value="Remove node" id="buttonRemoveNode2">
+            </form>
+        </div>
+        <h3>
+            <b>
+                Download Sequences
+            </b>
+        </h3>
+        <div id="section5">
             <form action="javascript: downloadSequence()">
                 <table>
                     <tr>
@@ -271,6 +347,7 @@
                 </table>
             </form>
         </div>
+
     </div>
     <div id="accordion2" style="float: right;">
         <h3>
@@ -302,6 +379,7 @@
         document.getElementById("download").addEventListener("click", clearInput);
         var json_list = [];
         var json_list_support = [];
+        var id = 0;
 
         $.ajax({
             type: "POST",
@@ -386,7 +464,7 @@
                         }
                     }
                 }
-                var set_sequences = [...new Set(array_sequences)];             
+                var set_sequences = [...new Set(array_sequences)];
                 return set_sequences;
             } else {
                 return 'undefined';
@@ -402,6 +480,7 @@
             document.getElementById("startingSequence").addEventListener("click", clearInput);
             document.getElementById("buttonDraw").addEventListener("click", hideAccordion);
             document.getElementById("buttonDraw2").addEventListener("click", hideAccordion);
+            document.getElementById("buttonDraw3").addEventListener("click", hideAccordion);
             document.getElementById("buttonCompute").addEventListener("click", hideAccordion);
 
             sequence = document.getElementById("startingSequence").value;
@@ -516,6 +595,7 @@
 
             document.getElementById("buttonDraw").addEventListener("click", hideAccordion);
             document.getElementById("buttonDraw2").addEventListener("click", hideAccordion);
+            document.getElementById("buttonDraw3").addEventListener("click", hideAccordion);
             document.getElementById("buttonCompute").addEventListener("click", hideAccordion);
 
             var list_refs = [];
@@ -591,6 +671,7 @@
             document.getElementById("buttonCompute").addEventListener("click", hideAccordion);
             document.getElementById("buttonDraw").addEventListener("click", hideAccordion);
             document.getElementById("buttonDraw2").addEventListener("click", hideAccordion);
+            document.getElementById("buttonDraw3").addEventListener("click", hideAccordion);
 
             s.graph.edges().forEach(element => {
                 element.color = "#000000";
@@ -611,7 +692,7 @@
 
             var numberOfReferences = 0;
 
-            if (s.graph.edges().length === 0) {
+            if (s.graph.nodes().length === 0) {
                 alert("You have to draw the graph first!");
                 return;
             }
@@ -677,6 +758,7 @@
             document.getElementById("startingSequence").value = "";
             document.getElementById("numberOfNodes").value = "";
             document.getElementById("download").value = "";
+            document.getElementById("initialSequence").value = "";
         }
 
         function hideAccordion() {
@@ -871,6 +953,173 @@
                     alert("Error in the fetch of the sequence!");
                 }
             });
+        }
+
+        function drawIncrementalGraph() {
+
+            s.graph.clear();
+
+            document.getElementById("initialSequence").addEventListener("click", clearInput);
+            document.getElementById("buttonDraw").addEventListener("click", hideAccordion);
+            document.getElementById("buttonDraw2").addEventListener("click", hideAccordion);
+            document.getElementById("buttonDraw3").addEventListener("click", hideAccordion);
+            document.getElementById("buttonCompute").addEventListener("click", hideAccordion);
+
+            initial_sequence = document.getElementById("initialSequence").value;
+
+            if (initial_sequence === "") {
+                alert("There is no sequence inserted");
+                return;
+            }
+
+            s.graph.addNode({
+                id: '' + initial_sequence,
+                label: '' + initial_sequence,
+                x: 1,
+                y: 1,
+                size: 5
+            });
+            s.refresh();
+
+            s.bind("clickNode", function (e) {
+                id = e.data.node.id;
+                optionsInitializationAddNodesIncremental(id);
+                optionsInitializationRemoveNodesIncremental();
+            })
+        }
+
+        function optionsInitializationAddNodesIncremental(sequence_id) {
+
+            var nodes_list2 = [];
+
+            json_list.forEach(element => {
+                if (element.query.substring(3, 11) === sequence_id) {
+                    nodes_list2 = take_sequences(element);
+                    return;
+                }
+            });
+
+            var options = [];
+            var addIt = true;
+
+            for (f = 0; f < nodes_list2.length; f++) {
+                s.graph.nodes().forEach(element => {
+                    if (nodes_list2[f] === element.id) {
+                        addIt = false;
+                        return;
+                    }
+                });
+                if (addIt) {
+                    options.push(nodes_list2[f]);
+                }
+                addIt = true;
+            }
+
+            $("#selectSequences3").empty().append('<option value="">Choose</option>');
+
+            var select = document.getElementById("selectSequences3");
+
+            for (d = 0; d < options.length; d++) {
+                var option = options[d];
+                var optionHTML = document.createElement("option");
+                optionHTML.textContent = option;
+                optionHTML.value = option;
+                select.appendChild(optionHTML);
+            }
+
+        }
+
+        function optionsInitializationRemoveNodesIncremental() {
+
+            var options2 = [];
+
+            for (g = 0; g < s.graph.nodes().length; g++) {
+                options2.push(s.graph.nodes()[g].id);
+            }
+
+            $("#selectSequences4").empty().append('<option value="">Choose</option>');
+
+            var select = document.getElementById("selectSequences4");
+
+            for (p = 0; p < options2.length; p++) {
+                var option = options2[p];
+                var optionHTML = document.createElement("option");
+                optionHTML.textContent = option;
+                optionHTML.value = option;
+                select.appendChild(optionHTML);
+            }
+
+        }
+
+        function addNodeToIncrementalGraph() {
+
+            if (s.graph.nodes().length === 0) {
+                alert("You have to draw the graph first!");
+                return;
+            }
+
+            var sequenceToDraw = document.getElementById("selectSequences3").value;
+
+            s.graph.addNode({
+                id: '' + sequenceToDraw,
+                label: '' + sequenceToDraw,
+                size: 3,
+                x: Math.round(getRandomArbitrary(0, 10000)),
+                y: Math.round(getRandomArbitrary(0, 10000))
+            }).addEdge({
+                id: 'e' + id + sequenceToDraw,
+                source: '' + id,
+                target: '' + sequenceToDraw,
+                size: 3
+            });
+
+            s.refresh();
+
+            var select = document.getElementById("selectSequences3");
+            var select2 = document.getElementById("selectSequences4");
+
+            for (i = 0; i < select.options.length; i++) { // Removal of the added sequence.
+                if (select.options[i].value === sequenceToDraw) {
+                    var option = select.options[i].value;
+                    select.options[i] = null; // Update of the add menù.
+                    var optionHTML = document.createElement("option");
+                    optionHTML.textContent = option;
+                    optionHTML.value = option;
+                    select2.appendChild(optionHTML); //Update of remove menù
+                    break;
+                }
+            }
+
+        }
+
+        function removeNodeToIncrementalGraph() {
+
+            if (s.graph.nodes().length === 0) {
+                alert("You have to draw the graph first!");
+                return;
+            }
+
+            var sequenceToRemove = document.getElementById("selectSequences4").value;
+            var current_sequence = document.getElementById("initialSequence").value;
+
+            s.graph.dropNode(sequenceToRemove);
+
+            s.refresh();
+
+            var select = document.getElementById("selectSequences3");
+            var select2 = document.getElementById("selectSequences4");
+
+            for (i = 0; i < select2.options.length; i++) { // Removal of the selected sequence.
+                if (select2.options[i].value === sequenceToRemove) {
+                    var option2 = select2.options[i].value;
+                    select2.options[i] = null; // Update of the remove menù.
+                    var optionHTML2 = document.createElement("option");
+                    optionHTML2.textContent = option2;
+                    optionHTML2.value = option2;
+                    select.appendChild(optionHTML2); //Update of the add menù
+                    break;
+                }
+            }
         }
 
     </script>
