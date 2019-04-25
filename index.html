@@ -440,10 +440,6 @@
             enableCamera: false,
             enableEdgeHovering: true,
             maxNodeSize: 6
-            //edgeHoverColor: 'default',
-            //defaultEdgeHoverColor: '#000080',
-            //edgeHoverSizeRatio: 4,
-            //edgeHoverExtremities: true,
         });
 
         function take_sequences(sequenzaJSON) {
@@ -638,13 +634,6 @@
                                 target: '' + json_list[k].query.substring(3, 11),
                                 size: 1
                             });
-                            /*list_edges = s.graph.edges();
-                            for (q = 0; q < list_edges.length; q++) {
-                                if (list_edges[q].source === json_list[k].query.substring(3, 11) && list_edges[q].target === json_list[i].query.substring(3, 11)) {
-                                    s.graph.dropEdge('e' + '(' + k + ',' + i + ')');
-                                    break;
-                                }
-                            }*/
                         }
                     }
                 }
@@ -680,8 +669,6 @@
             s.graph.nodes().forEach(element => {
                 element.color = "#007fff";
             });
-
-            s.refresh();
 
             sequenceToEvaluate = document.getElementById("sequence").value;
 
@@ -729,8 +716,7 @@
                     element.color = "#007fff";
                 }
             });
-
-            s.refresh();
+          
             document.getElementById("result").value = numberOfReferences;
 
             s.graph.edges().forEach(element => { //First of all, we have to draw the edges to hide.
@@ -772,32 +758,22 @@
             current_sequence = document.getElementById("startingSequence").value; // current_sequence = sequence written in the input text.
             nodesToAdd_current = document.getElementById("numberOfNodes").value;
 
-            var nodes_list2 = [];
+            var nodes_list = [];
 
             json_list.forEach(element => {
                 if (element.query.substring(3, 11) === current_sequence) {
-                    nodes_list2 = take_sequences(element);
+                    nodes_list = take_sequences(element);
                     return;
                 }
             });
 
             var options = [];
 
-            for (f = nodesToAdd_current; f < nodes_list2.length; f++) {
-                options.push(nodes_list2[f]);
+            for (f = nodesToAdd_current; f < nodes_list.length; f++) {
+                options.push(nodes_list[f]);
             }
 
-            $("#selectSequences").empty().append('<option value="">Choose</option>');
-
-            var select = document.getElementById("selectSequences");
-
-            for (d = 0; d < options.length; d++) {
-                var option = options[d];
-                var optionHTML = document.createElement("option");
-                optionHTML.textContent = option;
-                optionHTML.value = option;
-                select.appendChild(optionHTML);
-            }
+            initializationMenu("selectSequences", options);
 
         }
 
@@ -834,20 +810,7 @@
 
             s.refresh();
 
-            var select = document.getElementById("selectSequences");
-            var select2 = document.getElementById("selectSequences2");
-
-            for (i = 0; i < select.options.length; i++) { // Removal of the added sequence.
-                if (select.options[i].value === sequenceToDraw) {
-                    var option = select.options[i].value;
-                    select.options[i] = null; // Update of the add menù.
-                    var optionHTML = document.createElement("option");
-                    optionHTML.textContent = option;
-                    optionHTML.value = option;
-                    select2.appendChild(optionHTML); //Update of remove menù
-                    break;
-                }
-            }
+            removeForAdd("selectSequences", "selectSequences2", sequenceToDraw);
 
         }
 
@@ -856,32 +819,22 @@
             current_sequence = document.getElementById("startingSequence").value;
             showedNodes_current = document.getElementById("numberOfNodes").value;
 
-            var nodes_list3 = [];
+            var nodes_list = [];
 
             json_list.forEach(element => {
                 if (element.query.substring(3, 11) === current_sequence) {
-                    nodes_list3 = take_sequences(element);
+                    nodes_list = take_sequences(element);
                     return;
                 }
             });
 
-            var options2 = [];
+            var options = [];
 
             for (g = 0; g < showedNodes_current; g++) {
-                options2.push(nodes_list3[g]);
+                options.push(nodes_list[g]);
             }
 
-            $("#selectSequences2").empty().append('<option value="">Choose</option>');
-
-            var select = document.getElementById("selectSequences2");
-
-            for (p = 0; p < options2.length; p++) {
-                var option = options2[p];
-                var optionHTML = document.createElement("option");
-                optionHTML.textContent = option;
-                optionHTML.value = option;
-                select.appendChild(optionHTML);
-            }
+            initializationMenu("selectSequences2", options);
 
         }
 
@@ -893,7 +846,6 @@
             }
 
             var sequenceToRemove = document.getElementById("selectSequences2").value;
-            var current_sequence = document.getElementById("startingSequence").value;
 
             s.graph.dropNode(sequenceToRemove);
 
@@ -910,20 +862,8 @@
 
             s.refresh();
 
-            var select = document.getElementById("selectSequences");
-            var select2 = document.getElementById("selectSequences2");
+            removeForRemove("selectSequences", "selectSequences2", sequenceToRemove);
 
-            for (i = 0; i < select2.options.length; i++) { // Removal of the selected sequence.
-                if (select2.options[i].value === sequenceToRemove) {
-                    var option2 = select2.options[i].value;
-                    select2.options[i] = null; // Update of the remove menù.
-                    var optionHTML2 = document.createElement("option");
-                    optionHTML2.textContent = option2;
-                    optionHTML2.value = option2;
-                    select.appendChild(optionHTML2); //Update of the add menù
-                    break;
-                }
-            }
         }
 
         function downloadSequence() {
@@ -990,11 +930,11 @@
 
         function optionsInitializationAddNodesIncremental(sequence_id) {
 
-            var nodes_list2 = [];
+            var nodes_list = [];
 
             json_list.forEach(element => {
                 if (element.query.substring(3, 11) === sequence_id) {
-                    nodes_list2 = take_sequences(element);
+                    nodes_list = take_sequences(element);
                     return;
                 }
             });
@@ -1002,52 +942,32 @@
             var options = [];
             var addIt = true;
 
-            for (f = 0; f < nodes_list2.length; f++) {
+            for (f = 0; f < nodes_list.length; f++) {
                 s.graph.nodes().forEach(element => {
-                    if (nodes_list2[f] === element.id) {
+                    if (nodes_list[f] === element.id) {
                         addIt = false;
                         return;
                     }
                 });
                 if (addIt) {
-                    options.push(nodes_list2[f]);
+                    options.push(nodes_list[f]);
                 }
                 addIt = true;
             }
 
-            $("#selectSequences3").empty().append('<option value="">Choose</option>');
-
-            var select = document.getElementById("selectSequences3");
-
-            for (d = 0; d < options.length; d++) {
-                var option = options[d];
-                var optionHTML = document.createElement("option");
-                optionHTML.textContent = option;
-                optionHTML.value = option;
-                select.appendChild(optionHTML);
-            }
+            initializationMenu("selectSequences3", options);
 
         }
 
         function optionsInitializationRemoveNodesIncremental() {
 
-            var options2 = [];
+            var options = [];
 
             for (g = 0; g < s.graph.nodes().length; g++) {
-                options2.push(s.graph.nodes()[g].id);
+                options.push(s.graph.nodes()[g].id);
             }
 
-            $("#selectSequences4").empty().append('<option value="">Choose</option>');
-
-            var select = document.getElementById("selectSequences4");
-
-            for (p = 0; p < options2.length; p++) {
-                var option = options2[p];
-                var optionHTML = document.createElement("option");
-                optionHTML.textContent = option;
-                optionHTML.value = option;
-                select.appendChild(optionHTML);
-            }
+            initializationMenu("selectSequences4", options);
 
         }
 
@@ -1075,8 +995,31 @@
 
             s.refresh();
 
-            var select = document.getElementById("selectSequences3");
-            var select2 = document.getElementById("selectSequences4");
+            removeForAdd("selectSequences3", "selectSequences4", sequenceToDraw);
+
+        }
+
+        function removeNodeToIncrementalGraph() {
+
+            if (s.graph.nodes().length === 0) {
+                alert("You have to draw the graph first!");
+                return;
+            }
+
+            var sequenceToRemove = document.getElementById("selectSequences4").value;
+
+            s.graph.dropNode(sequenceToRemove);
+
+            s.refresh();
+
+            removeForRemove("selectSequences3", "selectSequences4", sequenceToRemove);
+
+        }
+
+        function removeForAdd(idselect1, idselect2, sequenceToDraw) {
+
+            var select = document.getElementById(idselect1);
+            var select2 = document.getElementById(idselect2);
 
             for (i = 0; i < select.options.length; i++) { // Removal of the added sequence.
                 if (select.options[i].value === sequenceToDraw) {
@@ -1089,25 +1032,12 @@
                     break;
                 }
             }
-
         }
 
-        function removeNodeToIncrementalGraph() {
+        function removeForRemove(idSelect3, idSelect4, sequenceToRemove) {
 
-            if (s.graph.nodes().length === 0) {
-                alert("You have to draw the graph first!");
-                return;
-            }
-
-            var sequenceToRemove = document.getElementById("selectSequences4").value;
-            var current_sequence = document.getElementById("initialSequence").value;
-
-            s.graph.dropNode(sequenceToRemove);
-
-            s.refresh();
-
-            var select = document.getElementById("selectSequences3");
-            var select2 = document.getElementById("selectSequences4");
+            var select = document.getElementById(idSelect3);
+            var select2 = document.getElementById(idSelect4);
 
             for (i = 0; i < select2.options.length; i++) { // Removal of the selected sequence.
                 if (select2.options[i].value === sequenceToRemove) {
@@ -1120,6 +1050,22 @@
                     break;
                 }
             }
+        }
+
+        function initializationMenu(idSelect, options) {
+
+            $("#" + idSelect).empty().append('<option value="">Choose</option>');
+
+            var select = document.getElementById(idSelect);
+
+            for (d = 0; d < options.length; d++) {
+                var option = options[d];
+                var optionHTML = document.createElement("option");
+                optionHTML.textContent = option;
+                optionHTML.value = option;
+                select.appendChild(optionHTML);
+            }
+
         }
 
     </script>
