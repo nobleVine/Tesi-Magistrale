@@ -378,16 +378,15 @@
         var array_numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
         document.getElementById("download").addEventListener("click", clearInput);
         var json_list = [];
-        var json_list_support = [];
-        var id = 0;
+        var json_list_support = []; // It'll storage the string with names of json files in the folder fetched.
+        var id = 0; // This is useful to storage the id of the last drawed node. 
 
-        $.ajax({
+        $.ajax({ // This ajax request serves to storage the string with names of json files in the folder fetched.
             type: "POST",
-            cache: false,
             url: "https://localhost/tesi-magistrale/getFetchedInfo.php",
-            async: false,
+            async: false, // The program 'll wait until this request'll be executed.
             success: function (list) {
-                end = 9;
+                var end = 9;
                 for (p = 2; p < list.length; p = p + 15) {
                     json_list_support.push(list.substring(p, end));
                     end = end + 15;
@@ -398,10 +397,9 @@
             }
         });
 
-        json_list_support.forEach(element => {
+        json_list_support.forEach(element => { // This ajax request purpouse is create a json files list.
             $.ajax({
                 type: "POST",
-                cache: false,
                 url: "https://localhost/materiale_Nocentini/oeis-tools-master/src/fetched/" + element + ".json",
                 async: false,
                 success: function (fileJSON) {
@@ -417,7 +415,7 @@
         var s = new sigma({
             renderer: {
                 container: document.getElementById('graphSection'),
-                type: 'canvas'
+                type: 'canvas' // This is alse the default render.
             }
         });
 
@@ -474,11 +472,11 @@
 
             var present = false;
 
+            // Common listeners.
+            initializationCommonListeners();
+
+            // Specialized listeners.
             document.getElementById("startingSequence").addEventListener("click", clearInput);
-            document.getElementById("buttonDraw").addEventListener("click", hideAccordion);
-            document.getElementById("buttonDraw2").addEventListener("click", hideAccordion);
-            document.getElementById("buttonDraw3").addEventListener("click", hideAccordion);
-            document.getElementById("buttonCompute").addEventListener("click", hideAccordion);
 
             sequence = document.getElementById("startingSequence").value;
             nodesToAdd = document.getElementById("numberOfNodes").value;
@@ -590,10 +588,8 @@
 
             s.graph.clear();
 
-            document.getElementById("buttonDraw").addEventListener("click", hideAccordion);
-            document.getElementById("buttonDraw2").addEventListener("click", hideAccordion);
-            document.getElementById("buttonDraw3").addEventListener("click", hideAccordion);
-            document.getElementById("buttonCompute").addEventListener("click", hideAccordion);
+            // Common listeners.
+            initializationCommonListeners();
 
             var list_refs = [];
 
@@ -657,19 +653,11 @@
 
         function numberOfRelatedSequences() {
 
+            // Common listeners.
+            initializationCommonListeners();
+
+            // Specialized listeners.
             document.getElementById("sequence").addEventListener("click", clearInput);
-            document.getElementById("buttonCompute").addEventListener("click", hideAccordion);
-            document.getElementById("buttonDraw").addEventListener("click", hideAccordion);
-            document.getElementById("buttonDraw2").addEventListener("click", hideAccordion);
-            document.getElementById("buttonDraw3").addEventListener("click", hideAccordion);
-
-            s.graph.edges().forEach(element => {
-                element.color = "#000000";
-            });
-
-            s.graph.nodes().forEach(element => {
-                element.color = "#007fff";
-            });
 
             sequenceToEvaluate = document.getElementById("sequence").value;
 
@@ -686,10 +674,10 @@
             }
 
             s.graph.edges().forEach(element => {
+                element.color = "#000000"; // Edges color reinitialization.
                 if (element.source === sequenceToEvaluate || element.target === sequenceToEvaluate)
                     numberOfReferences = numberOfReferences + 1;
             });
-
 
             if (numberOfReferences === 0) {
                 var here = false;
@@ -705,6 +693,8 @@
                 } else {
                     alert("The selected sequence is not present in the graph");
                 }
+                document.getElementById("result").value = 0;
+                s.refresh();
                 return;
             }
 
@@ -717,7 +707,7 @@
                     element.color = "#007fff";
                 }
             });
-          
+
             document.getElementById("result").value = numberOfReferences;
 
             s.graph.edges().forEach(element => { //First of all, we have to draw the edges to hide.
@@ -871,7 +861,6 @@
             var sequenceToFetch = document.getElementById("download").value;
             $.ajax({
                 type: "GET",
-                cache: false,
                 url: "https://localhost/tesi-magistrale/fetch.php",
                 async: false,
                 data: { download: sequenceToFetch },
@@ -879,7 +868,6 @@
                     alert("Sequence " + sequenceToFetch + " has been correctly fetched!");
                     $.ajax({
                         type: "POST",
-                        cache: false,
                         url: "https://localhost/materiale_Nocentini/oeis-tools-master/src/fetched/" + sequenceToFetch + ".json",
                         async: false,
                         success: function (fileJSON) {
@@ -900,13 +888,13 @@
 
             s.graph.clear();
 
-            document.getElementById("initialSequence").addEventListener("click", clearInput);
-            document.getElementById("buttonDraw").addEventListener("click", hideAccordion);
-            document.getElementById("buttonDraw2").addEventListener("click", hideAccordion);
-            document.getElementById("buttonDraw3").addEventListener("click", hideAccordion);
-            document.getElementById("buttonCompute").addEventListener("click", hideAccordion);
+            // Common listeners.
+            initializationCommonListeners();
 
-            initial_sequence = document.getElementById("initialSequence").value;
+            // Specialized listeners.
+            document.getElementById("initialSequence").addEventListener("click", clearInput);
+
+            var initial_sequence = document.getElementById("initialSequence").value;
 
             if (initial_sequence === "") {
                 alert("There is no sequence inserted");
@@ -920,10 +908,11 @@
                 y: 1,
                 size: 5
             });
+
             s.refresh();
 
             s.bind("clickNode", function (e) {
-                id = e.data.node.id;
+                id = e.data.node.id; // id of the last node clicked.
                 optionsInitializationAddNodesIncremental(id);
                 optionsInitializationRemoveNodesIncremental();
             })
@@ -1067,6 +1056,13 @@
                 select.appendChild(optionHTML);
             }
 
+        }
+
+        function initializationCommonListeners() {
+            document.getElementById("buttonDraw").addEventListener("click", hideAccordion);
+            document.getElementById("buttonDraw2").addEventListener("click", hideAccordion);
+            document.getElementById("buttonDraw3").addEventListener("click", hideAccordion);
+            document.getElementById("buttonCompute").addEventListener("click", hideAccordion);
         }
 
     </script>
