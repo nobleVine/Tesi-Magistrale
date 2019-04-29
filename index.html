@@ -17,49 +17,9 @@
             background-color: #D3D3D3;
         }
 
-        #accordion {
-            width: 25%;
-        }
-
-        #accordion2 {
-            width: 25%;
-        }
-
         #graphSection {
             width: 50%;
             height: 80%;
-        }
-
-        #input {
-            width: 10%;
-            word-spacing: 5px;
-        }
-
-        #buttonDraw {
-            width: 90px;
-            height: 35px;
-            background-color: #d6d6c2;
-            border-radius: 6px;
-            font-style: italic;
-            font-size: 20;
-        }
-
-        #buttonDraw2 {
-            width: 90px;
-            height: 35px;
-            background-color: #d6d6c2;
-            border-radius: 6px;
-            font-style: italic;
-            font-size: 20;
-        }
-
-        #buttonDraw3 {
-            width: 90px;
-            height: 35px;
-            background-color: #d6d6c2;
-            border-radius: 6px;
-            font-style: italic;
-            font-size: 20;
         }
 
         #buttonCompute {
@@ -69,97 +29,6 @@
             border-radius: 6px;
             font-style: italic;
             font-size: 20;
-        }
-
-        #buttonAddNode {
-            width: 110px;
-            height: 35px;
-            background-color: #d6d6c2;
-            border-radius: 6px;
-            font-style: italic;
-            font-size: 20;
-        }
-
-        #buttonRemoveNode {
-            width: 150px;
-            height: 35px;
-            background-color: #d6d6c2;
-            border-radius: 6px;
-            font-style: italic;
-            font-size: 20;
-        }
-
-        #buttonAddNode2 {
-            width: 110px;
-            height: 35px;
-            background-color: #d6d6c2;
-            border-radius: 6px;
-            font-style: italic;
-            font-size: 20;
-        }
-
-        #buttonRemoveNode2 {
-            width: 150px;
-            height: 35px;
-            background-color: #d6d6c2;
-            border-radius: 6px;
-            font-style: italic;
-            font-size: 20;
-        }
-
-        #startingSequence {
-            width: 70px;
-        }
-
-        #initialSequence {
-            width: 70px;
-        }
-
-        #sequence {
-            width: 70px;
-        }
-
-        #numberOfNodes {
-            width: 70px;
-        }
-
-        #section1 {
-            background-color: #ebebe0;
-            text-align: justify;
-            font-family: "Comic Sans MS";
-        }
-
-        #section2 {
-            background-color: #ebebe0;
-            font-family: "Comic Sans MS";
-        }
-
-        #section3 {
-            background-color: #ebebe0;
-            font-family: "Comic Sans MS";
-            text-align: justify;
-        }
-
-        #section4 {
-            background-color: #ebebe0;
-            font-family: "Comic Sans MS";
-        }
-
-        #section5 {
-            background-color: #ebebe0;
-            font-family: "Comic Sans MS";
-        }
-
-        #result {
-            width: 70px;
-        }
-
-        #sequenceName {
-            font-family: "Comic Sans MS";
-        }
-
-        #sequenceNumber {
-            font-family: "Comic Sans MS";
         }
 
         #nodesClick {
@@ -178,8 +47,51 @@
             font-size: 20;
         }
 
-        #download {
+        div.accordion {
+            width: 25%;
+        }
+
+        input.button {
+            width: 90px;
+            height: 35px;
+            background-color: #d6d6c2;
+            border-radius: 6px;
+            font-style: italic;
+            font-size: 20;
+        }
+
+        input.buttonAdd {
+            width: 110px;
+            height: 35px;
+            background-color: #d6d6c2;
+            border-radius: 6px;
+            font-style: italic;
+            font-size: 20;
+        }
+
+        input.buttonRemove {
+            width: 150px;
+            height: 35px;
+            background-color: #d6d6c2;
+            border-radius: 6px;
+            font-style: italic;
+            font-size: 20;
+        }
+
+        input.text {
             width: 70px;
+        }
+
+        div.section {
+            background-color: #ebebe0;
+            text-align: justify;
+            font-family: "Comic Sans MS";
+        }
+
+        div.sequenceInfo {
+            background-color: #ebebe0;
+            text-align: justify;
+            font-family: "Comic Sans MS";
         }
     </style>
 
@@ -206,13 +118,13 @@
         <br>
         <br>
     </center>
-    <div id="accordion" style="float: left;">
+    <div class="accordion" id="accordion" style="float: left;">
         <h3>
             <b>
                 Starting sequence references
             </b>
         </h3>
-        <div id="section1">
+        <div class="section" id="section1">
             <form action="javascript:drawSpecializedGraph()">
                 <table>
                     Insert the id of the sequence of which you want to see all her references and the maximum number of
@@ -225,7 +137,7 @@
                             <b>starting sequence</b>
                         </td>
                         <td>
-                            <input type="text" id="startingSequence"
+                            <input class="text" type="text" id="startingSequence"
                                 title="Insert the id of the sequence of which you want to see all the references">
                         </td>
                     </tr>
@@ -234,13 +146,13 @@
                             <b>number of nodes</b>
                         </td>
                         <td>
-                            <input type="text" id="numberOfNodes"
+                            <input class="text" type="text" id="numberOfNodes"
                                 title="Insert the maximum number of related sequences that you want to show">
                         </td>
                     </tr>
                 </table>
                 <br>
-                <input type="submit" value="Draw It!" id="buttonDraw"
+                <input class="button" type="submit" value="Draw It!" id="buttonDraw"
                     title="Click here to draw the graph with all the related sequences from starting sequence">
             </form>
             <form action="javascript: addNodeToSpecializedGraph()">
@@ -248,14 +160,14 @@
                     oninput="this.setCustomValidity('')" id="selectSequences">
                     <option>Choose</option>
                 </select>
-                <input type="submit" value="Add node" id="buttonAddNode">
+                <input class="buttonAdd" type="submit" value="Add node" id="buttonAddNode">
             </form>
             <form action="javascript: removeNodeToSpecializedGraph()">
                 <select required oninvalid="this.setCustomValidity('Please select an item of the list')"
                     oninput="this.setCustomValidity('')" id="selectSequences2">
                     <option>Choose</option>
                 </select>
-                <input type="submit" value="Remove node" id="buttonRemoveNode">
+                <input class="buttonRemove" type="submit" value="Remove node" id="buttonRemoveNode">
             </form>
         </div>
         <h3>
@@ -263,12 +175,12 @@
                 Fetched sequences
             </b>
         </h3>
-        <div id="section2">
+        <div class="section" id="section2">
             <form action="javascript:drawFetchedSequencesGraph()" id="form2">
                 Draw the graph with the fetched sequences.
                 <br>
                 <br>
-                <input type="submit" value="Draw It!" id="buttonDraw2"
+                <input class="button" type="submit" value="Draw It!" id="buttonDraw2"
                     title="Click here to draw the graph with all the fetched related sequences">
             </form>
         </div>
@@ -277,15 +189,15 @@
                 Number of related sequences
             </b>
         </h3>
-        <div id="section3">
+        <div class="section" id="section3">
             <form action="javascript:numberOfRelatedSequences()">
                 Calculates how many related sequences there are compared to the one given among those fetched and shows
                 only the nodes and the edges directly connected to the input sequence.
                 <br>
                 <br>
-                <input type="text" id="sequence" title="Insert the sequence id">
+                <input class="text" type="text" id="sequence" title="Insert the sequence id">
                 <input type="submit" value="Compute" id="buttonCompute" title="Click here to compute">
-                <input type="text" id="result">
+                <input class="text" type="text" id="result">
             </form>
         </div>
         <h3>
@@ -293,7 +205,7 @@
                 Incremental Graph
             </b>
         </h3>
-        <div id="section4">
+        <div class="section" id="section4">
             <form action="javascript: drawIncrementalGraph()">
                 <table>
                     Insert the id of the initial sequence from which starting to build the incremental graph
@@ -304,13 +216,13 @@
                             <b>starting sequence</b>
                         </td>
                         <td>
-                            <input type="text" id="initialSequence"
+                            <input class="text" type="text" id="initialSequence"
                                 title="Insert the id of the sequence which you want to draw the first node">
                         </td>
                     </tr>
                 </table>
                 <br>
-                <input type="submit" value="Draw It!" id="buttonDraw3"
+                <input class="button" type="submit" value="Draw It!" id="buttonDraw3"
                     title="Click here to draw the first node of the incremental graph">
             </form>
             <form action="javascript: addNodeToIncrementalGraph()">
@@ -318,14 +230,14 @@
                     oninput="this.setCustomValidity('')" id="selectSequences3">
                     <option>Choose</option>
                 </select>
-                <input type="submit" value="Add node" id="buttonAddNode2">
+                <input class="buttonAdd" type="submit" value="Add node" id="buttonAddNode2">
             </form>
             <form action="javascript: removeNodeToIncrementalGraph()">
                 <select required oninvalid="this.setCustomValidity('Please select an item of the list')"
                     oninput="this.setCustomValidity('')" id="selectSequences4">
                     <option>Choose</option>
                 </select>
-                <input type="submit" value="Remove node" id="buttonRemoveNode2">
+                <input class="buttonRemove" type="submit" value="Remove node" id="buttonRemoveNode2">
             </form>
         </div>
         <h3>
@@ -333,12 +245,12 @@
                 Download Sequences
             </b>
         </h3>
-        <div id="section5">
+        <div class="section" id="section5">
             <form action="javascript: downloadSequence()">
                 <table>
                     <tr>
                         <td>
-                            <input type="text" name='sequence' id="download">
+                            <input class="text" type="text" name='sequence' id="download">
                         </td>
                         <td>
                             <input type="submit" value="Download It!" method="POST" id="download2">
@@ -349,19 +261,19 @@
         </div>
 
     </div>
-    <div id="accordion2" style="float: right;">
+    <div class="accordion" id="accordion2" style="float: right;">
         <h3>
             <b id="Title1">
             </b>
         </h3>
-        <div id="sequenceName"></div>
+        <div class="section" id="sequenceName"></div>
 
         <h3>
             <b id="Title2">
 
             </b>
         </h3>
-        <div id="sequenceNumber"></div>
+        <div class="section" id="sequenceNumber"></div>
     </div>
 
     <div id="graphSection" style="float: left;">
@@ -374,7 +286,6 @@
     <script src="libraries/sigma/plugins/sigma.plugins.dragNodes/sigma.plugins.dragNodes.js"></script>
 
     <script>
-
         var array_numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
         document.getElementById("download").addEventListener("click", clearInput);
         var json_list = [];
@@ -450,9 +361,11 @@
                     for (j = 0; j < element.length; j++) { // Loop that scans the letters of xref elements.
                         if (element[j] === "A") { // Each sequences has the form Axxxxxx.
                             for (v = 0; v < array_numbers.length; v++) {
-                                if (element[j + 1] === array_numbers[v] && element.substring(j, j + 7) !== sequenzaJSON.query.substring(3, 11)) {
+                                if (element[j + 1] === array_numbers[v] && element.substring(j, j + 7) !== sequenzaJSON
+                                    .query.substring(3, 11)) {
                                     array_sequences.push("A" + element.substring(j + 1, j + 7));
-                                    j = j + 7; // Useful for optimizing the code. If you find a "A", you can jump the next xxxxxx.
+                                    j = j +
+                                        7; // Useful for optimizing the code. If you find a "A", you can jump the next xxxxxx.
                                     break;
                                 }
                             }
@@ -557,7 +470,8 @@
 
                 json_list.forEach(element => {
                     if (e.data.node.label === element.query.substring(3, 11)) {
-                        document.getElementById("sequenceName").innerHTML = element.query.substring(3, 11) + "<br>" + element.results[0].name;
+                        document.getElementById("sequenceName").innerHTML = element.query.substring(3,
+                            11) + "<br>" + element.results[0].name;
                         document.getElementById("sequenceNumber").innerHTML = element.results[0].data;
                         entered = true;
                         return;
@@ -640,7 +554,8 @@
 
             for (q = 0; q < list_edges.length; q++) {
                 for (p = q + 1; p < list_edges.length; p++) {
-                    if ((list_edges[q].source === list_edges[p].target) && (list_edges[q].target === list_edges[p].source)) {
+                    if ((list_edges[q].source === list_edges[p].target) && (list_edges[q].target === list_edges[p]
+                            .source)) {
                         s.graph.dropEdge(list_edges[p].id);
                     }
                 }
@@ -720,9 +635,9 @@
             });
 
             /* And then, we have to draw the edges to show and highlight.
-            * step 1: draw all edges to highlight and save them.
-            * step 2: redraw the edges to highlight, and now we don't have problems with the overlap.
-            */
+             * step 1: draw all edges to highlight and save them.
+             * step 2: redraw the edges to highlight, and now we don't have problems with the overlap.
+             */
 
             s.refresh();
 
@@ -742,11 +657,13 @@
             document.getElementById("accordion2").style.display = "none";
         }
 
-        sigma.plugins.dragNodes(s, s.renderers[0]); // This statement allows to do drag and drops with nodes of every drawed graph.
+        sigma.plugins.dragNodes(s, s.renderers[
+            0]); // This statement allows to do drag and drops with nodes of every drawed graph.
 
         function optionsInitializationAddNodes() {
 
-            current_sequence = document.getElementById("startingSequence").value; // current_sequence = sequence written in the input text.
+            current_sequence = document.getElementById("startingSequence")
+                .value; // current_sequence = sequence written in the input text.
             nodesToAdd_current = document.getElementById("numberOfNodes").value;
 
             var nodes_list = [];
@@ -863,7 +780,9 @@
                 type: "GET",
                 url: "https://localhost/tesi-magistrale/fetch.php",
                 async: false,
-                data: { download: sequenceToFetch },
+                data: {
+                    download: sequenceToFetch
+                },
                 success: function (JSONfile) {
                     alert("Sequence " + sequenceToFetch + " has been correctly fetched!");
                     $.ajax({
