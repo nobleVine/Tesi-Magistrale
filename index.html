@@ -285,6 +285,13 @@
 
     <script src="libraries/sigma/plugins/sigma.plugins.dragNodes/sigma.plugins.dragNodes.js"></script>
 
+    <script src="libraries/sigma/plugins/sigma.plugins.animate/sigma.plugins.animate.js"></script>
+    <script
+        src="libraries/sigma/plugins/sigma.layouts.fruchtermanReingold/sigma.layout.fruchtermanReingold.js"></script>
+
+    <script src="libraries/sigma/plugins/sigma.layout.forceAtlas2/supervisor.js"></script>
+    <script src="libraries/sigma/plugins/sigma.layout.forceAtlas2/worker.js"></script>
+
     <script>
         var array_numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
         document.getElementById("download").addEventListener("click", clearInput);
@@ -295,7 +302,7 @@
         $.ajax({ // This ajax request serves to storage the string with names of json files in the folder fetched.
             type: "POST",
             url: "https://localhost/tesi-magistrale/getFetchedInfo.php",
-            async: false, // The program 'll wait until this request'll be executed.
+            async: false, // The program 'll wait until this request'll not be executed.
             success: function (list) {
                 var end = 9;
                 for (p = 2; p < list.length; p = p + 15) {
@@ -563,6 +570,16 @@
 
             s.refresh();
             document.getElementById("nodesClick").style.display = "block";
+
+            configuration = {
+                scalingRatio: 100000,
+                outboundAttractionDistribution: false,
+                startingIterations: 10,
+                edgeWeightInfluence: 0
+            }
+
+            s.startForceAtlas2();
+            window.setTimeout(function () { s.killForceAtlas2() }, 500);
 
         }
 
