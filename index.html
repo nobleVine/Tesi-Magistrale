@@ -176,13 +176,37 @@
             </b>
         </h3>
         <div class="section" id="section2">
-            <form action="javascript:drawFetchedSequencesGraph()" id="form2">
-                Draw the graph with the fetched sequences.
-                <br>
-                <br>
-                <input class="button" type="submit" value="Draw It!" id="buttonDraw2"
-                    title="Click here to draw the graph with all the fetched related sequences">
-            </form>
+            Choose the layout and draw the graph with the fetched sequences (maximum 100).
+            <br>
+            <br>
+            <table>
+                <tr>
+                    <td>
+                        <b>number of nodes</b>
+                    </td>
+                    <td>
+                        <input class="text" type="text" id="numberOfNodes2"
+                            title="Insert the number of related sequences that you want to show">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <br>
+                        <form action="javascript:drawFetchedSequencesGraph()" id="form2">
+                            <select required oninvalid="this.setCustomValidity('Please select an item of the list')"
+                                oninput="this.setCustomValidity('')" id="selectLayout">
+                                <option value="">Choose</option>
+                                <option>Circle Layout</option>
+                                <option>Force Layout</option>
+                            </select>
+                    </td>
+                    <td>
+                        <input class="button" type="submit" value="Draw It!" id="buttonDraw2"
+                            title="Click here to draw the graph with maximum 100 fetched related sequences">
+                    </td>
+                    </form>
+                </tr>
+            </table>
         </div>
         <h3>
             <b>
@@ -286,8 +310,6 @@
     <script src="libraries/sigma/plugins/sigma.plugins.dragNodes/sigma.plugins.dragNodes.js"></script>
 
     <script src="libraries/sigma/plugins/sigma.plugins.animate/sigma.plugins.animate.js"></script>
-    <script
-        src="libraries/sigma/plugins/sigma.layouts.fruchtermanReingold/sigma.layout.fruchtermanReingold.js"></script>
 
     <script src="libraries/sigma/plugins/sigma.layout.forceAtlas2/supervisor.js"></script>
     <script src="libraries/sigma/plugins/sigma.layout.forceAtlas2/worker.js"></script>
@@ -512,39 +534,49 @@
             // Common listeners.
             initializationCommonListeners();
 
+            // Specialized listeners.
+            document.getElementById("numberOfNodes2").addEventListener("click", clearInput);
+
+            nodesToShow = document.getElementById("numberOfNodes2").value;
+
+            if (nodesToShow > 100) {
+                alert("Insert a number of nodes less or equal than 100");
+                return;
+            }
+
+            if (nodesToShow > json_list.length) {
+                alert("The maximum possible number of nodes that you can inserted is " + json_list.length);
+                return;
+            }
+
+            if (nodesToShow === "") {
+                alert("Number of nodes not inserted");
+                return;
+            }
+
             var list_refs = [];
 
-            for (z = 0; z < json_list.length; z++) {
+            for (z = 0; z < nodesToShow; z++) {
                 seq = take_sequences(json_list[z]);
                 if (typeof seq !== 'undefined') {
                     list_refs.push(seq);
                 }
             }
 
-            var setPositions = new Set();
-
-            while (setPositions.size < json_list.length * 2) {
-                xPosition = Math.round(getRandomArbitrary(0, 10000));
-                yPosition = Math.round(getRandomArbitrary(0, 10000));
-                setPositions.add(xPosition);
-                setPositions.add(yPosition);
-            }
-
-            var arrayPositions = Array.from(setPositions);
-
-            for (i = 0; i < json_list.length; i++) {
+            for (i = 0; i < nodesToShow; i++) {
+                var theta = i * 2 * Math.PI / nodesToShow;
                 s.graph.addNode({
                     id: '' + json_list[i].query.substring(3, 11),
                     label: '' + json_list[i].query.substring(3, 11),
-                    x: arrayPositions[i],
-                    y: arrayPositions[i + 1],
+                    x: 10 * Math.cos(theta),
+                    y: 10 * Math.sin(theta),
                     size: 1
                 });
             }
 
-            for (i = 0; i < json_list.length; i++) {
+            for (i = 0; i < nodesToShow; i++) {
                 for (j = 0; j < list_refs[i].length; j++) {
-                    for (k = 0; k < json_list.length; k++) {
+                    for (k = 0; k < nodesToShow; k++) {
                         if (list_refs[i][j] === json_list[k].query.substring(3, 11) && (i !== k)) {
                             s.graph.addEdge({
                                 id: 'e' + '(' + i + ',' + k + ')',
@@ -571,15 +603,22 @@
             s.refresh();
             document.getElementById("nodesClick").style.display = "block";
 
-            configuration = {
-                scalingRatio: 100000,
-                outboundAttractionDistribution: false,
-                startingIterations: 10,
-                edgeWeightInfluence: 0
+            var layout = document.getElementById("selectLayout").value;
+
+            if (layout === "Force Layout") {
+
+                configuration = {
+                    scalingRatio: 100000,
+                    outboundAttractionDistribution: false,
+                    startingIterations: 10,
+                    edgeWeightInfluence: 0
+                }
+
+                s.startForceAtlas2();
+                window.setTimeout(function () { s.killForceAtlas2() }, 500);
             }
 
-            s.startForceAtlas2();
-            window.setTimeout(function () { s.killForceAtlas2() }, 500);
+            $("#selectLayout").empty().append('<option value="">Choose</option>').append('<option>Circle Layout</option>').append('<option>Force Layout</option>');
 
         }
 
@@ -666,6 +705,7 @@
             document.getElementById("result").value = "";
             document.getElementById("startingSequence").value = "";
             document.getElementById("numberOfNodes").value = "";
+            document.getElementById("numberOfNodes2").value = "";
             document.getElementById("download").value = "";
             document.getElementById("initialSequence").value = "";
         }
