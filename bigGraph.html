@@ -7,6 +7,13 @@
     </title>
 
     <style>
+        .dot {
+            height: 15px;
+            width: 15px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
         #graph {
             width: 1500px;
             height: 1500px;
@@ -23,7 +30,19 @@
         }
 
         body {
-            background-color: #000000;
+            background-color: white;
+        }
+
+        legend {
+            display: inline-block;
+            width: auto;
+        }
+
+        fieldset {
+            display: inline-block;
+            border: 2px black solid;
+            width: auto;
+            height: auto;
         }
     </style>
 
@@ -33,12 +52,41 @@
 </head>
 
 <body>
-
+    Insert two strip of nodes (a number between 1 and 7) to draw only the edges which connect the nodes of the two
+    strips
+    <h3>
+        <b>
+            first strip
+        </b>
+    </h3>
     <input type="text" id="input">
     <br>
+    <br>
+    <h3>
+        <b>
+            second strip
+        </b>
+    </h3>
     <input type="text" id="input2">
     <br>
+    <br>
     <input type="submit" value="Draw edges!" onclick="javascript: drawEdges()">
+    <br>
+    <br>
+
+    <fieldset>
+        <legend>
+            <h3><b>Legend</b></h3>
+        </legend>
+        Every strip of nodes indicates a set<br> of sequences with this number of references: <br><br>
+        <span class="dot" style="background-color: #132b43"></span>: greater than 40 <br>
+        <span class="dot" style="background-color: #1d3f5d"></span>: between 30 and 40 <br>
+        <span class="dot" style="background-color: #27547a"></span>: between 20 and 30 <br>
+        <span class="dot" style="background-color: #326896"></span>: between 10 and 20 <br>
+        <span class="dot" style="background-color: #3d7fb5"></span>: between 5 and 10 <br>
+        <span class="dot" style="background-color: #4897d4"></span>: less than 10 <br>
+        <span class="dot" style="background-color: #54aef3"></span>: 0
+    </fieldset>
 
     <div id="graph"></div>
 
@@ -49,7 +97,6 @@
     <script src="libraries\sigma\plugins\sigma.layout.forceAtlas2\supervisor.js"></script>
     <script src="libraries\sigma\plugins\sigma.layout.forceAtlas2\worker.js"></script>
     <script src="libraries/sigma/plugins/sigma.plugins.dragNodes/sigma.plugins.dragNodes.js"></script>
-
 
     <script>
 
@@ -172,7 +219,8 @@
                 label: '' + json_list_reduced[i].query.substring(3, 11),
                 x: 3 * Math.sin(theta),
                 y: 3 * Math.cos(theta),
-                size: 1
+                size: 1,
+                color: "#132b43"
             });
         }
 
@@ -195,7 +243,8 @@
                 label: '' + json_list_reduced2[i].query.substring(3, 11),
                 x: 6 * Math.sin(theta),
                 y: 6 * Math.cos(theta),
-                size: 1
+                size: 1,
+                color: "#1d3f5d"
             });
         }
 
@@ -218,7 +267,8 @@
                 label: '' + json_list_reduced3[i].query.substring(3, 11),
                 x: 9 * Math.sin(theta),
                 y: 9 * Math.cos(theta),
-                size: 1
+                size: 1,
+                color: "#27547a"
             });
         }
 
@@ -241,7 +291,8 @@
                 label: '' + json_list_reduced4[i].query.substring(3, 11),
                 x: 12 * Math.sin(theta),
                 y: 12 * Math.cos(theta),
-                size: 1
+                size: 1,
+                color: "#326896"
             });
         }
 
@@ -264,7 +315,8 @@
                 label: '' + json_list_reduced5[i].query.substring(3, 11),
                 x: 15 * Math.sin(theta),
                 y: 15 * Math.cos(theta),
-                size: 1
+                size: 1,
+                color: "#3d7fb5"
             });
         }
 
@@ -287,7 +339,8 @@
                 label: '' + json_list_reduced6[i].query.substring(3, 11),
                 x: 18 * Math.sin(theta),
                 y: 18 * Math.cos(theta),
-                size: 1
+                size: 1,
+                color: "#4897d4"
             });
         }
 
@@ -310,7 +363,8 @@
                 label: '' + json_list_reduced7[i].query.substring(3, 11),
                 x: 21 * Math.sin(theta),
                 y: 21 * Math.cos(theta),
-                size: 1
+                size: 1,
+                color: "#54aef3"
             });
         }
 
@@ -318,7 +372,7 @@
 
         function drawEdges() {
 
-            s.graph.edges().forEach( element => {
+            s.graph.edges().forEach(element => {
                 s.graph.dropEdge(element.id);
             });
 
