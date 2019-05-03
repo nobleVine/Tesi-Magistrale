@@ -14,19 +14,28 @@
             display: inline-block;
         }
 
+        input.text {
+            width: 50px;
+            height: auto;
+        }
+
+        input.button {
+            width: 130px;
+            height: 35px;
+            background-color: #d6d6c2;
+            border-radius: 6px;
+            font-style: italic;
+            font-size: 20;
+        }
+
         #graph {
             width: 1500px;
             height: 1500px;
         }
 
-        #input {
-            width: auto;
-            height: auto;
-        }
-
-        #input2 {
-            width: auto;
-            height: auto;
+        #info {
+            width: 100%;
+            height: 300px;
         }
 
         body {
@@ -43,6 +52,9 @@
             border: 2px black solid;
             width: auto;
             height: auto;
+            position: relative;
+            bottom: 260px;
+            left: 250px;
         }
     </style>
 
@@ -52,41 +64,49 @@
 </head>
 
 <body>
-    Insert two strip of nodes (a number between 1 and 7) to draw only the edges which connect the nodes of the two
-    strips
-    <h3>
-        <b>
-            first strip
-        </b>
-    </h3>
-    <input type="text" id="input">
-    <br>
-    <br>
-    <h3>
-        <b>
-            second strip
-        </b>
-    </h3>
-    <input type="text" id="input2">
-    <br>
-    <br>
-    <input type="submit" value="Draw edges!" onclick="javascript: drawEdges()">
-    <br>
-    <br>
 
-    <fieldset>
-        <legend>
-            <h3><b>Legend</b></h3>
-        </legend>
-        Every strip of nodes indicates a set<br> of sequences with this number of references: <br><br>
-        <span class="dot" style="background-color: #132b43"></span>: greater than 40 <br>
-        <span class="dot" style="background-color: #1d3f5d"></span>: between 30 and 40 <br>
-        <span class="dot" style="background-color: #27547a"></span>: between 20 and 30 <br>
-        <span class="dot" style="background-color: #326896"></span>: between 10 and 20 <br>
-        <span class="dot" style="background-color: #3d7fb5"></span>: between 5 and 10 <br>
-        <span class="dot" style="background-color: #4897d4"></span>: less than 10 <br>
-        <span class="dot" style="background-color: #54aef3"></span>: 0
-    </fieldset>
+    <div id="info" style="float: center;">
+
+        <h3>
+            <b>Insert two strip of nodes (a number between 1 and 7) to draw only the edges which connect the nodes of
+                the two strips
+            </b>
+        </h3>
+
+        <h3>
+            <b>
+                first strip
+            </b>
+        </h3>
+        <input class="text" type="text" id="input">
+        <br>
+        <br>
+        <h3>
+            <b>
+                second strip
+            </b>
+        </h3>
+        <input class="text" type="text" id="input2">
+        <br>
+        <br>
+        <input class="button" type="submit" value="Draw edges!" onclick="javascript: drawEdges()">
+        <br>
+        <br>
+
+        <fieldset>
+            <legend>
+                <h3><b>Legend</b></h3>
+            </legend>
+            Every strip of nodes indicates a set<br> of sequences with this number of references: <br><br>
+            <span class="dot" style="background-color: #132b43"></span>: greater than 40 <br>
+            <span class="dot" style="background-color: #1d3f5d"></span>: between 30 and 40 <br>
+            <span class="dot" style="background-color: #27547a"></span>: between 20 and 30 <br>
+            <span class="dot" style="background-color: #326896"></span>: between 10 and 20 <br>
+            <span class="dot" style="background-color: #3d7fb5"></span>: between 5 and 10 <br>
+            <span class="dot" style="background-color: #4897d4"></span>: less than 10 <br>
+            <span class="dot" style="background-color: #54aef3"></span>: 0
+        </fieldset>
+    </div>
 
     <div id="graph"></div>
 
@@ -212,7 +232,7 @@
             }
         }
 
-        drawCircle(json_list_reduced, 3);
+        drawCircle(json_list_reduced, 3, "#132b43");
 
         // Second circle
 
@@ -226,7 +246,7 @@
             }
         }
 
-        drawCircle(json_list_reduced2, 6);
+        drawCircle(json_list_reduced2, 6, "#1d3f5d");
 
         // Third circle
 
@@ -240,7 +260,7 @@
             }
         }
 
-        drawCircle(json_list_reduced3, 9);
+        drawCircle(json_list_reduced3, 9, "#27547a");
 
         // Fourth circle
 
@@ -254,7 +274,7 @@
             }
         }
 
-        drawCircle(json_list_reduced4, 12);
+        drawCircle(json_list_reduced4, 12, "#326896");
 
         // Fifth circle
 
@@ -268,7 +288,7 @@
             }
         }
 
-        drawCircle(json_list_reduced5, 15);
+        drawCircle(json_list_reduced5, 15, "#3d7fb5");
 
         // Sixth circle
 
@@ -282,7 +302,7 @@
             }
         }
 
-        drawCircle(json_list_reduced6, 18);
+        drawCircle(json_list_reduced6, 18, "#4897d4");
 
         // Seventh circle
 
@@ -296,15 +316,35 @@
             }
         }
 
-        drawCircle(json_list_reduced7, 21);
+        drawCircle(json_list_reduced7, 21, "#54aef3");
 
         s.refresh();
 
         function drawEdges() {
 
-            s.graph.edges().forEach(element => {
-                s.graph.dropEdge(element.id);
-            });
+            s.graph.clear();
+
+            firstStripe = document.getElementById("input").value;
+            secondStripe = document.getElementById("input2").value;
+
+            if (firstStripe === "" && secondStripe === "") {
+                alert("Both stripe not inserted");
+                return;
+            } else if (firstStripe === "") {
+                alert("First stripe not inserted");
+                return;
+            } else if (secondStripe === "") {
+                alert("Second stripe not inserted");
+                return;
+            };
+
+            drawCircle(json_list_reduced, 3, "#132b43");
+            drawCircle(json_list_reduced2, 6, "#1d3f5d");
+            drawCircle(json_list_reduced3, 9, "#27547a");
+            drawCircle(json_list_reduced4, 12, "#326896");
+            drawCircle(json_list_reduced5, 15, "#3d7fb5");
+            drawCircle(json_list_reduced6, 18, "#4897d4");
+            drawCircle(json_list_reduced7, 21, "#54aef3");
 
             var json_list_for_edges = [];
             var list_refs_for_edges = [];
@@ -377,12 +417,6 @@
                 }
             }
 
-            // We have to dull the nodes not involved
-
-            s.graph.nodes().forEach(element => {
-                element.color = "#007fff";
-            });
-
             s.graph.nodes().forEach(element => {
 
                 var contOk = 0;
@@ -418,7 +452,7 @@
 
         s.startNoverlap();
 
-        function drawCircle(j_reduced, radius) {
+        function drawCircle(j_reduced, radius, nodesColor) {
 
             for (i = 0; i < j_reduced.length; i++) {
                 var theta = i * 2 * Math.PI / j_reduced.length;
@@ -427,7 +461,8 @@
                     label: '' + j_reduced[i].query.substring(3, 11),
                     x: radius * Math.sin(theta),
                     y: radius * Math.cos(theta),
-                    size: 1
+                    size: 1,
+                    color: nodesColor
                 });
             }
 
