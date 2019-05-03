@@ -1,0 +1,486 @@
+<html>
+
+<head>
+
+    <title>
+        Big Graph
+    </title>
+
+    <style>
+        .dot {
+            height: 15px;
+            width: 15px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        input.text {
+            width: 50px;
+            height: auto;
+        }
+
+        input.button {
+            width: 130px;
+            height: 35px;
+            background-color: #d6d6c2;
+            border-radius: 6px;
+            font-style: italic;
+            font-size: 20;
+        }
+
+        #graph {
+            width: 1500px;
+            height: 1500px;
+        }
+
+        #info {
+            width: 100%;
+            height: 300px;
+        }
+
+        body {
+            background-color: #D3D3D3;
+        }
+
+        legend {
+            display: inline-block;
+            width: auto;
+        }
+
+        fieldset {
+            display: inline-block;
+            border: 2px black solid;
+            width: auto;
+            height: auto;
+            position: relative;
+            bottom: 260px;
+            left: 250px;
+        }
+    </style>
+
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+</head>
+
+<body>
+
+    <div id="info" style="float: center;">
+
+        <h3>
+            <b>Insert two strip of nodes (a number between 1 and 7) to draw only the edges which connect the nodes of
+                the two strips
+            </b>
+        </h3>
+
+        <h3>
+            <b>
+                first strip
+            </b>
+        </h3>
+        <input class="text" type="text" id="input">
+        <br>
+        <br>
+        <h3>
+            <b>
+                second strip
+            </b>
+        </h3>
+        <input class="text" type="text" id="input2">
+        <br>
+        <br>
+        <input class="button" type="submit" value="Draw edges!" onclick="javascript: drawEdges()">
+        <br>
+        <br>
+
+        <fieldset>
+            <legend>
+                <h3><b>Legend</b></h3>
+            </legend>
+            Every strip of nodes indicates a set<br> of sequences with this number of references: <br><br>
+            <span class="dot" style="background-color: #132b43"></span>: greater than 40 <br>
+            <span class="dot" style="background-color: #1d3f5d"></span>: between 30 and 40 <br>
+            <span class="dot" style="background-color: #27547a"></span>: between 20 and 30 <br>
+            <span class="dot" style="background-color: #326896"></span>: between 10 and 20 <br>
+            <span class="dot" style="background-color: #3d7fb5"></span>: between 5 and 10 <br>
+            <span class="dot" style="background-color: #4897d4"></span>: less than 10 <br>
+            <span class="dot" style="background-color: #54aef3"></span>: 0
+        </fieldset>
+    </div>
+
+    <div id="graph"></div>
+
+    <script src="libraries\build\sigma.min.js"></script>
+
+    <script src="libraries\sigma\plugins\sigma.layout.noverlap\sigma.layout.noverlap.js"></script>
+    <script src="libraries\sigma\plugins\sigma.plugins.animate\sigma.plugins.animate.js"></script>
+    <script src="libraries\sigma\plugins\sigma.layout.forceAtlas2\supervisor.js"></script>
+    <script src="libraries\sigma\plugins\sigma.layout.forceAtlas2\worker.js"></script>
+    <script src="libraries/sigma/plugins/sigma.plugins.dragNodes/sigma.plugins.dragNodes.js"></script>
+
+    <script>
+
+        var array_numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+
+        var s = new sigma({
+            renderer: {
+                container: document.getElementById('graph'),
+                type: 'canvas' // This is alse the default render.
+            }
+        });
+
+        var json_list = [];
+        var json_list_support = []; // It'll storage the string with names of json files in the folder fetched.
+        var id = 0; // This is useful to storage the id of the last drawed node. 
+
+        $.ajax({ // This ajax request serves to storage the string with names of json files in the folder fetched.
+            type: "POST",
+            url: "https://localhost/tesi-magistrale/getFetchedInfo.php",
+            async: false, // The program 'll wait until this request'll not be executed.
+            success: function (list) {
+                var end = 9;
+                for (p = 2; p < list.length; p = p + 15) {
+                    json_list_support.push(list.substring(p, end));
+                    end = end + 15;
+                }
+            },
+            error: function () {
+                alert("Error in json files reading");
+            }
+        });
+
+        json_list_support.forEach(element => { // This ajax request purpouse is create a json files list.
+            $.ajax({
+                type: "POST",
+                url: "https://localhost/materiale_Nocentini/oeis-tools-master/src/fetched/" + element + ".json",
+                async: false,
+                success: function (fileJSON) {
+                    json_list.push(fileJSON);
+                },
+                error: function () {
+                    alert("Error in json_list construction");
+                }
+            });
+        });
+
+        function take_sequences(sequenzaJSON) {
+            xref_list = sequenzaJSON.results[0].xref;
+            if (typeof xref_list !== 'undefined') {
+                let array_sequences = [];
+                for (i = 0; i < xref_list.length; i++) { // Loop that scans xref elements.
+                    element = xref_list[i];
+                    for (j = 0; j < element.length; j++) { // Loop that scans the letters of xref elements.
+                        if (element[j] === "A") { // Each sequences has the form Axxxxxx.
+                            for (v = 0; v < array_numbers.length; v++) {
+                                if (element[j + 1] === array_numbers[v] && element.substring(j, j + 7) !== sequenzaJSON
+                                    .query.substring(3, 11)) {
+                                    array_sequences.push("A" + element.substring(j + 1, j + 7));
+                                    j = j +
+                                        7; // Useful for optimizing the code. If you find a "A", you can jump the next xxxxxx.
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+                var set_sequences = [...new Set(array_sequences)];
+                return set_sequences;
+            } else {
+                return 'undefined';
+            }
+        }
+
+        s.graph.clear();
+
+        s.settings({
+            hoverFont: "Comic Sans MS",
+            labelHoverBGColor: "default",
+            defaultHoverLabelBGColor: "#ffffff",
+            defaultNodeColor: "#007fff",
+            nodeColor: "default",
+            defaultEdgeColor: "#000000",
+            edgeColor: "default",
+            defaultLabelColor: "#F70611",
+            labelColor: "default",
+            labelHoverShadow: "default",
+            labelHoverShadowColor: "#000099",
+            labelThreshold: 100,
+            enableCamera: true,
+            enableEdgeHovering: true,
+            maxNodeSize: 6,
+            autoRescale: true
+        });
+
+        var list_refs = [];
+
+        for (z = 0; z < json_list.length; z++) {
+            seq = take_sequences(json_list[z]);
+            if (typeof seq !== 'undefined') {
+                list_refs.push(seq);
+            }
+        }
+
+        // First circle
+
+        var json_list_reduced = [];
+        var list_refs_reduced = [];
+
+        for (h = 0; h < json_list.length; h++) {
+            if (typeof json_list[h].results[0].xref !== 'undefined' && list_refs[h].length > 40) {
+                json_list_reduced.push(json_list[h]);
+                list_refs_reduced.push(list_refs[h]);
+            }
+        }
+
+        drawCircle(json_list_reduced, 3, "#132b43");
+
+        // Second circle
+
+        var json_list_reduced2 = [];
+        var list_refs_reduced2 = [];
+
+        for (h = 0; h < json_list.length; h++) {
+            if (typeof json_list[h].results[0].xref !== 'undefined' && list_refs[h].length > 30 && list_refs[h].length <= 40) {
+                json_list_reduced2.push(json_list[h]);
+                list_refs_reduced2.push(list_refs[h]);
+            }
+        }
+
+        drawCircle(json_list_reduced2, 6, "#1d3f5d");
+
+        // Third circle
+
+        var json_list_reduced3 = [];
+        var list_refs_reduced3 = [];
+
+        for (h = 0; h < json_list.length; h++) {
+            if (typeof json_list[h].results[0].xref !== 'undefined' && list_refs[h].length > 20 && list_refs[h].length <= 30) {
+                json_list_reduced3.push(json_list[h]);
+                list_refs_reduced3.push(list_refs[h]);
+            }
+        }
+
+        drawCircle(json_list_reduced3, 9, "#27547a");
+
+        // Fourth circle
+
+        var json_list_reduced4 = [];
+        var list_refs_reduced4 = [];
+
+        for (h = 0; h < json_list.length; h++) {
+            if (typeof json_list[h].results[0].xref !== 'undefined' && list_refs[h].length > 10 && list_refs[h].length <= 20) {
+                json_list_reduced4.push(json_list[h]);
+                list_refs_reduced4.push(list_refs[h]);
+            }
+        }
+
+        drawCircle(json_list_reduced4, 12, "#326896");
+
+        // Fifth circle
+
+        var json_list_reduced5 = [];
+        var list_refs_reduced5 = [];
+
+        for (h = 0; h < json_list.length; h++) {
+            if (typeof json_list[h].results[0].xref !== 'undefined' && list_refs[h].length <= 10 && list_refs[h].length > 5) {
+                json_list_reduced5.push(json_list[h]);
+                list_refs_reduced5.push(list_refs[h]);
+            }
+        }
+
+        drawCircle(json_list_reduced5, 15, "#3d7fb5");
+
+        // Sixth circle
+
+        var json_list_reduced6 = [];
+        var list_refs_reduced6 = [];
+
+        for (h = 0; h < json_list.length; h++) {
+            if (typeof json_list[h].results[0].xref !== 'undefined' && list_refs[h].length <= 5) {
+                json_list_reduced6.push(json_list[h]);
+                list_refs_reduced6.push(list_refs[h]);
+            }
+        }
+
+        drawCircle(json_list_reduced6, 18, "#4897d4");
+
+        // Seventh circle
+
+        var json_list_reduced7 = [];
+        var list_refs_reduced7 = [];
+
+        for (h = 0; h < json_list.length; h++) {
+            if (typeof json_list[h].results[0].xref === 'undefined') {
+                json_list_reduced7.push(json_list[h]);
+                list_refs_reduced7.push(list_refs[h]);
+            }
+        }
+
+        drawCircle(json_list_reduced7, 21, "#54aef3");
+
+        s.refresh();
+
+        function drawEdges() {
+
+            s.graph.clear();
+
+            firstStripe = document.getElementById("input").value;
+            secondStripe = document.getElementById("input2").value;
+
+            if (firstStripe === "" && secondStripe === "") {
+                alert("Both stripe not inserted");
+                return;
+            } else if (firstStripe === "") {
+                alert("First stripe not inserted");
+                return;
+            } else if (secondStripe === "") {
+                alert("Second stripe not inserted");
+                return;
+            };
+
+            drawCircle(json_list_reduced, 3, "#132b43");
+            drawCircle(json_list_reduced2, 6, "#1d3f5d");
+            drawCircle(json_list_reduced3, 9, "#27547a");
+            drawCircle(json_list_reduced4, 12, "#326896");
+            drawCircle(json_list_reduced5, 15, "#3d7fb5");
+            drawCircle(json_list_reduced6, 18, "#4897d4");
+            drawCircle(json_list_reduced7, 21, "#54aef3");
+
+            var json_list_for_edges = [];
+            var list_refs_for_edges = [];
+
+            var strip1 = document.getElementById("input").value;
+
+            getStrip(strip1, "1", json_list_reduced, list_refs_reduced, json_list_for_edges, list_refs_for_edges);
+            getStrip(strip1, "2", json_list_reduced2, list_refs_reduced2, json_list_for_edges, list_refs_for_edges);
+            getStrip(strip1, "3", json_list_reduced3, list_refs_reduced3, json_list_for_edges, list_refs_for_edges);
+            getStrip(strip1, "4", json_list_reduced4, list_refs_reduced4, json_list_for_edges, list_refs_for_edges);
+            getStrip(strip1, "5", json_list_reduced5, list_refs_reduced5, json_list_for_edges, list_refs_for_edges);
+            getStrip(strip1, "6", json_list_reduced6, list_refs_reduced6, json_list_for_edges, list_refs_for_edges);
+            getStrip(strip1, "7", json_list_reduced7, list_refs_reduced7, json_list_for_edges, list_refs_for_edges);
+
+            var json_list_for_edges2 = [];
+            var list_refs_for_edges2 = [];
+
+            var strip2 = document.getElementById("input2").value;
+
+            getStrip(strip2, "1", json_list_reduced, list_refs_reduced, json_list_for_edges2, list_refs_for_edges2);
+            getStrip(strip2, "2", json_list_reduced2, list_refs_reduced2, json_list_for_edges2, list_refs_for_edges2);
+            getStrip(strip2, "3", json_list_reduced3, list_refs_reduced3, json_list_for_edges2, list_refs_for_edges2);
+            getStrip(strip2, "4", json_list_reduced4, list_refs_reduced4, json_list_for_edges2, list_refs_for_edges2);
+            getStrip(strip2, "5", json_list_reduced5, list_refs_reduced5, json_list_for_edges2, list_refs_for_edges2);
+            getStrip(strip2, "6", json_list_reduced6, list_refs_reduced6, json_list_for_edges2, list_refs_for_edges2);
+            getStrip(strip2, "7", json_list_reduced7, list_refs_reduced7, json_list_for_edges2, list_refs_for_edges2);
+
+            for (i = 0; i < json_list_for_edges.length; i++) {
+                for (j = 0; j < list_refs_for_edges[i].length; j++) {
+                    for (k = 0; k < json_list_for_edges2.length; k++) {
+                        if (list_refs_for_edges[i][j] === json_list_for_edges2[k].query.substring(3, 11) && (i !== k)) {
+                            s.graph.addEdge({
+                                id: 'e' + '(' + i + ',' + k + ')',
+                                source: '' + json_list_for_edges[i].query.substring(3, 11),
+                                target: '' + json_list_for_edges2[k].query.substring(3, 11),
+                                size: 1,
+                            });
+                        }
+                    }
+                }
+            }
+
+            for (i = 0; i < json_list_for_edges2.length; i++) {
+                for (j = 0; j < list_refs_for_edges2[i].length; j++) {
+                    for (k = 0; k < json_list_for_edges.length; k++) {
+                        if (list_refs_for_edges2[i][j] === json_list_for_edges[k].query.substring(3, 11) && (i !== k)) {
+                            try {
+                                s.graph.addEdge({
+                                    id: 'e' + '(' + i + ',' + k + ')',
+                                    source: '' + json_list_for_edges2[i].query.substring(3, 11),
+                                    target: '' + json_list_for_edges[k].query.substring(3, 11),
+                                    size: 1,
+                                });
+                            } catch (error) {
+                                console.log('e' + '(' + i + ',' + k + ')' + ' already exists');
+                            }
+                        }
+                    }
+                }
+            }
+
+            list_edges = s.graph.edges();
+
+            for (q = 0; q < list_edges.length; q++) {
+                for (p = q + 1; p < list_edges.length; p++) {
+                    if ((list_edges[q].source === list_edges[p].target) && (list_edges[q].target === list_edges[p].source)) {
+                        s.graph.dropEdge(list_edges[p].id);
+
+                    }
+                }
+            }
+
+            s.graph.nodes().forEach(element => {
+
+                var contOk = 0;
+
+                for (i = 0; i < json_list_for_edges.length; i++) {
+                    if (json_list_for_edges[i].query.substring(3, 11) !== element.id) {
+                        contOk = contOk + 1;
+                    }
+                }
+
+                for (j = 0; j < json_list_for_edges2.length; j++) {
+                    if (json_list_for_edges2[j].query.substring(3, 11) !== element.id) {
+                        contOk = contOk + 1;
+                    }
+                }
+
+                if (contOk === (json_list_for_edges2.length + json_list_for_edges.length)) {
+                    element.color = "#b3b3b3";
+                }
+
+            });
+
+            s.refresh();
+
+        }
+
+        var config = {
+            nodeMargin: 5,
+            scaleNodes: 1.3
+        };
+
+        var listener = s.configNoverlap(config);
+
+        s.startNoverlap();
+
+        function drawCircle(j_reduced, radius, nodesColor) {
+
+            for (i = 0; i < j_reduced.length; i++) {
+                var theta = i * 2 * Math.PI / j_reduced.length;
+                s.graph.addNode({
+                    id: '' + j_reduced[i].query.substring(3, 11),
+                    label: '' + j_reduced[i].query.substring(3, 11),
+                    x: radius * Math.sin(theta),
+                    y: radius * Math.cos(theta),
+                    size: 1,
+                    color: nodesColor
+                });
+            }
+
+        }
+
+        function getStrip(strip, stripNumber, j_reduced, r_reduced, j_edges, r_edges) {
+            if (strip === stripNumber) {
+                j_reduced.forEach(element => {
+                    j_edges.push(element);
+                });
+                r_reduced.forEach(element => {
+                    r_edges.push(element);
+                });
+            }
+        }
+
+    </script>
+
+</body>
+
+</html>
