@@ -368,6 +368,9 @@
             }
         });
 
+        sessionStorage.setItem('json_list', JSON.stringify(json_list));
+        sessionStorage.setItem('array', array_numbers);
+
         hideHelp();
         showInformation();
 
@@ -416,6 +419,8 @@
                 return 'undefined';
             }
         }
+
+        sessionStorage.setItem('recFunc', take_sequences.toString());
 
         function drawSpecializedGraph() {
 
@@ -571,6 +576,8 @@
                     list_refs.push(seq);
                 }
             }
+            sessionStorage.setItem('list_refs', list_refs);
+            
 
             for (i = 0; i < nodesToShow; i++) {
                 var theta = i * 2 * Math.PI / nodesToShow;
