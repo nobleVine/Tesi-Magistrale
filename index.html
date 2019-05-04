@@ -360,11 +360,10 @@
             });
         });
 
-
         var s = new sigma({
             renderer: {
                 container: document.getElementById('graphSection'),
-                type: 'canvas' // This is alse the default render.
+                type: 'canvas'
             }
         });
 
@@ -390,7 +389,6 @@
             enableCamera: false,
             enableEdgeHovering: true,
             maxNodeSize: 6,
-            autoRescale: true
         });
 
         function take_sequences(sequenzaJSON) {
@@ -420,7 +418,7 @@
             }
         }
 
-        sessionStorage.setItem('recFunc', take_sequences.toString());
+        sessionStorage.setItem('take_s', take_sequences.toString());
 
         function drawSpecializedGraph() {
 
