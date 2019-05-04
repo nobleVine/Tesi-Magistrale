@@ -120,75 +120,12 @@
 
     <script>
 
-        var array_numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
-
         var s = new sigma({
             renderer: {
                 container: document.getElementById('graph'),
                 type: 'canvas' // This is alse the default render.
             }
         });
-
-        var json_list = [];
-        var json_list_support = []; // It'll storage the string with names of json files in the folder fetched.
-        var id = 0; // This is useful to storage the id of the last drawed node. 
-
-        $.ajax({ // This ajax request serves to storage the string with names of json files in the folder fetched.
-            type: "POST",
-            url: "https://localhost/tesi-magistrale/getFetchedInfo.php",
-            async: false, // The program 'll wait until this request'll not be executed.
-            success: function (list) {
-                var end = 9;
-                for (p = 2; p < list.length; p = p + 15) {
-                    json_list_support.push(list.substring(p, end));
-                    end = end + 15;
-                }
-            },
-            error: function () {
-                alert("Error in json files reading");
-            }
-        });
-
-        json_list_support.forEach(element => { // This ajax request purpouse is create a json files list.
-            $.ajax({
-                type: "POST",
-                url: "https://localhost/materiale_Nocentini/oeis-tools-master/src/fetched/" + element + ".json",
-                async: false,
-                success: function (fileJSON) {
-                    json_list.push(fileJSON);
-                },
-                error: function () {
-                    alert("Error in json_list construction");
-                }
-            });
-        });
-
-        function take_sequences(sequenzaJSON) {
-            xref_list = sequenzaJSON.results[0].xref;
-            if (typeof xref_list !== 'undefined') {
-                let array_sequences = [];
-                for (i = 0; i < xref_list.length; i++) { // Loop that scans xref elements.
-                    element = xref_list[i];
-                    for (j = 0; j < element.length; j++) { // Loop that scans the letters of xref elements.
-                        if (element[j] === "A") { // Each sequences has the form Axxxxxx.
-                            for (v = 0; v < array_numbers.length; v++) {
-                                if (element[j + 1] === array_numbers[v] && element.substring(j, j + 7) !== sequenzaJSON
-                                    .query.substring(3, 11)) {
-                                    array_sequences.push("A" + element.substring(j + 1, j + 7));
-                                    j = j +
-                                        7; // Useful for optimizing the code. If you find a "A", you can jump the next xxxxxx.
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
-                var set_sequences = [...new Set(array_sequences)];
-                return set_sequences;
-            } else {
-                return 'undefined';
-            }
-        }
 
         s.graph.clear();
 
@@ -212,6 +149,11 @@
         });
 
         var list_refs = [];
+        var json_list_initial = sessionStorage.getItem('json_list');
+        var json_list = JSON.parse(json_list_initial);
+        var recFunc = sessionStorage.getItem('recFunc');
+        var take_sequences = eval('(' + recFunc + ')');
+        var array_numbers = sessionStorage.getItem('array');
 
         for (z = 0; z < json_list.length; z++) {
             seq = take_sequences(json_list[z]);
@@ -440,6 +382,15 @@
             });
 
             s.refresh();
+
+            var config = {
+                nodeMargin: 5,
+                scaleNodes: 1.3
+            };
+
+            var listener = s.configNoverlap(config);
+
+            s.startNoverlap();
 
         }
 
