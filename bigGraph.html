@@ -114,11 +114,12 @@
 
     <script src="libraries\sigma\plugins\sigma.layout.noverlap\sigma.layout.noverlap.js"></script>
     <script src="libraries\sigma\plugins\sigma.plugins.animate\sigma.plugins.animate.js"></script>
-    <script src="libraries\sigma\plugins\sigma.layout.forceAtlas2\supervisor.js"></script>
-    <script src="libraries\sigma\plugins\sigma.layout.forceAtlas2\worker.js"></script>
     <script src="libraries/sigma/plugins/sigma.plugins.dragNodes/sigma.plugins.dragNodes.js"></script>
 
     <script>
+
+        document.getElementById("input").addEventListener("click", clearInput);
+        document.getElementById("input2").addEventListener("click", clearInput2);
 
         var s = new sigma({
             renderer: {
@@ -263,8 +264,8 @@
             firstStripe = document.getElementById("input").value;
             secondStripe = document.getElementById("input2").value;
 
-            if ( (firstStripe === "1" || firstStripe === "2" || firstStripe === "3" || firstStripe === "4" || firstStripe === "5" || firstStripe === "6" || firstStripe === "7") &&
-            (secondStripe === "1" || secondStripe === "2" || secondStripe === "3" || secondStripe === "4" || secondStripe === "5" || secondStripe === "6" || secondStripe === "7")) {
+            if ((firstStripe === "1" || firstStripe === "2" || firstStripe === "3" || firstStripe === "4" || firstStripe === "5" || firstStripe === "6" || firstStripe === "7") &&
+                (secondStripe === "1" || secondStripe === "2" || secondStripe === "3" || secondStripe === "4" || secondStripe === "5" || secondStripe === "6" || secondStripe === "7")) {
 
                 if (firstStripe === "" && secondStripe === "") {
                     alert("Both stripe not inserted");
@@ -311,39 +312,8 @@
                 getStrip(strip2, "6", json_list_reduced6, list_refs_reduced6, json_list_for_edges2, list_refs_for_edges2);
                 getStrip(strip2, "7", json_list_reduced7, list_refs_reduced7, json_list_for_edges2, list_refs_for_edges2);
 
-                for (i = 0; i < json_list_for_edges.length; i++) {
-                    for (j = 0; j < list_refs_for_edges[i].length; j++) {
-                        for (k = 0; k < json_list_for_edges2.length; k++) {
-                            if (list_refs_for_edges[i][j] === json_list_for_edges2[k].query.substring(3, 11) && (i !== k)) {
-                                s.graph.addEdge({
-                                    id: 'e' + '(' + i + ',' + k + ')',
-                                    source: '' + json_list_for_edges[i].query.substring(3, 11),
-                                    target: '' + json_list_for_edges2[k].query.substring(3, 11),
-                                    size: 1,
-                                });
-                            }
-                        }
-                    }
-                }
-
-                for (i = 0; i < json_list_for_edges2.length; i++) {
-                    for (j = 0; j < list_refs_for_edges2[i].length; j++) {
-                        for (k = 0; k < json_list_for_edges.length; k++) {
-                            if (list_refs_for_edges2[i][j] === json_list_for_edges[k].query.substring(3, 11) && (i !== k)) {
-                                try {
-                                    s.graph.addEdge({
-                                        id: 'e' + '(' + i + ',' + k + ')',
-                                        source: '' + json_list_for_edges2[i].query.substring(3, 11),
-                                        target: '' + json_list_for_edges[k].query.substring(3, 11),
-                                        size: 1,
-                                    });
-                                } catch (error) {
-                                    console.log('e' + '(' + i + ',' + k + ')' + ' already exists');
-                                }
-                            }
-                        }
-                    }
-                }
+                drawStripEdges(json_list_for_edges, json_list_for_edges2, list_refs_for_edges);
+                drawStripEdges(json_list_for_edges2, json_list_for_edges, list_refs_for_edges2);
 
                 list_edges = s.graph.edges();
 
@@ -380,14 +350,7 @@
 
                 s.refresh();
 
-                var config = {
-                    nodeMargin: 3,
-                    scaleNodes: 1.3
-                };
-
-                var listener = s.configNoverlap(config);
-
-                s.startNoverlap();
+                getNodesOverlap(3);
 
             } else {
 
@@ -396,15 +359,6 @@
             }
 
         }
-
-        var config = {
-            nodeMargin: 5,
-            scaleNodes: 1.3
-        };
-
-        var listener = s.configNoverlap(config);
-
-        s.startNoverlap();
 
         function drawCircle(j_reduced, radius, nodesColor) {
 
@@ -432,6 +386,48 @@
                 });
             }
         }
+
+        function clearInput() {
+            document.getElementById("input").value = "";
+        }
+
+        function clearInput2() {
+            document.getElementById("input2").value = "";
+        }
+
+        function getNodesOverlap(node_m) {
+            var config = {
+                nodeMargin: node_m,
+                scaleNodes: 1.3
+            };
+
+            var listener = s.configNoverlap(config);
+
+            s.startNoverlap();
+        }
+
+        function drawStripEdges(json_list_strip_start, json_list_strip_end, list_refs_strip_start) {
+            for (i = 0; i < json_list_strip_start.length; i++) {
+                for (j = 0; j < list_refs_strip_start[i].length; j++) {
+                    for (k = 0; k < json_list_strip_end.length; k++) {
+                        if (list_refs_strip_start[i][j] === json_list_strip_end[k].query.substring(3, 11) && (i !== k)) {
+                            try {
+                            s.graph.addEdge({
+                                id: 'e' + '(' + i + ',' + k + ')',
+                                source: '' + json_list_strip_start[i].query.substring(3, 11),
+                                target: '' + json_list_strip_end[k].query.substring(3, 11),
+                                size: 1,
+                            });
+                            } catch(error) {
+                                console.log('e' + '(' + i + ',' + k + ')' + ' already exists');
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        getNodesOverlap(5);
 
     </script>
 
