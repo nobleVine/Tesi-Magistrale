@@ -82,6 +82,7 @@ foreach ($array_content as $json) {
             )";
 
     mysqli_query($connectionToDB, $sql);
+    
 }
 
 echo "<br>" . "Finished population!" . "<br>";
