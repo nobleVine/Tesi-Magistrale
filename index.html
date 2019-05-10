@@ -290,7 +290,10 @@
         </h3>
         <div class="section" id="section6">
             <form action="bigGraph.html">
-                <input class="button" type="submit" value="Draw It!" id="buttonDraw4">
+                Click on the button to go to the html page to draw the big graph
+                <br>
+                <br>
+                <input class="button" type="submit" value="Go to!" id="buttonDraw4">
             </form>
         </div>
     </div>
@@ -312,7 +315,8 @@
     <div id="graphSection" style="float: left;">
     </div>
 
-    <p hidden id="nodesClick">Click on a node to show the associated informations</p>
+    <p hidden id="nodesClick">Left click on a node to show the associated informations or right click on a node to show
+        the associated xrefs </p>
 
     <script src="libraries\build\sigma.min.js"></script>
 
@@ -326,6 +330,7 @@
     <script>
         var array_numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
         document.getElementById("download").addEventListener("click", clearInput);
+        document.addEventListener('contextmenu', event => event.preventDefault()); //hide the menù that is showed in the browser at the right click of the mouse
         var json_list = [];
         var json_list_support = []; // It'll storage the string with names of json files in the folder fetched.
         var id = 0; // This is useful to storage the id of the last drawed node. 
@@ -488,6 +493,7 @@
                 }
                 s.refresh();
                 document.getElementById("nodesClick").style.display = "block";
+                showXref();
                 optionsInitializationAddNodes();
                 optionsInitializationRemoveNodes();
             }
@@ -535,6 +541,85 @@
             });
         }
 
+        function showXref() {
+
+            var nodes_added = [];
+
+            s.bind('rightClickNode', function (e) {
+
+                fetched = false;
+
+                for (f = 0; f < nodes_added.length; f++) {
+                    s.graph.dropNode(nodes_added[f]);
+                }
+
+                s.graph.nodes().forEach(element => {
+                    element.color = "#007fff";
+                    element.size = 3;
+                });
+
+                s.graph.edges().forEach(element => {
+                    element.color = "#000000";
+                    element.size = 3;
+                });
+
+                nodes_added = [];
+
+                for (w = 0; w < json_list.length; w++) {
+                    if (e.data.node.id === json_list[w].query.substring(3, 11) && typeof json_list[w].results[0].xref !== 'undefined') {
+                        xref = take_sequences(json_list[w]);
+                        fetched = true;
+                        break;
+                    }
+                }
+
+                if (!fetched) {
+                    alert('The sequence ' + e.data.node.id + ' is not fetched');
+                    return;
+                }
+
+                var angle = 5;
+
+                for (i = 0; i < xref.length; i++) {
+                    var theta = angle * 2 * Math.PI / xref.length;
+                    try {
+                        s.graph.nodes(e.data.node.id).color = "#ff0000";
+                        s.graph.nodes(e.data.node.id).size = 6;
+
+                        s.graph.addNode({
+                            id: xref[i],
+                            label: '' + xref[i],
+                            x: 20 * Math.sin(theta),
+                            y: 20 * Math.cos(theta),
+                            size: 6,
+                            color: "#0a0a0a"
+                        }).addEdge({
+                            id: 'e' + s.graph.edges().length,
+                            source: '' + e.data.node.id,
+                            target: '' + xref[i],
+                            size: 20,
+                            color: "#0a0a0a"
+                        });
+                        nodes_added.push(xref[i]);
+                    }
+                    catch (error) {
+                        s.graph.nodes(xref[i]).color = "#0a0a0a";
+                        s.graph.nodes(xref[i]).size = 6;
+                        s.graph.edges().forEach(element => {
+                            if (element.source === e.data.node.id) {
+                                element.size = 20;
+                                element.color = "#0a0a0a"
+                            }
+                        })
+                        console.log("Node " + xref[i] + " already exists");
+                    }
+                    angle = angle + 0.2;
+                }
+                s.refresh();
+            });
+
+        }
+
         function getRandomArbitrary(min, max) {
             return Math.random() * (max - min) + min;
         }
@@ -575,7 +660,7 @@
                 }
             }
             sessionStorage.setItem('list_refs', list_refs);
-            
+
 
             for (i = 0; i < nodesToShow; i++) {
                 var theta = i * 2 * Math.PI / nodesToShow;
@@ -1054,8 +1139,6 @@
             document.getElementById("buttonDraw3").addEventListener("click", hideAccordion);
             document.getElementById("buttonCompute").addEventListener("click", hideAccordion);
         }
-
-        document.write(json_list[0].result[0].number);
 
     </script>
 
