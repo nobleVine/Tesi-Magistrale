@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="jquery-ui.css">
 
     <style type="text/css">
+    
         body {
             margin: 10;
             background-color: #D3D3D3;
@@ -293,7 +294,18 @@
                 <input class="button" type="submit" value="Draw It!" id="buttonDraw4">
             </form>
         </div>
+        <h3>
+            <b>
+                Queries
+            </b>
+        </h3>
+        <div class="section" id="section7">
+            <form action="database.html">
+                <input class="button" type="submit" value="Go to!" id="buttonDraw5">
+            </form>
+        </div>
     </div>
+
     <div class="accordion" id="accordion2" style="float: right;">
         <h3>
             <b id="Title1">
@@ -1054,8 +1066,6 @@
             document.getElementById("buttonDraw3").addEventListener("click", hideAccordion);
             document.getElementById("buttonCompute").addEventListener("click", hideAccordion);
         }
-
-        document.write(json_list[0].result[0].number);
 
     </script>
 
