@@ -1,0 +1,306 @@
+<html>
+
+<head>
+
+    <title>
+        Database
+    </title>
+
+    <style>
+        input.text {
+            width: 100px;
+            height: auto;
+        }
+
+        input.button {
+            width: 130px;
+            height: 35px;
+            background-color: #d6d6c2;
+            border-radius: 6px;
+            font-style: italic;
+            font-size: 20;
+        }
+
+        body {
+            background-color: #D3D3D3;
+        }
+
+        legend {
+            display: inline-block;
+            width: auto;
+        }
+
+        fieldset {
+            display: inline-block;
+            border: 2px black solid;
+            width: auto;
+            height: auto;
+            position: relative;
+            bottom: 42px;
+            left: 30px;
+            margin-left: 0.5x;
+            margin-right: 0.5px;
+        }
+
+        #queryResults {
+            height: auto;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <table cellspacing=4>
+        <tr>
+            <td>
+                <h3>
+                    Select from those in the drop-down menù which
+                    <br>
+                    information of the fetched sequences shows
+                </h3>
+            </td>
+            <br>
+            <td>
+                <form action="javascript: query1()">
+                    <select required oninvalid="this.setCustomValidity('Please select an item of the list')"
+                        oninput="this.setCustomValidity('')" id="selectInfo">
+                        <option value="">Choose</option>
+                        <option>id</option>
+                        <option>data</option>
+                        <option>name</option>
+                        <option>comment</option>
+                        <option>reference</option>
+                        <option>formula</option>
+                        <option>example</option>
+                        <option>xref</option>
+                    </select>
+            </td>
+            <td>
+                <input class="button" type="submit" value="Query 1">
+            </td>
+            </form>
+            <td rowspan="2">
+                <fieldset>
+                    <legend>
+                        <h3><b>Legend</b></h3>
+                    </legend>
+                    Possible informations to show: <br>
+                    <ul>
+                        <li><b>Id:</b> id of a sequence </li>
+                        <li><b>Data</b>: the numbers which belong to a sequence</li>
+                        <li><b>Name</b>: name of a sequence</li>
+                        <li><b>Comment</b>: informations about a sequence and <br> her relationships with other
+                            sequences</li>
+                        <li><b>Reference</b>: references to printed documents (books, papers)</li>
+                        <li><b>Formula</b>: formulas, recurrences, generating functions for a sequence</li>
+                        <li><b>Example</b>: some examples of sequence member values</li>
+                        <li><b>XRef</b>: which sequences are related to a sequence </li>
+                    </ul>
+                </fieldset>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <h3>
+                    Select the information from those in the drop-down
+                    <br>
+                    menù of the fetched sequences in which
+                    <br>
+                    search the string inserted in the text box
+                </h3>
+            </td>
+            <td>
+                <form action="javascript: query2()">
+                    <select required oninvalid="this.setCustomValidity('Please select an item of the list')"
+                        oninput="this.setCustomValidity('')" id="selectInfo2">
+                        <option value="">Choose</option>
+                        <option>id</option>
+                        <option>data</option>
+                        <option>name</option>
+                        <option>comment</option>
+                        <option>reference</option>
+                        <option>formula</option>
+                        <option>example</option>
+                        <option>xref</option>
+                    </select>
+                    <input class="text" type="text" id="input1">
+            </td>
+            <td>
+                <input class="button" type="submit" value="Query 2">
+            </td>
+            </form>
+        </tr>
+    </table>
+
+    <h3 hidden id="QR">
+        <b>
+            Query Results:
+        </b>
+    </h3>
+
+    <table id="tableResults" border=1>
+
+    </table>
+
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <script>
+
+        document.getElementById("input1").addEventListener("click", clearInput);
+
+        function query1() {
+
+            document.getElementById("QR").style.display = "block";
+
+            $.ajax({
+                type: "POST",
+                url: "https://localhost/tesi-magistrale/genericQuery.php",
+                async: false,
+                data: {
+                    string: document.getElementById("selectInfo").value
+                },
+                success: function (queryResults) {
+
+                    var tableResults = document.getElementById("tableResults");
+
+                    if (tableResults === null) {
+                        var tableResults = document.createElement("table");
+                        tableResults.setAttribute("id", "tableResults");
+                        tableResults.setAttribute("border", 1);
+                    }
+
+                    while (tableResults.hasChildNodes()) {
+                        tableResults.removeChild(tableResults.firstChild);
+                    }
+
+                    var input = document.getElementById("selectInfo").value;
+
+                    if (input === "id" || input === "data" || input === "name" || input === "comment" || input === "reference" || input === "formula" || input === "example" || input === "xref") {
+                        var array_results = splitString(queryResults);
+                    }
+
+                    for (i = 0; i < array_results.length; i = i + 2) {
+                        var tr = document.createElement("tr");
+                        for (j = i; j < i + 2; j++) {
+                            var td = document.createElement("td");
+                            td.appendChild(document.createTextNode(array_results[j]));
+                            tr.appendChild(td);
+                        }
+                        tableResults.appendChild(tr);
+
+                    }
+                },
+                error: function () {
+                    alert("Query error!");
+                }
+            });
+
+            reinitializationDropDownMenu("selectInfo");
+        }
+
+        function query2() {
+
+            if (document.getElementById("input1").value === "") {
+                alert('String to search not inserted');
+                return;
+            }
+
+            document.getElementById("QR").style.display = "block";
+
+            $.ajax({
+                type: "POST",
+                url: "https://localhost/tesi-magistrale/querySearchStringInColumn.php",
+                async: false,
+                data: {
+                    string1: document.getElementById("selectInfo2").value,
+                    string2: document.getElementById("input1").value
+                },
+                success: function (queryResults) {
+
+                    document.getElementById("tableResults").innerHTML = "";
+                    queryResults = queryResults.slice(1, queryResults.length - 1);
+                    var array_results = queryResults.split(",");
+
+                    for (i = 0; i < array_results.length; i++) {
+                        var tr = document.createElement("tr");
+                        var td = document.createElement("td");
+                        td.appendChild(document.createTextNode(array_results[i].substring(4, 11)));
+                        tr.appendChild(td);
+                        tableResults.appendChild(tr);
+                    };
+
+                },
+                error: function () {
+                    alert("Query error!");
+                }
+            })
+            reinitializationDropDownMenu("selectInfo2");
+        }
+
+        function splitString(queryResults) {
+
+            var array_results = [];
+            var finish = false;
+            var y = 0;
+            var i = 2;
+
+            while (i < queryResults.length) {
+                if (queryResults[i] === "i" && queryResults[i + 1] === "d" && queryResults[i + 2] === ":") {
+                    finish = false;
+                    y = i + 3;
+                    while (!finish && y < queryResults.length) {
+                        if (queryResults[y] === "i" && queryResults[y + 1] === "d" && queryResults[y + 2] === ":") {
+                            array_results.push(queryResults.substring(i + 3, i + 10));
+                            array_results.push(queryResults.substring(i + 13, y - 3));
+                            finish = true;
+                        } else {
+                            y++;
+                        }
+                    }
+                    i = y;
+                }
+                else {
+                    i++;
+                }
+            }
+
+            var k = y - 3;
+            var last = false;
+
+            while (!last) {
+                if (queryResults[k] === "i" && queryResults[k + 1] === "d" && queryResults[k + 2] === ":") {
+                    array_results.push(queryResults.substring(k + 3, k + 10));
+                    array_results.push(queryResults.substring(k + 13, queryResults.length - 2));
+                    last = true;
+                } else {
+                    k--;
+                }
+            }
+
+            for (p = 0; p < array_results.length; p++) {
+                if (array_results[p] === "ul") {
+                    array_results[p] = "null";
+                }
+            }
+
+            return array_results;
+
+        }
+
+        function reinitializationDropDownMenu(id) {
+            $("#" + id).empty().append('<option value="">Choose</option>').append('<option>id</option>').append('<option>data</option>').
+                append('<option>name</option>').append('<option>comment</option>').append('<option>reference</option>').
+                append('<option>formula</option>').append('<option>example</option>').append('<option>xref</option>');
+        }
+
+        function clearInput() {
+            document.getElementById("input1").value = "";
+        }
+
+    </script>
+
+</body>
+
+</html>
