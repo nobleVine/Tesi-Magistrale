@@ -45,10 +45,6 @@
         #queryResults {
             height: auto;
         }
-
-        /*#tableResults {
-            height:auto;
-        }*/
     </style>
 
 </head>
@@ -66,22 +62,24 @@
             </td>
             <br>
             <td>
-                <select required oninvalid="this.setCustomValidity('Please select an item of the list')"
-                    oninput="this.setCustomValidity('')" id="selectInfo">
-                    <option value="">Choose</option>
-                    <option>id</option>
-                    <option>data</option>
-                    <option>name</option>
-                    <option>comment</option>
-                    <option>reference</option>
-                    <option>formula</option>
-                    <option>example</option>
-                    <option>xref</option>
-                </select>
+                <form action="javascript: query1()">
+                    <select required oninvalid="this.setCustomValidity('Please select an item of the list')"
+                        oninput="this.setCustomValidity('')" id="selectInfo">
+                        <option value="">Choose</option>
+                        <option>id</option>
+                        <option>data</option>
+                        <option>name</option>
+                        <option>comment</option>
+                        <option>reference</option>
+                        <option>formula</option>
+                        <option>example</option>
+                        <option>xref</option>
+                    </select>
             </td>
             <td>
-                <input class="button" type="submit" value="Query 1" onclick="javascript: query1()">
+                <input class="button" type="submit" value="Query 1">
             </td>
+            </form>
             <td rowspan="2">
                 <fieldset>
                     <legend>
@@ -113,23 +111,25 @@
                 </h3>
             </td>
             <td>
-                <select required oninvalid="this.setCustomValidity('Please select an item of the list')"
-                    oninput="this.setCustomValidity('')" id="selectInfo2">
-                    <option value="">Choose</option>
-                    <option>id</option>
-                    <option>data</option>
-                    <option>name</option>
-                    <option>comment</option>
-                    <option>reference</option>
-                    <option>formula</option>
-                    <option>example</option>
-                    <option>xref</option>
-                </select>
-                <input class="text" type="text" id="input1">
+                <form action="javascript: query2()">
+                    <select required oninvalid="this.setCustomValidity('Please select an item of the list')"
+                        oninput="this.setCustomValidity('')" id="selectInfo2">
+                        <option value="">Choose</option>
+                        <option>id</option>
+                        <option>data</option>
+                        <option>name</option>
+                        <option>comment</option>
+                        <option>reference</option>
+                        <option>formula</option>
+                        <option>example</option>
+                        <option>xref</option>
+                    </select>
+                    <input class="text" type="text" id="input1">
             </td>
             <td>
-                <input class="button" type="submit" value="Query 2" onclick="javascript: query2()">
+                <input class="button" type="submit" value="Query 2">
             </td>
+            </form>
         </tr>
     </table>
 
@@ -207,9 +207,11 @@
                 return;
             }
 
+            document.getElementById("QR").style.display = "block";
+
             $.ajax({
                 type: "POST",
-                url: "https://localhost/tesi-magistrale/queryStringInName.php",
+                url: "https://localhost/tesi-magistrale/querySearchStringInColumn.php",
                 async: false,
                 data: {
                     string1: document.getElementById("selectInfo2").value,
@@ -220,14 +222,11 @@
                     document.getElementById("tableResults").innerHTML = "";
                     queryResults = queryResults.slice(1, queryResults.length - 1);
                     var array_results = queryResults.split(",");
-                    /*array_results.forEach(element => {
-                        document.getElementById("tableResults").innerHTML = document.getElementById("tableResults").innerHTML + "<br>" + element;
-                    })*/
 
                     for (i = 0; i < array_results.length; i++) {
                         var tr = document.createElement("tr");
                         var td = document.createElement("td");
-                        td.appendChild(document.createTextNode(array_results[i]));
+                        td.appendChild(document.createTextNode(array_results[i].substring(4, 11)));
                         tr.appendChild(td);
                         tableResults.appendChild(tr);
                     };
@@ -270,7 +269,7 @@
             var k = y - 3;
             var last = false;
 
-            while(!last) {
+            while (!last) {
                 if (queryResults[k] === "i" && queryResults[k + 1] === "d" && queryResults[k + 2] === ":") {
                     array_results.push(queryResults.substring(k + 3, k + 10));
                     array_results.push(queryResults.substring(k + 13, queryResults.length - 2));
