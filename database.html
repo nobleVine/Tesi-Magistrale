@@ -45,6 +45,10 @@
         #queryResults {
             height: auto;
         }
+
+        /*#tableResults {
+            height:auto;
+        }*/
     </style>
 
 </head>
@@ -64,7 +68,7 @@
             <td>
                 <select required oninvalid="this.setCustomValidity('Please select an item of the list')"
                     oninput="this.setCustomValidity('')" id="selectInfo">
-                    <option>Choose</option>
+                    <option value="">Choose</option>
                     <option>id</option>
                     <option>data</option>
                     <option>name</option>
@@ -88,7 +92,8 @@
                         <li><b>Id:</b> id of a sequence </li>
                         <li><b>Data</b>: the numbers which belong to a sequence</li>
                         <li><b>Name</b>: name of a sequence</li>
-                        <li><b>Comment</b>: informations about a sequence and <br> her relationships with other sequences</li>
+                        <li><b>Comment</b>: informations about a sequence and <br> her relationships with other
+                            sequences</li>
                         <li><b>Reference</b>: references to printed documents (books, papers)</li>
                         <li><b>Formula</b>: formulas, recurrences, generating functions for a sequence</li>
                         <li><b>Example</b>: some examples of sequence member values</li>
@@ -104,13 +109,13 @@
                     <br>
                     menù of the fetched sequences in which
                     <br>
-                    search the string inserted in the text box.
+                    search the string inserted in the text box
                 </h3>
             </td>
             <td>
                 <select required oninvalid="this.setCustomValidity('Please select an item of the list')"
                     oninput="this.setCustomValidity('')" id="selectInfo2">
-                    <option>Choose</option>
+                    <option value="">Choose</option>
                     <option>id</option>
                     <option>data</option>
                     <option>name</option>
@@ -146,6 +151,8 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
     <script>
+
+        document.getElementById("input1").addEventListener("click", clearInput);
 
         function query1() {
 
@@ -193,9 +200,16 @@
                     alert("Query error!");
                 }
             });
+
+            reinitializationDropDownMenu("selectInfo");
         }
 
         function query2() {
+
+            if (document.getElementById("input1").value === "") {
+                alert('String to search not inserted');
+                return;
+            }
 
             $.ajax({
                 type: "POST",
@@ -206,18 +220,28 @@
                     string2: document.getElementById("input1").value
                 },
                 success: function (queryResults) {
+
                     document.getElementById("tableResults").innerHTML = "";
                     queryResults = queryResults.slice(1, queryResults.length - 1);
                     var array_results = queryResults.split(",");
-                    array_results.forEach(element => {
+                    /*array_results.forEach(element => {
                         document.getElementById("tableResults").innerHTML = document.getElementById("tableResults").innerHTML + "<br>" + element;
-                    })
+                    })*/
+
+                    for (i = 0; i < array_results.length; i++) {
+                        var tr = document.createElement("tr");
+                        var td = document.createElement("td");
+                        td.appendChild(document.createTextNode(array_results[i]));
+                        tr.appendChild(td);
+                        tableResults.appendChild(tr);
+                    };
 
                 },
                 error: function () {
                     alert("Query error!");
                 }
             })
+            reinitializationDropDownMenu("selectInfo2");
         }
 
         function splitString(queryResults) {
@@ -255,10 +279,18 @@
 
         }
 
+        function reinitializationDropDownMenu(id) {
+            $("#" + id).empty().append('<option value="">Choose</option>').append('<option>id</option>').append('<option>data</option>').
+                append('<option>name</option>').append('<option>comment</option>').append('<option>reference</option>').
+                append('<option>formula</option>').append('<option>example</option>').append('<option>xref</option>');
+        }
+
+        function clearInput() {
+            document.getElementById("input1").value = "";
+        }
+
     </script>
 
 </body>
-
-
 
 </html>
