@@ -68,10 +68,6 @@
         </b>
     </h3>
 
-    <!--div id="queryResults">
-        
-    </div>-->
-
     <table id="tableResults" border=1>
 
     </table>
@@ -157,25 +153,40 @@
         function splitString(queryResults) {
 
             var array_results = [];
-            queryResults = queryResults.slice(1, queryResults.length - 1);
             var finish = false;
             var y = 0;
+            var i = 2;
 
-            for (i = 0; i < queryResults.length; i++) {
+            while (i < queryResults.length) {
                 if (queryResults[i] === "i" && queryResults[i + 1] === "d" && queryResults[i + 2] === ":") {
                     finish = false;
-                    y = i + 2;
-                    while (!finish) {
+                    y = i + 3;
+                    while (!finish && y < queryResults.length) {
                         if (queryResults[y] === "i" && queryResults[y + 1] === "d" && queryResults[y + 2] === ":") {
                             array_results.push(queryResults.substring(i + 3, i + 10));
                             array_results.push(queryResults.substring(i + 13, y - 3));
                             finish = true;
-                            y = y + 2;
                         } else {
                             y++;
                         }
                     }
                     i = y;
+                }
+                else {
+                    i++;
+                }
+            }
+
+            var k = y - 3;
+            var last = false;
+
+            while(!last) {
+                if (queryResults[k] === "i" && queryResults[k + 1] === "d" && queryResults[k + 2] === ":") {
+                    array_results.push(queryResults.substring(k + 3, k + 10));
+                    array_results.push(queryResults.substring(k + 13, queryResults.length - 2));
+                    last = true;
+                } else {
+                    k--;
                 }
             }
 
