@@ -7,7 +7,6 @@
     </title>
 
     <style>
-
         input.text {
             width: 100px;
             height: auto;
@@ -27,37 +26,102 @@
 
         }
 
+        legend {
+            display: inline-block;
+            width: auto;
+        }
+
+        fieldset {
+            display: inline-block;
+            border: 2px black solid;
+            width: auto;
+            height: auto;
+            position: relative;
+            bottom: 42px;
+            left: 30px;
+            margin-left: 0.5x;
+            margin-right: 0.5px;
+        }
+
         #queryResults {
             height: auto;
         }
-        
     </style>
 
 </head>
 
 <body>
 
-    <table>
+    <table cellspacing=4>
         <tr>
             <td>
-                Select the information of interest of a sequence from those in the drop-down menu
+                <h3>
+                    Select from those in the drop-down menù which
+                    <br>
+                    information of the fetched sequences shows
+                </h3>
             </td>
+            <br>
             <td>
-                <input class="text" type="text" id="input1">
+                <select required oninvalid="this.setCustomValidity('Please select an item of the list')"
+                    oninput="this.setCustomValidity('')" id="selectInfo">
+                    <option>Choose</option>
+                    <option>id</option>
+                    <option>data</option>
+                    <option>name</option>
+                    <option>comment</option>
+                    <option>reference</option>
+                    <option>formula</option>
+                    <option>example</option>
+                    <option>xref</option>
+                </select>
             </td>
             <td>
                 <input class="button" type="submit" value="Query 1" onclick="javascript: query1()">
             </td>
+            <td rowspan="2">
+                <fieldset>
+                    <legend>
+                        <h3><b>Legend</b></h3>
+                    </legend>
+                    Possible informations to show: <br>
+                    <ul>
+                        <li><b>Id:</b> id of a sequence </li>
+                        <li><b>Data</b>: the numbers which belong to a sequence</li>
+                        <li><b>Name</b>: name of a sequence</li>
+                        <li><b>Comment</b>: informations about a sequence and <br> her relationships with other sequences</li>
+                        <li><b>Reference</b>: references to printed documents (books, papers)</li>
+                        <li><b>Formula</b>: formulas, recurrences, generating functions for a sequence</li>
+                        <li><b>Example</b>: some examples of sequence member values</li>
+                        <li><b>XRef</b>: which sequences are related to a sequence </li>
+                    </ul>
+                </fieldset>
+            </td>
         </tr>
         <tr>
             <td>
-                Select the information of interest of a sequence in the first drop-down menù.
-                <br>
-                Select from the secondo drop-down menù the string to search inside the information of interest.
+                <h3>
+                    Select the information from those in the drop-down
+                    <br>
+                    menù of the fetched sequences in which
+                    <br>
+                    search the string inserted in the text box.
+                </h3>
             </td>
             <td>
-                <input class="text" type="text" id="input2">
-                <input class="text" type="text" id="input3">
+                <select required oninvalid="this.setCustomValidity('Please select an item of the list')"
+                    oninput="this.setCustomValidity('')" id="selectInfo2">
+                    <option>Choose</option>
+                    <option>id</option>
+                    <option>data</option>
+                    <option>name</option>
+                    <option>comment</option>
+                    <option>reference</option>
+                    <option>formula</option>
+                    <option>example</option>
+                    <option>xref</option>
+                </select>
+                <input class="text" type="text" id="input1">
             </td>
             <td>
                 <input class="button" type="submit" value="Query 2" onclick="javascript: query2()">
@@ -120,7 +184,7 @@
                 url: "https://localhost/tesi-magistrale/genericQuery.php",
                 async: false,
                 data: {
-                    string: document.getElementById("input1").value
+                    string: document.getElementById("selectInfo").value
                 },
                 success: function (queryResults) {
 
@@ -130,7 +194,7 @@
                         tableResults.removeChild(tableResults.firstChild);
                     }
 
-                    var input = document.getElementById("input1").value;
+                    var input = document.getElementById("selectInfo").value;
 
                     if (input === "query" || input === "id") {
                         queryResults = queryResults.slice(1, queryResults.length - 1);
@@ -194,8 +258,8 @@
                 url: "https://localhost/tesi-magistrale/queryStringInName.php",
                 async: false,
                 data: {
-                    string1: document.getElementById("input2").value,
-                    string2: document.getElementById("input3").value
+                    string1: document.getElementById("selectInfo2").value,
+                    string2: document.getElementById("input1").value
                 },
                 success: function (queryResults) {
                     document.getElementById("queryResults").innerHTML = "";
