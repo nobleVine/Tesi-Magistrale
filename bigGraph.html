@@ -115,6 +115,7 @@
     <script src="libraries\sigma\plugins\sigma.layout.noverlap\sigma.layout.noverlap.js"></script>
     <script src="libraries\sigma\plugins\sigma.plugins.animate\sigma.plugins.animate.js"></script>
     <script src="libraries/sigma/plugins/sigma.plugins.dragNodes/sigma.plugins.dragNodes.js"></script>
+    <script src="take_sequences.js"></script>
 
     <script>
 
@@ -144,9 +145,6 @@
 
         var json_list_initial = sessionStorage.getItem('json_list');
         var json_list = JSON.parse(json_list_initial);
-
-        var take_s = sessionStorage.getItem('take_s');
-        var take_sequences = eval('(' + take_s + ')');
 
         var array_numbers = sessionStorage.getItem('array');
 

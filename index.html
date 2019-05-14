@@ -12,7 +12,6 @@
     <link rel="stylesheet" href="jquery-ui.css">
 
     <style type="text/css">
-    
         body {
             margin: 10;
             background-color: #D3D3D3;
@@ -65,6 +64,13 @@
             font-family: "Comic Sans MS";
         }
 
+        p.nodesClick {
+            font-family: "Comic Sans MS";
+            color: #3d3d29;
+            text-shadow: 7px 7px 7px rgb(122, 122, 82);
+            font-size: 20;
+        }
+
         #graphSection {
             width: 50%;
             height: 80%;
@@ -76,13 +82,6 @@
             background-color: #d6d6c2;
             border-radius: 6px;
             font-style: italic;
-            font-size: 20;
-        }
-
-        #nodesClick {
-            font-family: "Comic Sans MS";
-            color: #3d3d29;
-            text-shadow: 7px 7px 7px rgb(122, 122, 82);
             font-size: 20;
         }
 
@@ -250,6 +249,9 @@
                 <input class="button" type="submit" value="Draw It!" id="buttonDraw3"
                     title="Click here to draw the first node of the incremental graph">
             </form>
+            Left click on a node to show on the drop-down menù its references, to add them to the graph.
+            <br>
+            <br>
             <form action="javascript: addNodeToIncrementalGraph()">
                 <select required oninvalid="this.setCustomValidity('Please select an item of the list')"
                     oninput="this.setCustomValidity('')" id="selectSequences3">
@@ -304,6 +306,9 @@
         </h3>
         <div class="section" id="section7">
             <form action="database.html">
+                Click on the button to go to the html page to run the queries
+                <br>
+                <br>
                 <input class="button" type="submit" value="Go to!" id="buttonDraw5">
             </form>
         </div>
@@ -327,8 +332,8 @@
     <div id="graphSection" style="float: left;">
     </div>
 
-    <p hidden id="nodesClick">Left click on a node to show the associated informations or right click on a node to show
-        the associated xrefs </p>
+    <p class="nodesClick" hidden id="nodesClick">Left click on a node to show the associated informations</p>
+    <p class="nodesClick" hidden id="nodesClick2">Right click on a node to show the associated xrefs </p>
 
     <script src="libraries\build\sigma.min.js"></script>
 
@@ -338,6 +343,16 @@
 
     <script src="libraries/sigma/plugins/sigma.layout.forceAtlas2/supervisor.js"></script>
     <script src="libraries/sigma/plugins/sigma.layout.forceAtlas2/worker.js"></script>
+    <script src="take_sequences.js"></script>
+    <script src="drawSpecializedGraph.js"></script>
+    <script src="showInformation.js"></script>
+    <script src="showXRef.js"></script>
+    <script src="drawFetchedSequencesGraph.js"></script>
+    <script src="numberOfRelatedSequences.js"></script>
+    <script src="downloadSequence.js"></script>
+    <script src="addRemoveNodesToSpecilizedGraph.js"></script>
+    <script src="addRemoveNodesToIncrementalGraph.js"></script>
+    <script src="initializationMenu.js"></script>
 
     <script>
         var array_numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
@@ -346,6 +361,7 @@
         var json_list = [];
         var json_list_support = []; // It'll storage the string with names of json files in the folder fetched.
         var id = 0; // This is useful to storage the id of the last drawed node. 
+        var specGraph = false;
 
         $.ajax({ // This ajax request serves to storage the string with names of json files in the folder fetched.
             type: "POST",
@@ -408,409 +424,6 @@
             maxNodeSize: 6,
         });
 
-        function take_sequences(sequenzaJSON) {
-            xref_list = sequenzaJSON.results[0].xref;
-            if (typeof xref_list !== 'undefined') {
-                let array_sequences = [];
-                for (i = 0; i < xref_list.length; i++) { // Loop that scans xref elements.
-                    element = xref_list[i];
-                    for (j = 0; j < element.length; j++) { // Loop that scans the letters of xref elements.
-                        if (element[j] === "A") { // Each sequences has the form Axxxxxx.
-                            for (v = 0; v < array_numbers.length; v++) {
-                                if (element[j + 1] === array_numbers[v] && element.substring(j, j + 7) !== sequenzaJSON
-                                    .query.substring(3, 11)) {
-                                    array_sequences.push("A" + element.substring(j + 1, j + 7));
-                                    j = j +
-                                        7; // Useful for optimizing the code. If you find a "A", you can jump the next xxxxxx.
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
-                var set_sequences = [...new Set(array_sequences)];
-                return set_sequences;
-            } else {
-                return 'undefined';
-            }
-        }
-
-        sessionStorage.setItem('take_s', take_sequences.toString());
-
-        function drawSpecializedGraph() {
-
-            s.graph.clear();
-
-            var present = false;
-
-            // Common listeners.
-            initializationCommonListeners();
-
-            // Specialized listeners.
-            document.getElementById("startingSequence").addEventListener("click", clearInput);
-
-            sequence = document.getElementById("startingSequence").value;
-            nodesToAdd = document.getElementById("numberOfNodes").value;
-
-            if (sequence === "" && nodesToAdd === "") {
-                alert("Both the starting sequence and the number of nodes not inserted");
-                return;
-            } else if (sequence === "") {
-                alert("There is no sequence inserted");
-                return;
-            } else if (nodesToAdd === "") {
-                alert("Number of nodes not inserted");
-                return;
-            }
-
-            json_list.forEach(element => {
-                if (element.query.substring(3, 11) === sequence) {
-                    s.graph.addNode({
-                        id: '' + sequence,
-                        label: '' + sequence,
-                        x: 1,
-                        y: 1,
-                        size: 5
-                    });
-                    initial_sequence = element;
-                    present = true;
-                    return;
-                }
-            });
-
-            if (typeof initial_sequence === 'undefined' || present === false) {
-                alert("The sequence " + sequence + " has not been fetched!");
-                return;
-            }
-
-            let nodes_list = take_sequences(initial_sequence);
-
-            if (nodesToAdd > nodes_list.length) {
-                alert("The maximum number of nodes that can be requested is " + nodes_list.length);
-            } else {
-                for (i = 0; i < nodesToAdd; i++) {
-                    var theta = i * 2 * Math.PI / nodesToAdd;
-                    s.graph.addNode({
-                        id: '' + nodes_list[i],
-                        label: '' + nodes_list[i],
-                        x: 10 * Math.sin(theta),
-                        y: 10 * Math.cos(theta),
-                        size: 3
-                    }).addEdge({
-                        id: 'e' + s.graph.edges().length,
-                        source: '' + sequence,
-                        target: '' + nodes_list[i],
-                        size: 3
-                    });
-                }
-                s.refresh();
-                document.getElementById("nodesClick").style.display = "block";
-                showXref();
-                optionsInitializationAddNodes();
-                optionsInitializationRemoveNodes();
-            }
-        }
-
-        function showInformation() { // This function shows informations about the selected sequence.
-
-            s.bind("clickNode", function (e) {
-
-                $("#accordion2").accordion({ // This is the accordion where informations'll shown.
-                    collapsible: true,
-                    heightStyle: "content",
-                    active: 0
-                });
-
-                document.getElementById("accordion2").style.display = "block";
-                document.getElementById("Title1").innerHTML = "Sequence Name and Recurrence Function";
-                document.getElementById("Title2").innerHTML = "Sequence Number";
-
-                entered = false;
-
-                json_list.forEach(element => {
-                    if (e.data.node.label === element.query.substring(3, 11)) {
-                        document.getElementById("sequenceName").innerHTML = element.query.substring(3,
-                            11) + "<br>" + element.results[0].name;
-                        document.getElementById("sequenceNumber").innerHTML = element.results[0].data;
-                        entered = true;
-                        return;
-                    }
-                });
-
-                if (!entered) {
-                    alert("The clicked sequence " + e.data.node.label + " has not been fetched");
-                    document.getElementById("accordion2").style.display = "none";
-                    document.getElementById("nodesClick").style.display = "block";
-                }
-
-            });
-
-        }
-
-        function hideHelp() {
-            s.bind("clickNode", function () {
-                document.getElementById("nodesClick").style.display = "none";
-            });
-        }
-
-        function showXref() {
-
-            var nodes_added = [];
-
-            s.bind('rightClickNode', function (e) {
-
-                fetched = false;
-
-                for (f = 0; f < nodes_added.length; f++) {
-                    s.graph.dropNode(nodes_added[f]);
-                }
-
-                s.graph.nodes().forEach(element => {
-                    element.color = "#007fff";
-                    element.size = 3;
-                });
-
-                s.graph.edges().forEach(element => {
-                    element.color = "#000000";
-                    element.size = 3;
-                });
-
-                nodes_added = [];
-
-                for (w = 0; w < json_list.length; w++) {
-                    if (e.data.node.id === json_list[w].query.substring(3, 11) && typeof json_list[w].results[0].xref !== 'undefined') {
-                        xref = take_sequences(json_list[w]);
-                        fetched = true;
-                        break;
-                    }
-                }
-
-                if (!fetched) {
-                    alert('The sequence ' + e.data.node.id + ' is not fetched');
-                    return;
-                }
-
-                var angle = 5;
-
-                for (i = 0; i < xref.length; i++) {
-                    var theta = angle * 2 * Math.PI / xref.length;
-                    try {
-                        s.graph.nodes(e.data.node.id).color = "#ff0000";
-                        s.graph.nodes(e.data.node.id).size = 6;
-
-                        s.graph.addNode({
-                            id: xref[i],
-                            label: '' + xref[i],
-                            x: 20 * Math.sin(theta),
-                            y: 20 * Math.cos(theta),
-                            size: 6,
-                            color: "#0a0a0a"
-                        }).addEdge({
-                            id: 'e' + s.graph.edges().length,
-                            source: '' + e.data.node.id,
-                            target: '' + xref[i],
-                            size: 20,
-                            color: "#0a0a0a"
-                        });
-                        nodes_added.push(xref[i]);
-                    }
-                    catch (error) {
-                        s.graph.nodes(xref[i]).color = "#0a0a0a";
-                        s.graph.nodes(xref[i]).size = 6;
-                        s.graph.edges().forEach(element => {
-                            if (element.source === e.data.node.id) {
-                                element.size = 20;
-                                element.color = "#0a0a0a"
-                            }
-                        })
-                        console.log("Node " + xref[i] + " already exists");
-                    }
-                    angle = angle + 0.2;
-                }
-                s.refresh();
-            });
-
-        }
-
-        function getRandomArbitrary(min, max) {
-            return Math.random() * (max - min) + min;
-        }
-
-        function drawFetchedSequencesGraph() {
-
-            s.graph.clear();
-
-            // Common listeners.
-            initializationCommonListeners();
-
-            // Specialized listeners.
-            document.getElementById("numberOfNodes2").addEventListener("click", clearInput);
-
-            nodesToShow = document.getElementById("numberOfNodes2").value;
-
-            if (nodesToShow > 100) {
-                alert("Insert a number of nodes less or equal than 100");
-                return;
-            }
-
-            if (nodesToShow > json_list.length) {
-                alert("The maximum possible number of nodes that you can inserted is " + json_list.length);
-                return;
-            }
-
-            if (nodesToShow === "") {
-                alert("Number of nodes not inserted");
-                return;
-            }
-
-            var list_refs = [];
-
-            for (z = 0; z < nodesToShow; z++) {
-                seq = take_sequences(json_list[z]);
-                if (typeof seq !== 'undefined') {
-                    list_refs.push(seq);
-                }
-            }
-            sessionStorage.setItem('list_refs', list_refs);
-
-
-            for (i = 0; i < nodesToShow; i++) {
-                var theta = i * 2 * Math.PI / nodesToShow;
-                s.graph.addNode({
-                    id: '' + json_list[i].query.substring(3, 11),
-                    label: '' + json_list[i].query.substring(3, 11),
-                    x: 10 * Math.cos(theta),
-                    y: 10 * Math.sin(theta),
-                    size: 1
-                });
-            }
-
-            for (i = 0; i < nodesToShow; i++) {
-                for (j = 0; j < list_refs[i].length; j++) {
-                    for (k = 0; k < nodesToShow; k++) {
-                        if (list_refs[i][j] === json_list[k].query.substring(3, 11) && (i !== k)) {
-                            s.graph.addEdge({
-                                id: 'e' + '(' + i + ',' + k + ')',
-                                source: '' + json_list[i].query.substring(3, 11),
-                                target: '' + json_list[k].query.substring(3, 11),
-                                size: 1
-                            });
-                        }
-                    }
-                }
-            }
-
-            list_edges = s.graph.edges();
-
-            for (q = 0; q < list_edges.length; q++) {
-                for (p = q + 1; p < list_edges.length; p++) {
-                    if ((list_edges[q].source === list_edges[p].target) && (list_edges[q].target === list_edges[p]
-                        .source)) {
-                        s.graph.dropEdge(list_edges[p].id);
-                    }
-                }
-            }
-
-            s.refresh();
-            document.getElementById("nodesClick").style.display = "block";
-
-            var layout = document.getElementById("selectLayout").value;
-
-            if (layout === "Force Layout") {
-
-                configuration = {
-                    scalingRatio: 100000,
-                    outboundAttractionDistribution: false,
-                    startingIterations: 10,
-                    edgeWeightInfluence: 0
-                }
-
-                s.startForceAtlas2();
-                window.setTimeout(function () { s.killForceAtlas2() }, 500);
-            }
-
-            $("#selectLayout").empty().append('<option value="">Choose</option>').append('<option>Circle Layout</option>').append('<option>Force Layout</option>');
-
-        }
-
-        function numberOfRelatedSequences() {
-
-            // Common listeners.
-            initializationCommonListeners();
-
-            // Specialized listeners.
-            document.getElementById("sequence").addEventListener("click", clearInput);
-
-            sequenceToEvaluate = document.getElementById("sequence").value;
-
-            if (sequenceToEvaluate === "") {
-                alert("There is no sequence inserted");
-                return;
-            }
-
-            var numberOfReferences = 0;
-
-            if (s.graph.nodes().length === 0) {
-                alert("You have to draw the graph first!");
-                return;
-            }
-
-            s.graph.edges().forEach(element => {
-                element.color = "#000000"; // Edges color reinitialization.
-                if (element.source === sequenceToEvaluate || element.target === sequenceToEvaluate)
-                    numberOfReferences = numberOfReferences + 1;
-            });
-
-            if (numberOfReferences === 0) {
-                var here = false;
-                s.graph.nodes().forEach(element => {
-                    if (element.id === sequenceToEvaluate) {
-                        element.color = "#ff0000";
-                        here = true;
-                        return;
-                    }
-                });
-                if (here) {
-                    alert("The selected sequence is present in the graph but it hasn't references");
-                } else {
-                    alert("The selected sequence is not present in the graph");
-                }
-                document.getElementById("result").value = 0;
-                s.refresh();
-                return;
-            }
-
-            s.graph.nodes().forEach(element => {
-                if (element.id === sequenceToEvaluate) {
-                    element.color = "#ff0000";
-                    element.size = 2;
-                } else {
-                    element.size = 1;
-                    element.color = "#007fff";
-                }
-            });
-
-            document.getElementById("result").value = numberOfReferences;
-
-            s.graph.edges().forEach(element => { //First of all, we have to draw the edges to hide.
-                if (element.source !== sequenceToEvaluate && element.target !== sequenceToEvaluate) {
-                    element.color = "#b3b3b3";
-                } else {
-                    s.graph.dropEdge(element.id);
-                    s.graph.addEdge(element);
-                }
-            });
-
-            /* And then, we have to draw the edges to show and highlight.
-             * step 1: draw all edges to highlight and save them.
-             * step 2: redraw the edges to highlight, and now we don't have problems with the overlap.
-             */
-
-            s.refresh();
-
-            document.getElementById("nodesClick").style.display = "block";
-        }
-
         function clearInput() {
             document.getElementById("sequence").value = "";
             document.getElementById("result").value = "";
@@ -827,323 +440,6 @@
 
         sigma.plugins.dragNodes(s, s.renderers[
             0]); // This statement allows to do drag and drops with nodes of every drawed graph.
-
-        function optionsInitializationAddNodes() {
-
-            current_sequence = document.getElementById("startingSequence")
-                .value; // current_sequence = sequence written in the input text.
-            nodesToAdd_current = document.getElementById("numberOfNodes").value;
-
-            var nodes_list = [];
-
-            json_list.forEach(element => {
-                if (element.query.substring(3, 11) === current_sequence) {
-                    nodes_list = take_sequences(element);
-                    return;
-                }
-            });
-
-            var options = [];
-
-            for (f = nodesToAdd_current; f < nodes_list.length; f++) {
-                options.push(nodes_list[f]);
-            }
-
-            initializationMenu("selectSequences", options);
-
-        }
-
-        function addNodeToSpecializedGraph() {
-
-            if (s.graph.edges().length === 0) {
-                alert("You have to draw the graph first!");
-                return;
-            }
-
-            var sequenceToDraw = document.getElementById("selectSequences").value;
-
-            s.graph.addNode({
-                id: '' + sequenceToDraw,
-                label: '' + sequenceToDraw,
-                size: 3
-            }).addEdge({
-                id: 'e' + document.getElementById("startingSequence").value + sequenceToDraw,
-                source: '' + document.getElementById("startingSequence").value,
-                target: '' + sequenceToDraw,
-                size: 3
-            });
-
-            s.graph.nodes().forEach(function (element, k) {
-                if (k === 0) {
-                    s.graph.nodes()[0].x = 1;
-                    s.graph.nodes()[0].y = 1;
-                } else {
-                    var theta = k * 2 * Math.PI / (s.graph.nodes().length - 1);
-                    element.x = 10 * Math.sin(theta);
-                    element.y = 10 * Math.cos(theta);
-                }
-            });
-
-            s.refresh();
-
-            removeForAdd("selectSequences", "selectSequences2", sequenceToDraw);
-
-        }
-
-        function optionsInitializationRemoveNodes() {
-
-            current_sequence = document.getElementById("startingSequence").value;
-            showedNodes_current = document.getElementById("numberOfNodes").value;
-
-            var nodes_list = [];
-
-            json_list.forEach(element => {
-                if (element.query.substring(3, 11) === current_sequence) {
-                    nodes_list = take_sequences(element);
-                    return;
-                }
-            });
-
-            var options = [];
-
-            for (g = 0; g < showedNodes_current; g++) {
-                options.push(nodes_list[g]);
-            }
-
-            initializationMenu("selectSequences2", options);
-
-        }
-
-        function removeNodeToSpecializedGraph() {
-
-            if (s.graph.edges().length === 0) {
-                alert("You have to draw the graph first!");
-                return;
-            }
-
-            var sequenceToRemove = document.getElementById("selectSequences2").value;
-
-            s.graph.dropNode(sequenceToRemove);
-
-            s.graph.nodes().forEach(function (element, k) {
-                if (k === 0) {
-                    s.graph.nodes()[0].x = 1;
-                    s.graph.nodes()[0].y = 1;
-                } else {
-                    var theta = k * 2 * Math.PI / (s.graph.nodes().length - 1);
-                    element.x = 10 * Math.sin(theta);
-                    element.y = 10 * Math.cos(theta);
-                }
-            });
-
-            s.refresh();
-
-            removeForRemove("selectSequences", "selectSequences2", sequenceToRemove);
-
-        }
-
-        function downloadSequence() {
-            var sequenceToFetch = document.getElementById("download").value;
-            $.ajax({
-                type: "GET",
-                url: "https://localhost/tesi-magistrale/fetch.php",
-                async: false,
-                data: {
-                    download: sequenceToFetch
-                },
-                success: function (JSONfile) {
-                    alert("Sequence " + sequenceToFetch + " has been correctly fetched!");
-                    $.ajax({
-                        type: "POST",
-                        url: "https://localhost/materiale_Nocentini/oeis-tools-master/src/fetched/" + sequenceToFetch + ".json",
-                        async: false,
-                        success: function (fileJSON) {
-                            json_list.push(fileJSON);
-                        },
-                        error: function () {
-                            alert("Error in json_list construction");
-                        }
-                    });
-                },
-                error: function () {
-                    alert("Error in the fetch of the sequence!");
-                }
-            });
-        }
-
-        function drawIncrementalGraph() {
-
-            s.graph.clear();
-
-            // Common listeners.
-            initializationCommonListeners();
-
-            // Specialized listeners.
-            document.getElementById("initialSequence").addEventListener("click", clearInput);
-
-            var initial_sequence = document.getElementById("initialSequence").value;
-
-            if (initial_sequence === "") {
-                alert("There is no sequence inserted");
-                return;
-            }
-
-            s.graph.addNode({
-                id: '' + initial_sequence,
-                label: '' + initial_sequence,
-                x: 1,
-                y: 1,
-                size: 5
-            });
-
-            s.refresh();
-
-            s.bind("clickNode", function (e) {
-                id = e.data.node.id; // id of the last node clicked.
-                optionsInitializationAddNodesIncremental(id);
-                optionsInitializationRemoveNodesIncremental();
-            })
-        }
-
-        function optionsInitializationAddNodesIncremental(sequence_id) {
-
-            var nodes_list = [];
-
-            json_list.forEach(element => {
-                if (element.query.substring(3, 11) === sequence_id) {
-                    nodes_list = take_sequences(element);
-                    return;
-                }
-            });
-
-            var options = [];
-            var addIt = true;
-
-            for (f = 0; f < nodes_list.length; f++) {
-                s.graph.nodes().forEach(element => {
-                    if (nodes_list[f] === element.id) {
-                        addIt = false;
-                        return;
-                    }
-                });
-                if (addIt) {
-                    options.push(nodes_list[f]);
-                }
-                addIt = true;
-            }
-
-            initializationMenu("selectSequences3", options);
-
-        }
-
-        function optionsInitializationRemoveNodesIncremental() {
-
-            var options = [];
-
-            for (g = 0; g < s.graph.nodes().length; g++) {
-                options.push(s.graph.nodes()[g].id);
-            }
-
-            initializationMenu("selectSequences4", options);
-
-        }
-
-        function addNodeToIncrementalGraph() {
-
-            if (s.graph.nodes().length === 0) {
-                alert("You have to draw the graph first!");
-                return;
-            }
-
-            var sequenceToDraw = document.getElementById("selectSequences3").value;
-
-            s.graph.addNode({
-                id: '' + sequenceToDraw,
-                label: '' + sequenceToDraw,
-                size: 3,
-                x: Math.round(getRandomArbitrary(0, 10000)),
-                y: Math.round(getRandomArbitrary(0, 10000))
-            }).addEdge({
-                id: 'e' + id + sequenceToDraw,
-                source: '' + id,
-                target: '' + sequenceToDraw,
-                size: 3
-            });
-
-            s.refresh();
-
-            removeForAdd("selectSequences3", "selectSequences4", sequenceToDraw);
-
-        }
-
-        function removeNodeToIncrementalGraph() {
-
-            if (s.graph.nodes().length === 0) {
-                alert("You have to draw the graph first!");
-                return;
-            }
-
-            var sequenceToRemove = document.getElementById("selectSequences4").value;
-
-            s.graph.dropNode(sequenceToRemove);
-
-            s.refresh();
-
-            removeForRemove("selectSequences3", "selectSequences4", sequenceToRemove);
-
-        }
-
-        function removeForAdd(idselect1, idselect2, sequenceToDraw) {
-
-            var select = document.getElementById(idselect1);
-            var select2 = document.getElementById(idselect2);
-
-            for (i = 0; i < select.options.length; i++) { // Removal of the added sequence.
-                if (select.options[i].value === sequenceToDraw) {
-                    var option = select.options[i].value;
-                    select.options[i] = null; // Update of the add menù.
-                    var optionHTML = document.createElement("option");
-                    optionHTML.textContent = option;
-                    optionHTML.value = option;
-                    select2.appendChild(optionHTML); //Update of remove menù
-                    break;
-                }
-            }
-        }
-
-        function removeForRemove(idSelect3, idSelect4, sequenceToRemove) {
-
-            var select = document.getElementById(idSelect3);
-            var select2 = document.getElementById(idSelect4);
-
-            for (i = 0; i < select2.options.length; i++) { // Removal of the selected sequence.
-                if (select2.options[i].value === sequenceToRemove) {
-                    var option2 = select2.options[i].value;
-                    select2.options[i] = null; // Update of the remove menù.
-                    var optionHTML2 = document.createElement("option");
-                    optionHTML2.textContent = option2;
-                    optionHTML2.value = option2;
-                    select.appendChild(optionHTML2); //Update of the add menù
-                    break;
-                }
-            }
-        }
-
-        function initializationMenu(idSelect, options) {
-
-            $("#" + idSelect).empty().append('<option value="">Choose</option>');
-
-            var select = document.getElementById(idSelect);
-
-            for (d = 0; d < options.length; d++) {
-                var option = options[d];
-                var optionHTML = document.createElement("option");
-                optionHTML.textContent = option;
-                optionHTML.value = option;
-                select.appendChild(optionHTML);
-            }
-
-        }
 
         function initializationCommonListeners() {
             document.getElementById("buttonDraw").addEventListener("click", hideAccordion);
