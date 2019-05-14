@@ -9,7 +9,7 @@ $query_result = mysqli_query($connectionToDB, $sql_query);
 
 $r = array();
 
-while ($row = mysqli_fetch_assoc($query_result)) { // print all results.
+while ($row = mysqli_fetch_assoc($query_result)) {
     array_push($r, $row['query']);
     array_push($r, $row[$column]);
 }
