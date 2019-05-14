@@ -11,7 +11,7 @@ function checkAndSetSingleColumn($checkJson)
     }
 }
 
-function checkAndSetComplexColumn($checkJson)
+function checkAndSetArrayColumn($checkJson)
 {
     if (isset($checkJson)) {
         return "'" . str_replace("'", "\'", implode(",", $checkJson)) . "'";
@@ -27,11 +27,11 @@ foreach ($array_content as $json) {
     $data = checkAndSetSingleColumn($json['results'][0]['data']);
     $name = checkAndSetSingleColumn($json['results'][0]['name']);
 
-    $comment = checkAndSetComplexColumn($json['results'][0]['comment']);
-    $reference = checkAndSetComplexColumn($json['results'][0]['reference']);
-    $formula = checkAndSetComplexColumn($json['results'][0]['formula']);
-    $example = checkAndSetComplexColumn($json['results'][0]['example']);
-    $xref = checkAndSetComplexColumn($json['results'][0]['xref']);
+    $comment = checkAndSetArrayColumn($json['results'][0]['comment']);
+    $reference = checkAndSetArrayColumn($json['results'][0]['reference']);
+    $formula = checkAndSetArrayColumn($json['results'][0]['formula']);
+    $example = checkAndSetArrayColumn($json['results'][0]['example']);
+    $xref = checkAndSetArrayColumn($json['results'][0]['xref']);
 
     $sql = "INSERT INTO json (
                 query,
@@ -57,6 +57,7 @@ foreach ($array_content as $json) {
             )";
 
     mysqli_query($connectionToDB, $sql);
+
 }
 
 echo "<br>" . "Finished population!" . "<br>";
