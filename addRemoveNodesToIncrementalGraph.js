@@ -2,6 +2,8 @@ function drawIncrementalGraph() {
 
     s.graph.clear();
 
+    specGraph = false;
+
     document.getElementById("nodesClick").style.display = "block";
     document.getElementById("nodesClick2").style.display = "none";
 
