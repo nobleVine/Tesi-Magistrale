@@ -1,13 +1,16 @@
 function showXref() {
 
-    var nodes_added = [];
-
     s.bind('rightClickNode', function (e) {
+        console.log(nodes_added);
 
         fetched = false;
 
         for (f = 0; f < nodes_added.length; f++) {
-            s.graph.dropNode(nodes_added[f]);
+            try {
+                s.graph.dropNode(nodes_added[f]);
+            } catch (err) {
+                console.log(err);
+            }
         }
 
         s.graph.nodes().forEach(element => {
@@ -51,7 +54,7 @@ function showXref() {
                     size: 6,
                     color: "#0a0a0a"
                 }).addEdge({
-                    id: 'e' + s.graph.edges().length,
+                    id: 'e' + '(' + e.data.node.id + ',' + xref[i] +')',
                     source: '' + e.data.node.id,
                     target: '' + xref[i],
                     size: 20,
@@ -67,10 +70,13 @@ function showXref() {
                         element.color = "#0a0a0a"
                     }
                 })
-                console.log("Node " + xref[i] + " already exists");
+                console.log(error);
             }
             angle = angle + 0.2;
         }
+
+        console.log(nodes_added);
+
         s.refresh();
     });
 

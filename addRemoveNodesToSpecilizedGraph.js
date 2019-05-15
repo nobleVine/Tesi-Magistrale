@@ -95,6 +95,22 @@ function removeNodeToSpecializedGraph() {
 
     s.graph.dropNode(sequenceToRemove);
 
+    for (i = 0; i < nodes_added.length; i++){
+        s.graph.dropNode(nodes_added[i]);
+    }
+
+    nodes_added = [];
+
+    s.graph.nodes().forEach(element => {
+        element.color = "#007fff";
+        element.size = 3;
+    });
+
+    s.graph.edges().forEach(element => {
+        element.color = "#000000";
+        element.size = 3;
+    });
+
     s.graph.nodes().forEach(function (element, k) {
         if (k === 0) {
             s.graph.nodes()[0].x = 1;
