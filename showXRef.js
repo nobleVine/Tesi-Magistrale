@@ -1,7 +1,6 @@
 function showXref() {
 
     s.bind('rightClickNode', function (e) {
-        console.log(nodes_added);
 
         fetched = false;
 
@@ -60,7 +59,7 @@ function showXref() {
                     size: 20,
                     color: "#0a0a0a"
                 });
-                nodes_added.push(xref[i]);
+                nodes_added.push(xref[i]); // Push for backtrack.
             } catch (error) {
                 s.graph.nodes(xref[i]).color = "#0a0a0a";
                 s.graph.nodes(xref[i]).size = 6;
@@ -75,9 +74,8 @@ function showXref() {
             angle = angle + 0.2;
         }
 
-        console.log(nodes_added);
-
         s.refresh();
+
     });
 
 }

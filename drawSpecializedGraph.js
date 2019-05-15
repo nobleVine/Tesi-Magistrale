@@ -69,7 +69,6 @@ function drawSpecializedGraph() {
         s.refresh();
         document.getElementById("nodesClick").style.display = "block";
         document.getElementById("nodesClick2").style.display = "block"
-        showXref();
         optionsInitializationAddNodes();
         optionsInitializationRemoveNodes();
     }

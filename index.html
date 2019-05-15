@@ -361,8 +361,8 @@
         var json_list = [];
         var json_list_support = []; // It'll storage the string with names of json files in the folder fetched.
         var id = 0; // This is useful to storage the id of the last drawed node. 
-        var specGraph = true;
-        var nodes_added = [];
+        var specGraph = true; // This boolean serves to hide the second part of the helper.
+        var nodes_added = []; // This list serves to record the nodes that are added with showXRef() function.
 
         $.ajax({ // This ajax request serves to storage the string with names of json files in the folder fetched.
             type: "POST",
@@ -401,11 +401,12 @@
             }
         });
 
-        sessionStorage.setItem('json_list', JSON.stringify(json_list));
+        sessionStorage.setItem('json_list', JSON.stringify(json_list)); // This is helpful to storage some variables in the session.
         sessionStorage.setItem('array', array_numbers);
 
         hideHelp();
         showInformation();
+        showXref();
 
         s.settings({
             hoverFont: "Comic Sans MS",
