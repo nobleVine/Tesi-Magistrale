@@ -166,8 +166,7 @@
 
         for (h = 0; h < json_list.length; h++) {
             if (typeof json_list[h].results[0].xref !== 'undefined' && list_refs[h].length > 40) {
-                json_list_reduced.push(json_list[h]);
-                list_refs_reduced.push(list_refs[h]);
+                populateListsForCircles(json_list_reduced, list_refs_reduced, json_list[h], list_refs[h]);
             }
         }
 
@@ -180,8 +179,7 @@
 
         for (h = 0; h < json_list.length; h++) {
             if (typeof json_list[h].results[0].xref !== 'undefined' && list_refs[h].length > 30 && list_refs[h].length <= 40) {
-                json_list_reduced2.push(json_list[h]);
-                list_refs_reduced2.push(list_refs[h]);
+                populateListsForCircles(json_list_reduced2, list_refs_reduced2, json_list[h], list_refs[h]);
             }
         }
 
@@ -194,8 +192,7 @@
 
         for (h = 0; h < json_list.length; h++) {
             if (typeof json_list[h].results[0].xref !== 'undefined' && list_refs[h].length > 20 && list_refs[h].length <= 30) {
-                json_list_reduced3.push(json_list[h]);
-                list_refs_reduced3.push(list_refs[h]);
+                populateListsForCircles(json_list_reduced3, list_refs_reduced3, json_list[h], list_refs[h]);
             }
         }
 
@@ -208,8 +205,7 @@
 
         for (h = 0; h < json_list.length; h++) {
             if (typeof json_list[h].results[0].xref !== 'undefined' && list_refs[h].length > 10 && list_refs[h].length <= 20) {
-                json_list_reduced4.push(json_list[h]);
-                list_refs_reduced4.push(list_refs[h]);
+                populateListsForCircles(json_list_reduced4, list_refs_reduced4, json_list[h], list_refs[h]);
             }
         }
 
@@ -222,8 +218,7 @@
 
         for (h = 0; h < json_list.length; h++) {
             if (typeof json_list[h].results[0].xref !== 'undefined' && list_refs[h].length <= 10 && list_refs[h].length > 5) {
-                json_list_reduced5.push(json_list[h]);
-                list_refs_reduced5.push(list_refs[h]);
+                populateListsForCircles(json_list_reduced5, list_refs_reduced5, json_list[h], list_refs[h]);
             }
         }
 
@@ -236,8 +231,7 @@
 
         for (h = 0; h < json_list.length; h++) {
             if (typeof json_list[h].results[0].xref !== 'undefined' && list_refs[h].length <= 5) {
-                json_list_reduced6.push(json_list[h]);
-                list_refs_reduced6.push(list_refs[h]);
+                populateListsForCircles(json_list_reduced6, list_refs_reduced6, json_list[h], list_refs[h]);
             }
         }
 
@@ -250,8 +244,7 @@
 
         for (h = 0; h < json_list.length; h++) {
             if (typeof json_list[h].results[0].xref === 'undefined') {
-                json_list_reduced7.push(json_list[h]);
-                list_refs_reduced7.push(list_refs[h]);
+                populateListsForCircles(json_list_reduced7, list_refs_reduced7, json_list[h], list_refs[h]);
             }
         }
 
@@ -377,7 +370,7 @@
 
         }
 
-        function getStrip(strip, stripNumber, j_reduced, r_reduced, j_edges, r_edges) {
+        function getStrip(strip, stripNumber, j_reduced, r_reduced, j_edges, r_edges) { // We use this function to populate the list used to draw the edges.
             if (strip === stripNumber) {
                 j_reduced.forEach(element => {
                     j_edges.push(element);
@@ -411,7 +404,7 @@
             for (i = 0; i < json_list_strip_start.length; i++) {
                 for (j = 0; j < list_refs_strip_start[i].length; j++) {
                     for (k = 0; k < json_list_strip_end.length; k++) {
-                        if (list_refs_strip_start[i][j] === json_list_strip_end[k].query.substring(3, 11) && (i !== k)) {
+                        if (list_refs_strip_start[i][j] === json_list_strip_end[k].query.substring(3, 11) && (json_list_strip_start[i].query.substring(3, 11) !== json_list_strip_end[k].query.substring(3, 11))) {
                             try {
                             s.graph.addEdge({
                                 id: 'e' + '(' + json_list_strip_start[i].query.substring(3, 11) + ',' + json_list_strip_end[k].query.substring(3, 11) + ')',
@@ -426,6 +419,11 @@
                     }
                 }
             }
+        }
+
+        function populateListsForCircles(jsonListReduced, listRefsReduced, jl, lr) {
+            jsonListReduced.push(jl);
+            listRefsReduced.push(lr);
         }
 
         getNodesOverlap(5);
