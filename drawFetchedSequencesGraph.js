@@ -52,9 +52,9 @@ function drawFetchedSequencesGraph() {
     for (i = 0; i < nodesToShow; i++) {
         for (j = 0; j < list_refs[i].length; j++) {
             for (k = 0; k < nodesToShow; k++) {
-                if (list_refs[i][j] === json_list[k].query.substring(3, 11) && (i !== k)) {
+                if (list_refs[i][j] === json_list[k].query.substring(3, 11) && (json_list[i].query.substring(3, 11) !== json_list[k].query.substring(3, 11))) {
                     s.graph.addEdge({
-                        id: 'e' + '(' + i + ',' + k + ')',
+                        id: 'e' + '(' + json_list[i].query.substring(3, 11) + ',' + json_list[k].query.substring(3, 11) + ')',
                         source: '' + json_list[i].query.substring(3, 11),
                         target: '' + json_list[k].query.substring(3, 11),
                         size: 1
