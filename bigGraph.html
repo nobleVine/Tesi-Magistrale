@@ -134,6 +134,8 @@
             defaultHoverLabelBGColor: "#ffffff",
             defaultLabelColor: "#F70611",
             labelHoverShadowColor: "#000099",
+            defaultEdgeColor: "#000000",
+            edgeColor: "default",
             labelThreshold: 100,
             enableCamera: true,
             enableEdgeHovering: true,
@@ -143,7 +145,7 @@
 
         var list_refs = [];
 
-        var json_list_initial = sessionStorage.getItem('json_list');
+        var json_list_initial = sessionStorage.getItem('json_list'); // This statement serves to get some variables saved in the session.
         var json_list = JSON.parse(json_list_initial);
 
         var array_numbers = sessionStorage.getItem('array');
@@ -319,12 +321,11 @@
                     for (p = q + 1; p < list_edges.length; p++) {
                         if ((list_edges[q].source === list_edges[p].target) && (list_edges[q].target === list_edges[p].source)) {
                             s.graph.dropEdge(list_edges[p].id);
-
                         }
                     }
                 }
 
-                s.graph.nodes().forEach(element => {
+                s.graph.nodes().forEach(element => { // Nodes opacification
 
                     var contOk = 0;
 
@@ -352,7 +353,7 @@
 
             } else {
 
-                alert("The value of first and secondo stripe have to be between 1 and 7 (both included)");
+                alert("The value of first and second stripe have to be between 1 and 7 (both included)");
 
             }
 
@@ -411,13 +412,13 @@
                         if (list_refs_strip_start[i][j] === json_list_strip_end[k].query.substring(3, 11) && (i !== k)) {
                             try {
                             s.graph.addEdge({
-                                id: 'e' + '(' + i + ',' + k + ')',
+                                id: 'e' + '(' + json_list_strip_start[i].query.substring(3, 11) + ',' + json_list_strip_end[k].query.substring(3, 11) + ')',
                                 source: '' + json_list_strip_start[i].query.substring(3, 11),
                                 target: '' + json_list_strip_end[k].query.substring(3, 11),
                                 size: 1,
                             });
                             } catch(error) {
-                                console.log('e' + '(' + i + ',' + k + ')' + ' already exists');
+                                console.log(error);
                             }
                         }
                     }
