@@ -1,10 +1,10 @@
 function take_sequences(sequenzaJSON) {
-    xref_list = sequenzaJSON.results[0].xref;
+    xref_list = sequenzaJSON.results[0].xref; //is a list of string, separated by a comma
     if (typeof xref_list !== 'undefined') {
         let array_sequences = [];
-        for (i = 0; i < xref_list.length; i++) { // Loop that scans xref elements.
+        for (i = 0; i < xref_list.length; i++) { // Loop that scans xref elements, every single string.
             element = xref_list[i];
-            for (j = 0; j < element.length; j++) { // Loop that scans the letters of xref elements.
+            for (j = 0; j < element.length; j++) { // Loop that scans the letters of xref elements (of the single string).
                 if (element[j] === "A") { // Each sequences has the form Axxxxxx.
                     for (v = 0; v < array_numbers.length; v++) {
                         if (element[j + 1] === array_numbers[v] && element.substring(j, j + 7) !== sequenzaJSON

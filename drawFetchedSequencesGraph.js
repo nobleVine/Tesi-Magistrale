@@ -66,7 +66,7 @@ function drawFetchedSequencesGraph() {
 
     list_edges = s.graph.edges();
 
-    for (q = 0; q < list_edges.length; q++) {
+    for (q = 0; q < list_edges.length; q++) {  //double for to remove the duplicate edges (edges which have the same source and target nodes)
         for (p = q + 1; p < list_edges.length; p++) {
             if ((list_edges[q].source === list_edges[p].target) && (list_edges[q].target === list_edges[p]
                     .source)) {
