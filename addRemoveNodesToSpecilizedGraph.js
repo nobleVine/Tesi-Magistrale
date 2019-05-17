@@ -45,7 +45,7 @@ function addNodeToSpecializedGraph() {
 
     s.graph.nodes().forEach(function (element, k) {
         if (k === 0) {
-            s.graph.nodes()[0].x = 1;
+            s.graph.nodes()[0].x = 1; // It is already added, we have only to specify the coordinates.
             s.graph.nodes()[0].y = 1;
         } else {
             var theta = k * 2 * Math.PI / (s.graph.nodes().length - 1);
@@ -113,7 +113,7 @@ function removeNodeToSpecializedGraph() {
 
     s.graph.nodes().forEach(function (element, k) {
         if (k === 0) {
-            s.graph.nodes()[0].x = 1;
+            s.graph.nodes()[0].x = 1; // It is already added, we have only to specify the coordinates.
             s.graph.nodes()[0].y = 1;
         } else {
             var theta = k * 2 * Math.PI / (s.graph.nodes().length - 1);

@@ -31,7 +31,7 @@ function drawIncrementalGraph() {
     s.refresh();
 
     s.bind("clickNode", function (e) {
-        id = e.data.node.id; // id of the last node clicked.
+        id = e.data.node.id; // id of the last clicked node.
         optionsInitializationAddNodesIncremental(id);
         optionsInitializationRemoveNodesIncremental();
     })

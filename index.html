@@ -1,7 +1,13 @@
 <html>
 
 <head>
+
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- The meta tag gives to browser instructions on how to control the page's dimensions and scaling.
+        The width=device-width part sets the width of the page to follow the screen-width of the device (which will vary depending on the device).
+        The initial-scale=1.0 part sets the initial zoom level when the page is first loaded by the browser.
+    -->
 
     <title>
         Graph Visualization
@@ -12,12 +18,13 @@
     <link rel="stylesheet" href="jquery-ui.css">
 
     <style type="text/css">
+
         body {
             margin: 10;
             background-color: #D3D3D3;
         }
 
-        div.accordion {
+        div.accordion { /* css class syntax: the name class is accordion and its type is div */
             width: 25%;
         }
 
@@ -101,9 +108,9 @@
     <script>
         $(function () {
             $("#accordion").accordion({
-                collapsible: true,
-                heightStyle: "content",
-                active: false
+                collapsible: true, // This is useful to close the sections.
+                heightStyle: "content", // The height of the sections depends of the section content.
+                active: false // The accordion starts opened.
             });
         });
     </script>
@@ -112,7 +119,7 @@
 
 <body>
     <center>
-        <font size="10" color="Black" style="text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;">
+        <font size="10" color="Black" style="text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;"> <!-- w3schools -->
             Interactive Graph
         </font>
         <br>

@@ -28,7 +28,7 @@ function showInformation() { // This function shows informations about the selec
             alert("The clicked sequence " + e.data.node.label + " has not been fetched");
             document.getElementById("accordion2").style.display = "none";
             document.getElementById("nodesClick").style.display = "block";
-            if(specGraph === true){
+            if (specGraph === true) {
                 document.getElementById("nodesClick2").style.display = "block";
             }
         }
@@ -42,4 +42,5 @@ function hideHelp() {
         document.getElementById("nodesClick").style.display = "none";
         document.getElementById("nodesClick2").style.display = "none";
     });
+    
 }
