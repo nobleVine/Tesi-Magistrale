@@ -35,8 +35,8 @@ function drawFetchedSequencesGraph() {
             list_refs.push(seq);
         }
     }
-    sessionStorage.setItem('list_refs', list_refs);
 
+    sessionStorage.setItem('list_refs', list_refs);
 
     for (i = 0; i < nodesToShow; i++) {
         var theta = i * 2 * Math.PI / nodesToShow;
@@ -69,7 +69,7 @@ function drawFetchedSequencesGraph() {
     for (q = 0; q < list_edges.length; q++) {  //double for to remove the duplicate edges (edges which have the same source and target nodes)
         for (p = q + 1; p < list_edges.length; p++) {
             if ((list_edges[q].source === list_edges[p].target) && (list_edges[q].target === list_edges[p]
-                    .source)) {
+                .source)) {
                 s.graph.dropEdge(list_edges[p].id);
             }
         }
@@ -80,21 +80,34 @@ function drawFetchedSequencesGraph() {
 
     var layout = document.getElementById("selectLayout").value;
 
-    if (layout === "Force Layout") {
+    if (layout === "Force Layout Default") {
 
         configuration = {
-            scalingRatio: 100000,
-            outboundAttractionDistribution: false,
-            startingIterations: 10,
-            edgeWeightInfluence: 0
+            outboundAttractionDistribution: true,
         }
 
-        s.startForceAtlas2();
-        window.setTimeout(function () {
-            s.killForceAtlas2()
-        }, 500);
+        s.startForceAtlas2(configuration);
+
+        window.setTimeout(function () { s.killForceAtlas2() }, 500);
+
     }
 
-    $("#selectLayout").empty().append('<option value="">Choose</option>').append('<option>Circle Layout</option>').append('<option>Force Layout</option>');
+    if (layout === "Force Layout Edges") {
+
+        configuration = {
+            linLogMode: true,
+            scalingRation: 10000,
+            outboundAttractionDistribution: true,
+            slowDown: 50,
+            edgeWeightInfluence : 1000
+        }
+
+        s.startForceAtlas2(configuration);
+
+        window.setTimeout(function () { s.killForceAtlas2() }, 500);
+
+    }
+
+$("#selectLayout").empty().append('<option value="">Choose</option>').append('<option>Circle Layout</option>').append('<option>Force Layout Default</option>').append('<option>Force Layout Edges</option>');
 
 }

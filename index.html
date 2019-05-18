@@ -204,7 +204,8 @@
                                 oninput="this.setCustomValidity('')" id="selectLayout">
                                 <option value="">Choose</option>
                                 <option>Circle Layout</option>
-                                <option>Force Layout</option>
+                                <option>Force Layout Default</option>
+                                <option>Force Layout Edges</option>
                             </select>
                     </td>
                     <td>
@@ -342,6 +343,8 @@
     <p class="nodesClick" hidden id="nodesClick">Left click on a node to show the associated informations</p>
     <p class="nodesClick" hidden id="nodesClick2">Right click on a node to show the associated xrefs </p>
 
+    <marquee>Do double click on the background to activate and deactivate the zoom!</marquee>
+
     <script src="libraries\build\sigma.min.js"></script>
 
     <script src="libraries/sigma/plugins/sigma.plugins.dragNodes/sigma.plugins.dragNodes.js"></script>
@@ -365,6 +368,21 @@
         var array_numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
         document.getElementById("download").addEventListener("click", clearInput);
         document.addEventListener('contextmenu', event => event.preventDefault()); //hide the menù that is showed in the browser at the right click of the mouse
+        var zoom = false;
+        document.addEventListener('dblclick', function() {
+            if (!zoom) {
+                s.settings({
+                    enableCamera: true
+                });
+                zoom = true;
+            } else {
+                s.settings({
+                    enableCamera: false
+                });
+                zoom = false;
+            }
+        });
+
         var json_list = [];
         var json_list_support = []; // It'll storage the string with names of json files in the folder fetched.
         var id = 0; // This is useful to storage the id of the last drawed node. 
