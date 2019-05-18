@@ -6,7 +6,7 @@
         Database
     </title>
 
-    <link rel="icon" type="image/ico" href="iconDB.png" />
+    <link rel="icon" type="image/ico" href="..\img\iconDB.png" />
 
     <style>
         
@@ -159,7 +159,7 @@
 
             $.ajax({
                 type: "POST",
-                url: "https://localhost/tesi-magistrale/genericQuery.php",
+                url: "https://localhost/tesi-magistrale/php/genericQuery.php",
                 async: false,
                 data: {
                     string: document.getElementById("selectInfo").value
@@ -214,7 +214,7 @@
 
             $.ajax({
                 type: "POST",
-                url: "https://localhost/tesi-magistrale/querySearchStringInColumn.php",
+                url: "https://localhost/tesi-magistrale/php/querySearchStringInColumn.php",
                 async: false,
                 data: {
                     string1: document.getElementById("selectInfo2").value,
