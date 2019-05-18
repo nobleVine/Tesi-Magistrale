@@ -2,7 +2,7 @@ function downloadSequence() {
     var sequenceToFetch = document.getElementById("download").value;
     $.ajax({
         type: "GET",
-        url: "https://localhost/tesi-magistrale/fetch.php",
+        url: "https://localhost/tesi-magistrale/php/fetch.php",
         async: false,
         data: {
             download: sequenceToFetch

@@ -13,7 +13,7 @@
         Graph Visualization
     </title>
 
-    <link rel="icon" type="image/ico" href="iconGraph.png" />
+    <link rel="icon" type="image/ico" href="..\img\iconGraph.png" />
 
     <link rel="stylesheet" href="jquery-ui.css">
 
@@ -343,26 +343,26 @@
     <p class="nodesClick" hidden id="nodesClick">Left click on a node to show the associated informations</p>
     <p class="nodesClick" hidden id="nodesClick2">Right click on a node to show the associated xrefs </p>
 
-    <marquee>Do double click on the background to activate and deactivate the zoom!</marquee>
+    <marquee direction="right" behavior="alternate"><h4>Double click on the background to activate or deactivate the zoom!</h4></marquee>
 
-    <script src="libraries\build\sigma.min.js"></script>
+    <script src="..\libraries\build\sigma.min.js"></script>
 
-    <script src="libraries/sigma/plugins/sigma.plugins.dragNodes/sigma.plugins.dragNodes.js"></script>
+    <script src="..\libraries/sigma/plugins/sigma.plugins.dragNodes/sigma.plugins.dragNodes.js"></script>
 
-    <script src="libraries/sigma/plugins/sigma.plugins.animate/sigma.plugins.animate.js"></script>
+    <script src="..\libraries/sigma/plugins/sigma.plugins.animate/sigma.plugins.animate.js"></script>
 
-    <script src="libraries/sigma/plugins/sigma.layout.forceAtlas2/supervisor.js"></script>
-    <script src="libraries/sigma/plugins/sigma.layout.forceAtlas2/worker.js"></script>
-    <script src="take_sequences.js"></script>
-    <script src="drawSpecializedGraph.js"></script>
-    <script src="showInformation.js"></script>
-    <script src="showXRef.js"></script>
-    <script src="drawFetchedSequencesGraph.js"></script>
-    <script src="numberOfRelatedSequences.js"></script>
-    <script src="downloadSequence.js"></script>
-    <script src="addRemoveNodesToSpecilizedGraph.js"></script>
-    <script src="addRemoveNodesToIncrementalGraph.js"></script>
-    <script src="initializationMenu.js"></script>
+    <script src="..\libraries/sigma/plugins/sigma.layout.forceAtlas2/supervisor.js"></script>
+    <script src="..\libraries/sigma/plugins/sigma.layout.forceAtlas2/worker.js"></script>
+    <script src="..\javascript/take_sequences.js"></script>
+    <script src="..\javascript/drawSpecializedGraph.js"></script>
+    <script src="..\javascript/showInformation.js"></script>
+    <script src="..\javascript/showXRef.js"></script>
+    <script src="..\javascript/drawFetchedSequencesGraph.js"></script>
+    <script src="..\javascript/numberOfRelatedSequences.js"></script>
+    <script src="..\javascript/downloadSequence.js"></script>
+    <script src="..\javascript/addRemoveNodesToSpecilizedGraph.js"></script>
+    <script src="..\javascript/addRemoveNodesToIncrementalGraph.js"></script>
+    <script src="..\javascript/initializationMenu.js"></script>
 
     <script>
         var array_numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
@@ -392,7 +392,7 @@
 
         $.ajax({ // This ajax request serves to storage the string with names of json files in the folder fetched.
             type: "POST",
-            url: "https://localhost/tesi-magistrale/getFetchedInfo.php",
+            url: "https://localhost/tesi-magistrale/php/getFetchedInfo.php",
             async: false, // The program 'll wait until this request'll not be executed.
             success: function (list) {
                 var end = 9;
