@@ -6,8 +6,6 @@ function drawSpecializedGraph() {
 
     specGraph = true;
 
-    numActiveBind = numActiveBind + 1;
-
     // Common listeners.
     initializationCommonListeners();
 
@@ -71,9 +69,7 @@ function drawSpecializedGraph() {
         s.refresh();
         document.getElementById("nodesClick").style.display = "block";
         document.getElementById("nodesClick2").style.display = "block";
-        if (numActiveBind === 1) {
-            showXref();
-        }
+        showXref();
         optionsInitializationAddNodes();
         optionsInitializationRemoveNodes();
     }

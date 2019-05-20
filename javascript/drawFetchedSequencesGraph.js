@@ -2,6 +2,8 @@ function drawFetchedSequencesGraph() {
 
     s.graph.clear();
 
+    s.unbind('rightClickNode'); //to deactivate the event rightClickNode
+
     document.getElementById("nodesClick2").style.display = "none";
 
     // Common listeners.
@@ -108,6 +110,6 @@ function drawFetchedSequencesGraph() {
 
     }
 
-$("#selectLayout").empty().append('<option value="">Choose</option>').append('<option>Circle Layout</option>').append('<option>Force Layout Default</option>').append('<option>Force Layout Edges</option>');
+    $("#selectLayout").empty().append('<option value="">Choose</option>').append('<option>Circle Layout</option>').append('<option>Force Layout Default</option>').append('<option>Force Layout Edges</option>');
 
 }
