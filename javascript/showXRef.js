@@ -2,6 +2,22 @@ function showXref() {
 
     s.bind('rightClickNode', function (e) {
 
+            lastNodeIdClickedWithRight = e.data.node.id;
+
+            var youCantDraw = false;
+
+            nodes_added.forEach(element => { // We have to check if the user clicks on a node of second level.
+                if (element === e.data.node.id) {
+                    youCantDraw = true;
+                    return;
+                }
+            });
+
+            if (youCantDraw) {
+                alert("You can't draw the next level of xref, for legibility reasons!");
+                return;
+            }
+
         fetched = false;
 
         for (f = 0; f < nodes_added.length; f++) {
