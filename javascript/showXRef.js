@@ -1,5 +1,7 @@
 function showXref() {
 
+    s.unbind('rightClickNode'); //to avoid to create more than one bind at time
+
     s.bind('rightClickNode', function (e) {
 
             lastNodeIdClickedWithRight = e.data.node.id;

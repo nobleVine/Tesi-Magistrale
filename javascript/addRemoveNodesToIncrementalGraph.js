@@ -4,6 +4,8 @@ function drawIncrementalGraph() {
 
     specGraph = false;
 
+    s.unbind('rightClickNode'); //to deactivate the event rightClickNode
+
     document.getElementById("nodesClick").style.display = "block";
     document.getElementById("nodesClick2").style.display = "none";
 
