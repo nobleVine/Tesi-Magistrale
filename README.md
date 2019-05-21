@@ -23,5 +23,5 @@ The used library are:
 1) [sigma](https://github.com/jacomyal/sigma.js): used to generate the graphs. We have also used the related plugins.
 2) [jquery](https://github.com/jquery/jquery): used to insert some elements in the HTML page *index.html* like the accordion menù in order to show the developed functionality and the informations associated to the sequences.
 
-To receive ajax requests we have to use an apache web server. We have downloaded [xampp](https://www.apachefriends.org/it/index.html)([wikipedia](https://en.wikipedia.org/wiki/XAMPP)) and written the scripts in the folder htdocs. The htdocs represents the root of our server.
+To receive ajax requests we need to use a web server like Apache. We have downloaded [xampp](https://www.apachefriends.org/it/index.html)([wikipedia](https://en.wikipedia.org/wiki/XAMPP)) and written the scripts in the folder htdocs. The htdocs represents the root of our server.
 We have managed the file httpd.conf in order to permit to our server to receive AJAX requests. The database can be created by xampp. In the database created there is only one table called json. You can create it using the sql script *table_json.sql* present in the repository.
