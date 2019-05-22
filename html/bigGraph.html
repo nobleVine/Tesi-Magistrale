@@ -8,6 +8,8 @@
 
     <link rel="icon" type="image/ico" href="..\img\iconBigGraph.png" />
 
+    <link rel="stylesheet" href="jquery-ui.css">
+
     <style>
         .dot {
             height: 15px;
@@ -30,9 +32,33 @@
             font-size: 20;
         }
 
+        div.accordion {
+            width: 25%;
+            position: relative;
+            bottom: 260px;
+            left: 600px;
+        }
+
+        div.section {
+            background-color: #ebebe0;
+            text-align: justify;
+            font-family: "Comic Sans MS";
+        }
+
+        p.nodesClick {
+            font-family: "Comic Sans MS";
+            color: #3d3d29;
+            text-shadow: 7px 7px 7px rgb(122, 122, 82);
+            font-size: 20;
+            position: relative;
+            bottom: 280px;
+            left: 600px;
+        }
+
         #graph {
             width: 1500px;
             height: 1500px;
+            z-index: 99999; /*set the z-order, which object overlaps to an other object*/
         }
 
         #info {
@@ -110,6 +136,23 @@
         </fieldset>
     </div>
 
+    <div class="accordion" id="accordion2">
+        <h3>
+            <b id="Title1">
+            </b>
+        </h3>
+        <div class="section" id="sequenceName"></div>
+
+        <h3>
+            <b id="Title2">
+
+            </b>
+        </h3>
+        <div class="section" id="sequenceNumber"></div>
+    </div>
+
+    <p class="nodesClick" id="nodesClick">Left click on a node to show the associated informations</p>
+
     <div id="graph"></div>
 
     <script src="..\libraries\build\sigma.min.js"></script>
@@ -117,7 +160,8 @@
     <script src="..\libraries\sigma\plugins\sigma.layout.noverlap\sigma.layout.noverlap.js"></script>
     <script src="..\libraries\sigma\plugins\sigma.plugins.animate\sigma.plugins.animate.js"></script>
     <script src="..\libraries/sigma/plugins/sigma.plugins.dragNodes/sigma.plugins.dragNodes.js"></script>
-    <script src="..\javascript/take_sequences.js"></script>
+    <script src="..\javascript\take_sequences.js"></script>
+    <script src="..\javascript\showInformation.js"></script>
 
     <script>
 
@@ -143,6 +187,11 @@
             enableEdgeHovering: true,
             maxNodeSize: 6,
             autoRescale: true
+        });
+
+        showInformation();
+        s.bind("clickNode", function () {
+            document.getElementById("nodesClick").style.display = "none";
         });
 
         var list_refs = [];
@@ -406,13 +455,13 @@
                     for (k = 0; k < json_list_strip_end.length; k++) {
                         if (list_refs_strip_start[i][j] === json_list_strip_end[k].query.substring(3, 11) && (json_list_strip_start[i].query.substring(3, 11) !== json_list_strip_end[k].query.substring(3, 11))) {
                             try {
-                            s.graph.addEdge({
-                                id: 'e' + '(' + json_list_strip_start[i].query.substring(3, 11) + ',' + json_list_strip_end[k].query.substring(3, 11) + ')',
-                                source: '' + json_list_strip_start[i].query.substring(3, 11),
-                                target: '' + json_list_strip_end[k].query.substring(3, 11),
-                                size: 1,
-                            });
-                            } catch(error) {
+                                s.graph.addEdge({
+                                    id: 'e' + '(' + json_list_strip_start[i].query.substring(3, 11) + ',' + json_list_strip_end[k].query.substring(3, 11) + ')',
+                                    source: '' + json_list_strip_start[i].query.substring(3, 11),
+                                    target: '' + json_list_strip_end[k].query.substring(3, 11),
+                                    size: 1,
+                                });
+                            } catch (error) {
                                 console.log(error);
                             }
                         }
