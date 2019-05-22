@@ -9,7 +9,6 @@
     <link rel="icon" type="image/ico" href="..\img\iconDB.png" />
 
     <style>
-        
         input.text {
             width: 100px;
             height: auto;
@@ -47,6 +46,11 @@
 
         #queryResults {
             height: auto;
+        }
+
+        #textInputQuery {
+            height: 100px;
+            width: 150px;
         }
     </style>
 
@@ -134,6 +138,23 @@
             </td>
             </form>
         </tr>
+        <tr>
+            <form action="javascript: freeQuery()">
+                <td>
+                    <h3>
+                        Write a query in the text area
+                    </h3>
+                </td>
+                <td>
+                    <textarea id="textInputQuery">
+                    Write here your query
+                </textarea>
+                </td>
+                <td>
+                    <input class="button" type="submit" value="Query">
+                </td>
+            </form>
+        </tr>
     </table>
 
     <h3 hidden id="QR">
@@ -143,6 +164,7 @@
     </h3>
 
     <table id="tableResults" border=1>
+        <!-- Query results -->
 
     </table>
 
@@ -152,6 +174,7 @@
     <script>
 
         document.getElementById("input1").addEventListener("click", clearInput);
+        document.getElementById("textInputQuery").addEventListener("click", textAreaInitialization);
 
         function query1() {
 
@@ -300,6 +323,65 @@
 
         function clearInput() {
             document.getElementById("input1").value = "";
+        }
+
+        function textAreaInitialization() {
+            document.getElementById("textInputQuery").value = "";
+        }
+
+        function freeQuery() {
+            $.ajax({
+                type: "POST",
+                url: "https://localhost/tesi-magistrale/php/freeQuery.php",
+                async: false,
+                data: {
+                    string1: document.getElementById("textInputQuery").value,
+                },
+                success: function (queryResults) {   
+
+                    //document.write(queryResults);
+
+                    var column = takeColummn(queryResults);
+                    document.getElementById("tableResults").innerHTML = "";
+                    queryResults = queryResults.slice(1, queryResults.length - 1);
+                    var array_results = queryResults.split("{" + column + ":");
+
+                    for (i = 1; i < array_results.length - 1; i++) {
+                        var tr = document.createElement("tr");
+                        var td = document.createElement("td");
+                        td.appendChild(document.createTextNode("{" + column + ":" + array_results[i].substring(0, array_results[i].length - 1)));
+                        tr.appendChild(td);
+                        tableResults.appendChild(tr);
+                    };
+
+                    var tr = document.createElement("tr");
+                    var td = document.createElement("td");
+                    td.appendChild(document.createTextNode("{" + column + ":" + array_results[i]));
+                    tr.appendChild(td);
+                    tableResults.appendChild(tr);
+
+                },
+                error: function () {
+                    alert("Query error!");
+                }
+            })
+        }
+
+        function takeColummn(queryResults) {
+            var i = 0;
+            while(true) {
+                if (queryResults[i] === '"') {
+                    var j = i + 1;
+                    while(true) {
+                        if (queryResults[j] === '"') {
+                            return queryResults.substring(i, j+1);
+                        }
+                        j++;
+                    }
+                } else {
+                    i++;
+                }
+            }
         }
 
     </script>
