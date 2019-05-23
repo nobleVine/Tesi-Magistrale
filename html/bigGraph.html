@@ -35,8 +35,8 @@
         div.accordion {
             width: 25%;
             position: relative;
-            bottom: 260px;
-            left: 600px;
+            bottom: 230px;
+            left: 750px;
         }
 
         div.section {
@@ -51,8 +51,8 @@
             text-shadow: 7px 7px 7px rgb(122, 122, 82);
             font-size: 20;
             position: relative;
-            bottom: 280px;
-            left: 600px;
+            bottom: 15px;
+            left: 100px;
         }
 
         #graph {
@@ -82,8 +82,8 @@
             width: auto;
             height: auto;
             position: relative;
-            bottom: 20px;
-            left: 70px;
+            bottom: 8px;
+            left: 75px;
         }
     </style>
 
@@ -97,12 +97,13 @@
     <div id="info" style="float: center;">
 
         <h3>
-            <b>Insert two strip of nodes (a number between 1 and 7) to draw only the edges which connect the nodes of
-                the two strips
+            <b>Insert three stripes of nodes (a number between 1 and 7) to draw only the edges which connect the nodes
+                of
+                the three stripes
             </b>
         </h3>
 
-        <table cellspacing=4>
+        <table cellspacing=10>
             <tr>
                 <td>
                     <h3>
@@ -112,6 +113,16 @@
                     </h3>
                     <input class="text" type="text" id="input">
                 </td>
+
+                <td>
+                    <h3>
+                        <b>
+                            third strip
+                        </b>
+                    </h3>
+                    <input class="text" type="text" id="input3">
+                </td>
+
                 <td rowspan="3">
                     <fieldset>
                         <legend>
@@ -127,7 +138,12 @@
                         <span class="dot" style="background-color: #54aef3"></span>: 0
                     </fieldset>
                 </td>
+
+                <td>
+                    <p class="nodesClick" id="nodesClick">Left click on a node to show the associated informations</p>
+                </td>
             </tr>
+
             <tr>
                 <td>
                     <h3>
@@ -137,7 +153,9 @@
                     </h3>
                     <input class="text" type="text" id="input2">
                 </td>
+
             </tr>
+
             <tr>
                 <td>
                     <input class="button" type="submit" value="Draw edges!" onclick="javascript: drawEdges()">
@@ -162,7 +180,7 @@
         <div class="section" id="sequenceNumber"></div>
     </div>
 
-    <p class="nodesClick" id="nodesClick">Left click on a node to show the associated informations</p>
+
 
     <div id="graph"></div>
 
@@ -178,6 +196,7 @@
 
         document.getElementById("input").addEventListener("click", clearInput);
         document.getElementById("input2").addEventListener("click", clearInput2);
+        document.getElementById("input3").addEventListener("click", clearInput3);
 
         var s = new sigma({
             renderer: {
@@ -326,99 +345,130 @@
 
             firstStripe = document.getElementById("input").value;
             secondStripe = document.getElementById("input2").value;
+            thirdStripe = document.getElementById("input3").value;
 
-            if ((firstStripe === "1" || firstStripe === "2" || firstStripe === "3" || firstStripe === "4" || firstStripe === "5" || firstStripe === "6" || firstStripe === "7") &&
-                (secondStripe === "1" || secondStripe === "2" || secondStripe === "3" || secondStripe === "4" || secondStripe === "5" || secondStripe === "6" || secondStripe === "7")) {
+            /*if ((firstStripe === "1" || firstStripe === "2" || firstStripe === "3" || firstStripe === "4" || firstStripe === "5" || firstStripe === "6" || firstStripe === "7") &&
+                (secondStripe === "1" || secondStripe === "2" || secondStripe === "3" || secondStripe === "4" || secondStripe === "5" || secondStripe === "6" || secondStripe === "7") &&
+                (thirdStripe === "1" || thirdStripe === "2" || thirdStripe === "3" || thirdStripe === "4" || thirdStripe === "5" || thirdStripe === "6" || thirdStripe === "7")) {*/
 
-                if (firstStripe === "" && secondStripe === "") {
-                    alert("Both stripe not inserted");
-                    return;
-                } else if (firstStripe === "") {
-                    alert("First stripe not inserted");
-                    return;
-                } else if (secondStripe === "") {
-                    alert("Second stripe not inserted");
-                    return;
-                };
+            drawCircle(json_list_reduced, 3, "#132b43");
+            drawCircle(json_list_reduced2, 6, "#1d3f5d");
+            drawCircle(json_list_reduced3, 9, "#27547a");
+            drawCircle(json_list_reduced4, 12, "#326896");
+            drawCircle(json_list_reduced5, 15, "#3d7fb5");
+            drawCircle(json_list_reduced6, 18, "#4897d4");
+            drawCircle(json_list_reduced7, 21, "#54aef3");
 
-                drawCircle(json_list_reduced, 3, "#132b43");
-                drawCircle(json_list_reduced2, 6, "#1d3f5d");
-                drawCircle(json_list_reduced3, 9, "#27547a");
-                drawCircle(json_list_reduced4, 12, "#326896");
-                drawCircle(json_list_reduced5, 15, "#3d7fb5");
-                drawCircle(json_list_reduced6, 18, "#4897d4");
-                drawCircle(json_list_reduced7, 21, "#54aef3");
+            var json_list_for_edges = [];
+            var list_refs_for_edges = [];
 
-                var json_list_for_edges = [];
-                var list_refs_for_edges = [];
+            //var strip1 = document.getElementById("input").value;
 
-                var strip1 = document.getElementById("input").value;
+            if (firstStripe !== "") {
+                getStrip(firstStripe, "1", json_list_reduced, list_refs_reduced, json_list_for_edges, list_refs_for_edges);
+                getStrip(firstStripe, "2", json_list_reduced2, list_refs_reduced2, json_list_for_edges, list_refs_for_edges);
+                getStrip(firstStripe, "3", json_list_reduced3, list_refs_reduced3, json_list_for_edges, list_refs_for_edges);
+                getStrip(firstStripe, "4", json_list_reduced4, list_refs_reduced4, json_list_for_edges, list_refs_for_edges);
+                getStrip(firstStripe, "5", json_list_reduced5, list_refs_reduced5, json_list_for_edges, list_refs_for_edges);
+                getStrip(firstStripe, "6", json_list_reduced6, list_refs_reduced6, json_list_for_edges, list_refs_for_edges);
+                getStrip(firstStripe, "7", json_list_reduced7, list_refs_reduced7, json_list_for_edges, list_refs_for_edges);
+            }
 
-                getStrip(strip1, "1", json_list_reduced, list_refs_reduced, json_list_for_edges, list_refs_for_edges);
-                getStrip(strip1, "2", json_list_reduced2, list_refs_reduced2, json_list_for_edges, list_refs_for_edges);
-                getStrip(strip1, "3", json_list_reduced3, list_refs_reduced3, json_list_for_edges, list_refs_for_edges);
-                getStrip(strip1, "4", json_list_reduced4, list_refs_reduced4, json_list_for_edges, list_refs_for_edges);
-                getStrip(strip1, "5", json_list_reduced5, list_refs_reduced5, json_list_for_edges, list_refs_for_edges);
-                getStrip(strip1, "6", json_list_reduced6, list_refs_reduced6, json_list_for_edges, list_refs_for_edges);
-                getStrip(strip1, "7", json_list_reduced7, list_refs_reduced7, json_list_for_edges, list_refs_for_edges);
+            var json_list_for_edges2 = [];
+            var list_refs_for_edges2 = [];
 
-                var json_list_for_edges2 = [];
-                var list_refs_for_edges2 = [];
+            //var strip2 = document.getElementById("input2").value;
 
-                var strip2 = document.getElementById("input2").value;
+            if (secondStripe !== "") {
+                getStrip(secondStripe, "1", json_list_reduced, list_refs_reduced, json_list_for_edges2, list_refs_for_edges2);
+                getStrip(secondStripe, "2", json_list_reduced2, list_refs_reduced2, json_list_for_edges2, list_refs_for_edges2);
+                getStrip(secondStripe, "3", json_list_reduced3, list_refs_reduced3, json_list_for_edges2, list_refs_for_edges2);
+                getStrip(secondStripe, "4", json_list_reduced4, list_refs_reduced4, json_list_for_edges2, list_refs_for_edges2);
+                getStrip(secondStripe, "5", json_list_reduced5, list_refs_reduced5, json_list_for_edges2, list_refs_for_edges2);
+                getStrip(secondStripe, "6", json_list_reduced6, list_refs_reduced6, json_list_for_edges2, list_refs_for_edges2);
+                getStrip(secondStripe, "7", json_list_reduced7, list_refs_reduced7, json_list_for_edges2, list_refs_for_edges2);
+            }
 
-                getStrip(strip2, "1", json_list_reduced, list_refs_reduced, json_list_for_edges2, list_refs_for_edges2);
-                getStrip(strip2, "2", json_list_reduced2, list_refs_reduced2, json_list_for_edges2, list_refs_for_edges2);
-                getStrip(strip2, "3", json_list_reduced3, list_refs_reduced3, json_list_for_edges2, list_refs_for_edges2);
-                getStrip(strip2, "4", json_list_reduced4, list_refs_reduced4, json_list_for_edges2, list_refs_for_edges2);
-                getStrip(strip2, "5", json_list_reduced5, list_refs_reduced5, json_list_for_edges2, list_refs_for_edges2);
-                getStrip(strip2, "6", json_list_reduced6, list_refs_reduced6, json_list_for_edges2, list_refs_for_edges2);
-                getStrip(strip2, "7", json_list_reduced7, list_refs_reduced7, json_list_for_edges2, list_refs_for_edges2);
+            var json_list_for_edges3 = [];
+            var list_refs_for_edges3 = [];
 
+            //var strip3 = document.getElementById("input3").value;
+
+            if (thirdStripe !== "") {
+                getStrip(thirdStripe, "1", json_list_reduced, list_refs_reduced, json_list_for_edges3, list_refs_for_edges3);
+                getStrip(thirdStripe, "2", json_list_reduced2, list_refs_reduced2, json_list_for_edges3, list_refs_for_edges3);
+                getStrip(thirdStripe, "3", json_list_reduced3, list_refs_reduced3, json_list_for_edges3, list_refs_for_edges3);
+                getStrip(thirdStripe, "4", json_list_reduced4, list_refs_reduced4, json_list_for_edges3, list_refs_for_edges3);
+                getStrip(thirdStripe, "5", json_list_reduced5, list_refs_reduced5, json_list_for_edges3, list_refs_for_edges3);
+                getStrip(thirdStripe, "6", json_list_reduced6, list_refs_reduced6, json_list_for_edges3, list_refs_for_edges3);
+                getStrip(thirdStripe, "7", json_list_reduced7, list_refs_reduced7, json_list_for_edges3, list_refs_for_edges3);
+            }
+
+            if (firstStripe !== "" && secondStripe !== "" && thirdStripe !== "") {
                 drawStripEdges(json_list_for_edges, json_list_for_edges2, list_refs_for_edges);
                 drawStripEdges(json_list_for_edges2, json_list_for_edges, list_refs_for_edges2);
+                drawStripEdges(json_list_for_edges, json_list_for_edges3, list_refs_for_edges);
+                drawStripEdges(json_list_for_edges3, json_list_for_edges, list_refs_for_edges3);
+                drawStripEdges(json_list_for_edges2, json_list_for_edges3, list_refs_for_edges2);
+                drawStripEdges(json_list_for_edges3, json_list_for_edges2, list_refs_for_edges3);
+            } else if (firstStripe !== "" && secondStripe !== "") {
+                drawStripEdges(json_list_for_edges, json_list_for_edges2, list_refs_for_edges);
+                drawStripEdges(json_list_for_edges2, json_list_for_edges, list_refs_for_edges2);
+            } else if (firstStripe !== "" && thirdStripe !== "") {
+                drawStripEdges(json_list_for_edges, json_list_for_edges3, list_refs_for_edges);
+                drawStripEdges(json_list_for_edges3, json_list_for_edges, list_refs_for_edges3);
+            } else if (secondStripe !== "" && thirdStripe !== "") {
+                drawStripEdges(json_list_for_edges2, json_list_for_edges3, list_refs_for_edges2);
+                drawStripEdges(json_list_for_edges3, json_list_for_edges2, list_refs_for_edges3);
+            }
 
-                list_edges = s.graph.edges();
+            list_edges = s.graph.edges();
 
-                for (q = 0; q < list_edges.length; q++) {
-                    for (p = q + 1; p < list_edges.length; p++) {
-                        if ((list_edges[q].source === list_edges[p].target) && (list_edges[q].target === list_edges[p].source)) {
-                            s.graph.dropEdge(list_edges[p].id);
-                        }
+            for (q = 0; q < list_edges.length; q++) {
+                for (p = q + 1; p < list_edges.length; p++) {
+                    if ((list_edges[q].source === list_edges[p].target) && (list_edges[q].target === list_edges[p].source)) {
+                        s.graph.dropEdge(list_edges[p].id);
+                    }
+                }
+            }
+
+            s.graph.nodes().forEach(element => { // Nodes opacification
+
+                var contOk = 0;
+
+                for (i = 0; i < json_list_for_edges.length; i++) {
+                    if (json_list_for_edges[i].query.substring(3, 11) !== element.id) {
+                        contOk = contOk + 1;
                     }
                 }
 
-                s.graph.nodes().forEach(element => { // Nodes opacification
-
-                    var contOk = 0;
-
-                    for (i = 0; i < json_list_for_edges.length; i++) {
-                        if (json_list_for_edges[i].query.substring(3, 11) !== element.id) {
-                            contOk = contOk + 1;
-                        }
+                for (j = 0; j < json_list_for_edges2.length; j++) {
+                    if (json_list_for_edges2[j].query.substring(3, 11) !== element.id) {
+                        contOk = contOk + 1;
                     }
+                }
 
-                    for (j = 0; j < json_list_for_edges2.length; j++) {
-                        if (json_list_for_edges2[j].query.substring(3, 11) !== element.id) {
-                            contOk = contOk + 1;
-                        }
+                for (k = 0; k < json_list_for_edges3.length; k++) {
+                    if (json_list_for_edges3[k].query.substring(3, 11) !== element.id) {
+                        contOk = contOk + 1;
                     }
+                }
 
-                    if (contOk === (json_list_for_edges2.length + json_list_for_edges.length)) {
-                        element.color = "#b3b3b3";
-                    }
+                if (contOk === (json_list_for_edges.length + json_list_for_edges2.length + json_list_for_edges3.length)) {
+                    element.color = "#b3b3b3";
+                }
 
-                });
+            });
 
-                s.refresh();
+            s.refresh();
 
-                getNodesOverlap(3);
+            getNodesOverlap(3);
 
-            } else {
-
-                alert("The value of first and second stripe have to be between 1 and 7 (both included)");
-
-            }
+            /*} else {
+ 
+                alert("The value of first, second and third stripe have to be between 1 and 7 (both included)");
+ 
+            }*/
 
         }
 
@@ -455,6 +505,10 @@
 
         function clearInput2() {
             document.getElementById("input2").value = "";
+        }
+
+        function clearInput3() {
+            document.getElementById("input3").value = "";
         }
 
         function getNodesOverlap(node_m) {
