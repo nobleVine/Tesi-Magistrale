@@ -51,8 +51,8 @@
             text-shadow: 7px 7px 7px rgb(122, 122, 82);
             font-size: 20;
             position: relative;
-            bottom: 280px;
-            left: 600px;
+            bottom: 15px;
+            left: 100px;
         }
 
         #graph {
@@ -82,8 +82,8 @@
             width: auto;
             height: auto;
             position: relative;
-            bottom: 20px;
-            left: 70px;
+            bottom: 8px;
+            left: 75px;
         }
     </style>
 
@@ -102,7 +102,7 @@
             </b>
         </h3>
 
-        <table cellspacing=4>
+        <table cellspacing=10>
             <tr>
                 <td>
                     <h3>
@@ -111,6 +111,9 @@
                         </b>
                     </h3>
                     <input class="text" type="text" id="input">
+                </td>
+                <td>
+                    Cell per il merging
                 </td>
                 <td rowspan="3">
                     <fieldset>
@@ -127,6 +130,9 @@
                         <span class="dot" style="background-color: #54aef3"></span>: 0
                     </fieldset>
                 </td>
+                <td>
+                    <p class="nodesClick" id="nodesClick">Left click on a node to show the associated informations</p>
+               </td>
             </tr>
             <tr>
                 <td>
@@ -137,6 +143,22 @@
                     </h3>
                     <input class="text" type="text" id="input2">
                 </td>
+                <td>
+                    <h3>
+                        <b>
+                            Choose the weight
+                        </b>
+                    </h3>
+                    <select required oninvalid="this.setCustomValidity('Please select an item of the list')"
+                    oninput="this.setCustomValidity('')" id="selectInfo">
+                    <option value="">Choose</option>
+                    <option>xref</option>
+                    <option>comment</option>
+                    <option>reference</option>
+                    <option>formula</option>
+                    <option>example</option>
+                </select>
+                </td>
             </tr>
             <tr>
                 <td>
@@ -144,7 +166,6 @@
                 </td>
             </tr>
         </table>
-
     </div>
 
     <div class="accordion" id="accordion2">
@@ -161,8 +182,6 @@
         </h3>
         <div class="section" id="sequenceNumber"></div>
     </div>
-
-    <p class="nodesClick" id="nodesClick">Left click on a node to show the associated informations</p>
 
     <div id="graph"></div>
 
