@@ -146,9 +146,7 @@
                     </h3>
                 </td>
                 <td>
-                    <textarea id="textInputQuery">
-                    Write here your query
-                </textarea>
+                    <textarea id="textInputQuery"></textarea>
                 </td>
                 <td>
                     <input class="button" type="submit" value="Query">
@@ -174,7 +172,6 @@
     <script>
 
         document.getElementById("input1").addEventListener("click", clearInput);
-        document.getElementById("textInputQuery").addEventListener("click", textAreaInitialization);
 
         function query1() {
 
@@ -325,11 +322,10 @@
             document.getElementById("input1").value = "";
         }
 
-        function textAreaInitialization() {
-            document.getElementById("textInputQuery").value = "";
-        }
-
         function freeQuery() {
+
+            document.getElementById("QR").style.display = "block";
+
             $.ajax({
                 type: "POST",
                 url: "https://localhost/tesi-magistrale/php/freeQuery.php",
