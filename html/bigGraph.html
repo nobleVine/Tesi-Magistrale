@@ -58,7 +58,8 @@
         #graph {
             width: 1500px;
             height: 1500px;
-            z-index: 99999; /*set the z-order, which object overlaps to an other object*/
+            z-index: 99999;
+            /*set the z-order, which object overlaps to an other object*/
         }
 
         #info {
@@ -81,8 +82,8 @@
             width: auto;
             height: auto;
             position: relative;
-            bottom: 260px;
-            left: 250px;
+            bottom: 20px;
+            left: 70px;
         }
     </style>
 
@@ -101,39 +102,49 @@
             </b>
         </h3>
 
-        <h3>
-            <b>
-                first strip
-            </b>
-        </h3>
-        <input class="text" type="text" id="input">
-        <br>
-        <br>
-        <h3>
-            <b>
-                second strip
-            </b>
-        </h3>
-        <input class="text" type="text" id="input2">
-        <br>
-        <br>
-        <input class="button" type="submit" value="Draw edges!" onclick="javascript: drawEdges()">
-        <br>
-        <br>
+        <table cellspacing=4>
+            <tr>
+                <td>
+                    <h3>
+                        <b>
+                            first strip
+                        </b>
+                    </h3>
+                    <input class="text" type="text" id="input">
+                </td>
+                <td rowspan="3">
+                    <fieldset>
+                        <legend>
+                            <h3><b>Legend</b></h3>
+                        </legend>
+                        Every strip of nodes indicates a set<br> of sequences with this number of references: <br><br>
+                        <span class="dot" style="background-color: #132b43"></span>: greater than 40 <br>
+                        <span class="dot" style="background-color: #1d3f5d"></span>: between 30 and 40 <br>
+                        <span class="dot" style="background-color: #27547a"></span>: between 20 and 30 <br>
+                        <span class="dot" style="background-color: #326896"></span>: between 10 and 20 <br>
+                        <span class="dot" style="background-color: #3d7fb5"></span>: between 5 and 10 <br>
+                        <span class="dot" style="background-color: #4897d4"></span>: less than 5 <br>
+                        <span class="dot" style="background-color: #54aef3"></span>: 0
+                    </fieldset>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h3>
+                        <b>
+                            second strip
+                        </b>
+                    </h3>
+                    <input class="text" type="text" id="input2">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input class="button" type="submit" value="Draw edges!" onclick="javascript: drawEdges()">
+                </td>
+            </tr>
+        </table>
 
-        <fieldset>
-            <legend>
-                <h3><b>Legend</b></h3>
-            </legend>
-            Every strip of nodes indicates a set<br> of sequences with this number of references: <br><br>
-            <span class="dot" style="background-color: #132b43"></span>: greater than 40 <br>
-            <span class="dot" style="background-color: #1d3f5d"></span>: between 30 and 40 <br>
-            <span class="dot" style="background-color: #27547a"></span>: between 20 and 30 <br>
-            <span class="dot" style="background-color: #326896"></span>: between 10 and 20 <br>
-            <span class="dot" style="background-color: #3d7fb5"></span>: between 5 and 10 <br>
-            <span class="dot" style="background-color: #4897d4"></span>: less than 5 <br>
-            <span class="dot" style="background-color: #54aef3"></span>: 0
-        </fieldset>
     </div>
 
     <div class="accordion" id="accordion2">
@@ -207,6 +218,14 @@
                 list_refs.push(seq);
             }
         }
+
+        /*
+            - comment
+            - example
+            - formula
+            - reference
+        
+        */
 
         // First circle
 
