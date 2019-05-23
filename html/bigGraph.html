@@ -35,8 +35,8 @@
         div.accordion {
             width: 25%;
             position: relative;
-            bottom: 260px;
-            left: 600px;
+            bottom: 230px;
+            left: 750px;
         }
 
         div.section {
@@ -77,7 +77,8 @@
         }
 
         fieldset {
-            display: inline-block;
+            /*display: inline-block;*/
+            display: none;
             border: 2px black solid;
             width: auto;
             height: auto;
@@ -116,23 +117,95 @@
                     Cell per il merging
                 </td>
                 <td rowspan="3">
-                    <fieldset>
+                    <fieldset id="legendXref">
                         <legend>
-                            <h3><b>Legend</b></h3>
+                            <h3>
+                                <b>
+                                    Legend Xref
+                                </b>
+                            </h3>
                         </legend>
-                        Every strip of nodes indicates a set<br> of sequences with this number of references: <br><br>
+                        Every strip of nodes indicates a set<br> of sequences with this number of xrefs: <br><br>
                         <span class="dot" style="background-color: #132b43"></span>: greater than 40 <br>
                         <span class="dot" style="background-color: #1d3f5d"></span>: between 30 and 40 <br>
                         <span class="dot" style="background-color: #27547a"></span>: between 20 and 30 <br>
                         <span class="dot" style="background-color: #326896"></span>: between 10 and 20 <br>
                         <span class="dot" style="background-color: #3d7fb5"></span>: between 5 and 10 <br>
-                        <span class="dot" style="background-color: #4897d4"></span>: less than 5 <br>
+                        <span class="dot" style="background-color: #4897d4"></span>: less or equal than 5 <br>
+                        <span class="dot" style="background-color: #54aef3"></span>: 0
+                    </fieldset>
+                    <fieldset id="legendComment">
+                        <legend>
+                            <h3>
+                                <b>
+                                    Legend Comment
+                                </b>
+                            </h3>
+                        </legend>
+                        Every strip of nodes indicates a set<br> of sequences with this number of comments: <br><br>
+                        <span class="dot" style="background-color: #132b43"></span>: greater than 100 <br>
+                        <span class="dot" style="background-color: #1d3f5d"></span>: between 80 and 100 <br>
+                        <span class="dot" style="background-color: #27547a"></span>: between 60 and 80 <br>
+                        <span class="dot" style="background-color: #326896"></span>: between 40 and 60 <br>
+                        <span class="dot" style="background-color: #3d7fb5"></span>: between 20 and 40 <br>
+                        <span class="dot" style="background-color: #4897d4"></span>: between 0 and 20 <br>
+                        <span class="dot" style="background-color: #54aef3"></span>: 0
+                    </fieldset>
+                    <fieldset id="legendReference">
+                        <legend>
+                            <h3>
+                                <b>
+                                    Legend Reference
+                                </b>
+                            </h3>
+                        </legend>
+                        Every strip of nodes indicates a set<br> of sequences with this number of references: <br><br>
+                        <span class="dot" style="background-color: #132b43"></span>: greater than 100 <br>
+                        <span class="dot" style="background-color: #1d3f5d"></span>: between 80 and 100 <br>
+                        <span class="dot" style="background-color: #27547a"></span>: between 60 and 80 <br>
+                        <span class="dot" style="background-color: #326896"></span>: between 40 and 60 <br>
+                        <span class="dot" style="background-color: #3d7fb5"></span>: between 20 and 40 <br>
+                        <span class="dot" style="background-color: #4897d4"></span>: between 0 and 20 <br>
+                        <span class="dot" style="background-color: #54aef3"></span>: 0
+                    </fieldset>
+                    <fieldset id="legendFormula">
+                        <legend>
+                            <h3>
+                                <b>
+                                    Legend Formula
+                                </b>
+                            </h3>
+                        </legend>
+                        Every strip of nodes indicates a set<br> of sequences with this number of formulas: <br><br>
+                        <span class="dot" style="background-color: #132b43"></span>: greater than 100 <br>
+                        <span class="dot" style="background-color: #1d3f5d"></span>: between 80 and 100 <br>
+                        <span class="dot" style="background-color: #27547a"></span>: between 60 and 80 <br>
+                        <span class="dot" style="background-color: #326896"></span>: between 40 and 60 <br>
+                        <span class="dot" style="background-color: #3d7fb5"></span>: between 20 and 40 <br>
+                        <span class="dot" style="background-color: #4897d4"></span>: between 0 and 20 <br>
+                        <span class="dot" style="background-color: #54aef3"></span>: 0
+                    </fieldset>
+                    <fieldset id="legendExample">
+                        <legend>
+                            <h3>
+                                <b>
+                                    Legend Example
+                                </b>
+                            </h3>
+                        </legend>
+                        Every strip of nodes indicates a set<br> of sequences with this number of examples: <br><br>
+                        <span class="dot" style="background-color: #132b43"></span>: greater than 30 <br>
+                        <span class="dot" style="background-color: #1d3f5d"></span>: between 25 and 30 <br>
+                        <span class="dot" style="background-color: #27547a"></span>: between 20 and 25 <br>
+                        <span class="dot" style="background-color: #326896"></span>: between 15 and 20 <br>
+                        <span class="dot" style="background-color: #3d7fb5"></span>: between 10 and 15 <br>
+                        <span class="dot" style="background-color: #4897d4"></span>: between 0 and 10 <br>
                         <span class="dot" style="background-color: #54aef3"></span>: 0
                     </fieldset>
                 </td>
                 <td>
                     <p class="nodesClick" id="nodesClick">Left click on a node to show the associated informations</p>
-               </td>
+                </td>
             </tr>
             <tr>
                 <td>
@@ -150,19 +223,23 @@
                         </b>
                     </h3>
                     <select required oninvalid="this.setCustomValidity('Please select an item of the list')"
-                    oninput="this.setCustomValidity('')" id="selectInfo">
-                    <option value="">Choose</option>
-                    <option>xref</option>
-                    <option>comment</option>
-                    <option>reference</option>
-                    <option>formula</option>
-                    <option>example</option>
-                </select>
+                        oninput="this.setCustomValidity('')" id="selectParameter">
+                        <option value="">Choose</option>
+                        <option>xref</option>
+                        <option>comment</option>
+                        <option>reference</option>
+                        <option>formula</option>
+                        <option>example</option>
+                    </select>
                 </td>
             </tr>
             <tr>
                 <td>
                     <input class="button" type="submit" value="Draw edges!" onclick="javascript: drawEdges()">
+                </td>
+                <td>
+                    <input class="button" type="submit" value="Draw the nodes!" onclick="javascript: drawNodes()"
+                        id="buttonDrawNodes">
                 </td>
             </tr>
         </table>
@@ -238,106 +315,254 @@
             }
         }
 
-        /*
-            - comment
-            - example
-            - formula
-            - reference
-        
-        */
+        function drawNodes() {
 
-        // First circle
+            showAndHide();
 
-        var json_list_reduced = [];
-        var list_refs_reduced = [];
+            s.graph.clear();
 
-        for (h = 0; h < json_list.length; h++) {
-            if (typeof json_list[h].results[0].xref !== 'undefined' && list_refs[h].length > 40) {
-                populateListsForCircles(json_list_reduced, list_refs_reduced, json_list[h], list_refs[h]);
+            // First circle
+
+            var json_list_reduced = [];
+            var list_refs_reduced = [];
+
+            for (h = 0; h < json_list.length; h++) {
+                if (typeof json_list[h].results[0].xref !== 'undefined' && list_refs[h].length > 40 && document.getElementById("selectParameter").value === 'xref') {
+                    populateListsForCircles(json_list_reduced, list_refs_reduced, json_list[h], list_refs[h]);
+                    console.log("xref");
+                }
+                if (typeof json_list[h].results[0].comment !== 'undefined') {
+                    if (json_list[h].results[0].comment.length > 100 && document.getElementById("selectParameter").value === 'comment') {
+                        populateListsForCircles(json_list_reduced, list_refs_reduced, json_list[h], list_refs[h]);
+                        console.log("comment");
+                    }
+                }
+                if (typeof json_list[h].results[0].example !== 'undefined') {
+                    if (json_list[h].results[0].example.length > 30 && document.getElementById("selectParameter").value === 'example') {
+                        populateListsForCircles(json_list_reduced, list_refs_reduced, json_list[h], list_refs[h]);
+                        console.log("example");
+                    }
+                }
+                if (typeof json_list[h].results[0].formula !== 'undefined') {
+                    if (json_list[h].results[0].formula.length > 100 && document.getElementById("selectParameter").value === 'formula') {
+                        populateListsForCircles(json_list_reduced, list_refs_reduced, json_list[h], list_refs[h]);
+                        console.log("formula");
+                    }
+                }
+                if (typeof json_list[h].results[0].reference !== 'undefined') {
+                    if (json_list[h].results[0].reference.length > 100 && document.getElementById("selectParameter").value === 'reference') {
+                        populateListsForCircles(json_list_reduced, list_refs_reduced, json_list[h], list_refs[h]);
+                        console.log("reference");
+                    }
+                }
             }
-        }
 
-        drawCircle(json_list_reduced, 3, "#132b43");
+            //console.log(json_list_reduced);
 
-        // Second circle
+            drawCircle(json_list_reduced, 3, "#132b43");
 
-        var json_list_reduced2 = [];
-        var list_refs_reduced2 = [];
+            // Second circle
 
-        for (h = 0; h < json_list.length; h++) {
-            if (typeof json_list[h].results[0].xref !== 'undefined' && list_refs[h].length > 30 && list_refs[h].length <= 40) {
-                populateListsForCircles(json_list_reduced2, list_refs_reduced2, json_list[h], list_refs[h]);
+            var json_list_reduced2 = [];
+            var list_refs_reduced2 = [];
+
+            for (h = 0; h < json_list.length; h++) {
+                if (typeof json_list[h].results[0].xref !== 'undefined') {
+                    if (list_refs[h].length > 30 && list_refs[h].length <= 40 && document.getElementById("selectParameter").value === 'xref') {
+                        populateListsForCircles(json_list_reduced2, list_refs_reduced2, json_list[h], list_refs[h]);
+                    }
+                }
+                if (typeof json_list[h].results[0].comment !== 'undefined') {
+                    if (json_list[h].results[0].comment.length > 80 && json_list[h].results[0].comment.length <= 100 && document.getElementById("selectParameter").value === 'comment') {
+                        populateListsForCircles(json_list_reduced2, list_refs_reduced2, json_list[h], list_refs[h]);
+                    }
+                }
+                if (typeof json_list[h].results[0].example !== 'undefined') {
+                    if (json_list[h].results[0].example.length > 25 && json_list[h].results[0].example.length <= 30 && document.getElementById("selectParameter").value === 'example') {
+                        populateListsForCircles(json_list_reduced2, list_refs_reduced2, json_list[h], list_refs[h]);
+                    }
+                }
+                if (typeof json_list[h].results[0].formula !== 'undefined') {
+                    if (json_list[h].results[0].formula.length > 80 && json_list[h].results[0].formula.length <= 100 && document.getElementById("selectParameter").value === 'formula') {
+                        populateListsForCircles(json_list_reduced2, list_refs_reduced2, json_list[h], list_refs[h]);
+                    }
+                }
+                if (typeof json_list[h].results[0].reference !== 'undefined') {
+                    if (json_list[h].results[0].reference.length > 80 && json_list[h].results[0].reference.length <= 100 && document.getElementById("selectParameter").value === 'reference') {
+                        populateListsForCircles(json_list_reduced2, list_refs_reduced2, json_list[h], list_refs[h]);
+                    }
+                }
             }
-        }
+            drawCircle(json_list_reduced2, 6, "#1d3f5d");
 
-        drawCircle(json_list_reduced2, 6, "#1d3f5d");
+            // Third circle
 
-        // Third circle
+            var json_list_reduced3 = [];
+            var list_refs_reduced3 = [];
 
-        var json_list_reduced3 = [];
-        var list_refs_reduced3 = [];
-
-        for (h = 0; h < json_list.length; h++) {
-            if (typeof json_list[h].results[0].xref !== 'undefined' && list_refs[h].length > 20 && list_refs[h].length <= 30) {
-                populateListsForCircles(json_list_reduced3, list_refs_reduced3, json_list[h], list_refs[h]);
+            for (h = 0; h < json_list.length; h++) {
+                if (typeof json_list[h].results[0].xref !== 'undefined') {
+                    if (list_refs[h].length > 20 && list_refs[h].length <= 30 && document.getElementById("selectParameter").value === 'xref') {
+                        populateListsForCircles(json_list_reduced3, list_refs_reduced3, json_list[h], list_refs[h]);
+                    }
+                }
+                if (typeof json_list[h].results[0].comment !== 'undefined') {
+                    if (json_list[h].results[0].comment.length > 60 && json_list[h].results[0].comment.length <= 80 && document.getElementById("selectParameter").value === 'comment') {
+                        populateListsForCircles(json_list_reduced3, list_refs_reduced3, json_list[h], list_refs[h]);
+                    }
+                }
+                if (typeof json_list[h].results[0].example !== 'undefined') {
+                    if (json_list[h].results[0].example.length > 20 && json_list[h].results[0].example.length <= 25 && document.getElementById("selectParameter").value === 'example') {
+                        populateListsForCircles(json_list_reduced3, list_refs_reduced3, json_list[h], list_refs[h]);
+                    }
+                }
+                if (typeof json_list[h].results[0].formula !== 'undefined') {
+                    if (json_list[h].results[0].formula.length > 60 && json_list[h].results[0].formula.length <= 80 && document.getElementById("selectParameter").value === 'formula') {
+                        populateListsForCircles(json_list_reduced3, list_refs_reduced3, json_list[h], list_refs[h]);
+                    }
+                }
+                if (typeof json_list[h].results[0].reference !== 'undefined') {
+                    if (json_list[h].results[0].reference.length > 60 && json_list[h].results[0].reference.length <= 80 && document.getElementById("selectParameter").value === 'reference') {
+                        populateListsForCircles(json_list_reduced3, list_refs_reduced3, json_list[h], list_refs[h]);
+                    }
+                }
             }
-        }
+            drawCircle(json_list_reduced3, 9, "#27547a");
 
-        drawCircle(json_list_reduced3, 9, "#27547a");
+            // Fourth circle
 
-        // Fourth circle
+            var json_list_reduced4 = [];
+            var list_refs_reduced4 = [];
 
-        var json_list_reduced4 = [];
-        var list_refs_reduced4 = [];
-
-        for (h = 0; h < json_list.length; h++) {
-            if (typeof json_list[h].results[0].xref !== 'undefined' && list_refs[h].length > 10 && list_refs[h].length <= 20) {
-                populateListsForCircles(json_list_reduced4, list_refs_reduced4, json_list[h], list_refs[h]);
+            for (h = 0; h < json_list.length; h++) {
+                if (typeof json_list[h].results[0].xref !== 'undefined') {
+                    if (list_refs[h].length > 10 && list_refs[h].length <= 20 && document.getElementById("selectParameter").value === 'xref') {
+                        populateListsForCircles(json_list_reduced4, list_refs_reduced4, json_list[h], list_refs[h]);
+                    }
+                }
+                if (typeof json_list[h].results[0].comment !== 'undefined') {
+                    if (json_list[h].results[0].comment.length > 40 && json_list[h].results[0].comment.length <= 60 && document.getElementById("selectParameter").value === 'comment') {
+                        populateListsForCircles(json_list_reduced4, list_refs_reduced4, json_list[h], list_refs[h]);
+                    }
+                }
+                if (typeof json_list[h].results[0].example !== 'undefined') {
+                    if (json_list[h].results[0].example.length > 15 && json_list[h].results[0].example.length <= 20 && document.getElementById("selectParameter").value === 'example') {
+                        populateListsForCircles(json_list_reduced4, list_refs_reduced4, json_list[h], list_refs[h]);
+                    }
+                }
+                if (typeof json_list[h].results[0].formula !== 'undefined') {
+                    if (json_list[h].results[0].formula.length > 40 && json_list[h].results[0].formula.length <= 60 && document.getElementById("selectParameter").value === 'formula') {
+                        populateListsForCircles(json_list_reduced4, list_refs_reduced4, json_list[h], list_refs[h]);
+                    }
+                }
+                if (typeof json_list[h].results[0].reference !== 'undefined') {
+                    if (json_list[h].results[0].reference.length > 40 && json_list[h].results[0].reference.length <= 60 && document.getElementById("selectParameter").value === 'reference') {
+                        populateListsForCircles(json_list_reduced4, list_refs_reduced4, json_list[h], list_refs[h]);
+                    }
+                }
             }
-        }
 
-        drawCircle(json_list_reduced4, 12, "#326896");
+            drawCircle(json_list_reduced4, 12, "#326896");
 
-        // Fifth circle
+            // Fifth circle
 
-        var json_list_reduced5 = [];
-        var list_refs_reduced5 = [];
+            var json_list_reduced5 = [];
+            var list_refs_reduced5 = [];
 
-        for (h = 0; h < json_list.length; h++) {
-            if (typeof json_list[h].results[0].xref !== 'undefined' && list_refs[h].length <= 10 && list_refs[h].length > 5) {
-                populateListsForCircles(json_list_reduced5, list_refs_reduced5, json_list[h], list_refs[h]);
+            for (h = 0; h < json_list.length; h++) {
+                if (typeof json_list[h].results[0].xref !== 'undefined') {
+                    if (list_refs[h].length > 5 && list_refs[h].length <= 10 && document.getElementById("selectParameter").value === 'xref') {
+                        populateListsForCircles(json_list_reduced5, list_refs_reduced5, json_list[h], list_refs[h]);
+                    }
+                }
+                if (typeof json_list[h].results[0].comment !== 'undefined') {
+                    if (json_list[h].results[0].comment.length > 20 && json_list[h].results[0].comment.length <= 40 && document.getElementById("selectParameter").value === 'comment') {
+                        populateListsForCircles(json_list_reduced5, list_refs_reduced5, json_list[h], list_refs[h]);
+                    }
+                }
+                if (typeof json_list[h].results[0].example !== 'undefined') {
+                    if (json_list[h].results[0].example.length > 10 && json_list[h].results[0].example.length <= 15 && document.getElementById("selectParameter").value === 'example') {
+                        populateListsForCircles(json_list_reduced5, list_refs_reduced5, json_list[h], list_refs[h]);
+                    }
+                }
+                if (typeof json_list[h].results[0].formula !== 'undefined') {
+                    if (json_list[h].results[0].formula.length > 20 && json_list[h].results[0].formula.length <= 40 && document.getElementById("selectParameter").value === 'formula') {
+                        populateListsForCircles(json_list_reduced5, list_refs_reduced5, json_list[h], list_refs[h]);
+                    }
+                }
+                if (typeof json_list[h].results[0].reference !== 'undefined') {
+                    if (json_list[h].results[0].reference.length > 20 && json_list[h].results[0].reference.length <= 40 && document.getElementById("selectParameter").value === 'reference') {
+                        populateListsForCircles(json_list_reduced5, list_refs_reduced5, json_list[h], list_refs[h]);
+                    }
+                }
             }
-        }
+            drawCircle(json_list_reduced5, 15, "#3d7fb5");
 
-        drawCircle(json_list_reduced5, 15, "#3d7fb5");
+            // Sixth circle
 
-        // Sixth circle
+            var json_list_reduced6 = [];
+            var list_refs_reduced6 = [];
 
-        var json_list_reduced6 = [];
-        var list_refs_reduced6 = [];
-
-        for (h = 0; h < json_list.length; h++) {
-            if (typeof json_list[h].results[0].xref !== 'undefined' && list_refs[h].length <= 5) {
-                populateListsForCircles(json_list_reduced6, list_refs_reduced6, json_list[h], list_refs[h]);
+            for (h = 0; h < json_list.length; h++) {
+                if (typeof json_list[h].results[0].xref !== 'undefined') {
+                    if (list_refs[h].length <= 5 && document.getElementById("selectParameter").value === 'xref') {
+                        populateListsForCircles(json_list_reduced6, list_refs_reduced6, json_list[h], list_refs[h]);
+                    }
+                }
+                if (typeof json_list[h].results[0].comment !== 'undefined') {
+                    if (json_list[h].results[0].comment.length > 0 && json_list[h].results[0].comment.length <= 20 && document.getElementById("selectParameter").value === 'comment') {
+                        populateListsForCircles(json_list_reduced6, list_refs_reduced6, json_list[h], list_refs[h]);
+                    }
+                }
+                if (typeof json_list[h].results[0].example !== 'undefined') {
+                    if (json_list[h].results[0].example.length > 0 && json_list[h].results[0].example.length <= 10 && document.getElementById("selectParameter").value === 'example') {
+                        populateListsForCircles(json_list_reduced6, list_refs_reduced6, json_list[h], list_refs[h]);
+                    }
+                }
+                if (typeof json_list[h].results[0].formula !== 'undefined') {
+                    if (json_list[h].results[0].formula.length > 0 && json_list[h].results[0].formula.length <= 20 && document.getElementById("selectParameter").value === 'formula') {
+                        populateListsForCircles(json_list_reduced6, list_refs_reduced6, json_list[h], list_refs[h]);
+                    }
+                }
+                if (typeof json_list[h].results[0].reference !== 'undefined') {
+                    if (json_list[h].results[0].reference.length > 0 && json_list[h].results[0].reference.length <= 20 && document.getElementById("selectParameter").value === 'reference') {
+                        populateListsForCircles(json_list_reduced6, list_refs_reduced6, json_list[h], list_refs[h]);
+                    }
+                }
             }
-        }
 
-        drawCircle(json_list_reduced6, 18, "#4897d4");
+            drawCircle(json_list_reduced6, 18, "#4897d4");
 
-        // Seventh circle
+            // Seventh circle
 
-        var json_list_reduced7 = [];
-        var list_refs_reduced7 = [];
+            var json_list_reduced7 = [];
+            var list_refs_reduced7 = [];
 
-        for (h = 0; h < json_list.length; h++) {
-            if (typeof json_list[h].results[0].xref === 'undefined') {
-                populateListsForCircles(json_list_reduced7, list_refs_reduced7, json_list[h], list_refs[h]);
+            for (h = 0; h < json_list.length; h++) {
+                if (typeof json_list[h].results[0].xref === 'undefined' && document.getElementById("selectParameter").value === 'xref') {
+                    populateListsForCircles(json_list_reduced7, list_refs_reduced7, json_list[h], list_refs[h]);
+                }
+                if (typeof json_list[h].results[0].comment === 'undefined' && document.getElementById("selectParameter").value === 'comment') {
+                    populateListsForCircles(json_list_reduced7, list_refs_reduced7, json_list[h], list_refs[h]);
+                }
+                if (typeof json_list[h].results[0].example === 'undefined' && document.getElementById("selectParameter").value === 'example') {
+                    populateListsForCircles(json_list_reduced7, list_refs_reduced7, json_list[h], list_refs[h]);
+                }
+                if (typeof json_list[h].results[0].formula === 'undefined' && document.getElementById("selectParameter").value === 'formula') {
+                    populateListsForCircles(json_list_reduced7, list_refs_reduced7, json_list[h], list_refs[h]);
+                }
+                if (typeof json_list[h].results[0].reference === 'undefined' && document.getElementById("selectParameter").value === 'reference') {
+                    populateListsForCircles(json_list_reduced7, list_refs_reduced7, json_list[h], list_refs[h]);
+                }
             }
+
+            drawCircle(json_list_reduced7, 21, "#54aef3");
+
+            s.refresh();
+
+            getNodesOverlap(5);
+
         }
-
-        drawCircle(json_list_reduced7, 21, "#54aef3");
-
-        s.refresh();
 
         function drawEdges() {
 
@@ -513,7 +738,39 @@
             listRefsReduced.push(lr);
         }
 
-        getNodesOverlap(5);
+        function showAndHide() {
+            
+            var inputSelect = document.getElementById("selectParameter").value;
+
+            document.getElementById("legendXref").style.display = "none";
+            document.getElementById("legendComment").style.display = "none";
+            document.getElementById("legendFormula").style.display = "none";
+            document.getElementById("legendReference").style.display = "none";
+            document.getElementById("legendExample").style.display = "none";
+
+
+            if (inputSelect === 'xref') {
+                document.getElementById("legendXref").style.display = "block";
+            }
+
+            if (inputSelect === 'comment') {
+                document.getElementById("legendComment").style.display = "block";
+            }
+
+            if (inputSelect === 'formula') {
+                document.getElementById("legendFormula").style.display = "block";
+            }
+
+            if (inputSelect === 'reference') {
+                document.getElementById("legendReference").style.display = "block";
+            }
+
+            if (inputSelect === 'example') {
+                document.getElementById("legendExample").style.display = "block";
+            }
+
+
+        }
 
     </script>
 
