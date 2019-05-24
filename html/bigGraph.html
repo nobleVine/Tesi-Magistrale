@@ -59,6 +59,7 @@
             width: 1500px;
             height: 1500px;
             z-index: 99999;
+            margin-top: 110px;
             /*set the z-order, which object overlaps to an other object*/
         }
 
@@ -328,7 +329,7 @@
         showInformation();
         s.bind("clickNode", function () {
             document.getElementById("nodesClick").style.display = "none";
-            $("html, body").animate({ scrollTop: 0 }, 1000);
+            $("html, body").animate({ scrollTop: 0 }, 1000); //at click of a node, the page returns at the top
         });
 
         var list_refs = [];

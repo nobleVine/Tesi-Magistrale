@@ -8,7 +8,7 @@ function showInformation() { // This function shows informations about the selec
             active: 0
         });
 
-        $("#graph").css("margin-top", "-150px"); //this function set the margin-top
+        $("#graph").css("margin-top", "-110px"); //this function set the margin-top
 
         document.getElementById("accordion2").style.display = "block";
         document.getElementById("Title1").innerHTML = "Sequence Name and Recurrence Function";
