@@ -123,8 +123,6 @@
                     </h3>
                     <input class="text" type="text" id="input3">
                 </td>
-
-
                 <td rowspan="3">
                     <fieldset id="legendXref">
                         <legend>
@@ -330,228 +328,85 @@
             }
         }
 
+        var json_list_reduced = [];
+        var list_refs_reduced = [];
+        var json_list_reduced2 = [];
+        var list_refs_reduced2 = [];
+        var json_list_reduced3 = [];
+        var list_refs_reduced3 = [];
+        var json_list_reduced4 = [];
+        var list_refs_reduced4 = [];
+        var json_list_reduced5 = [];
+        var list_refs_reduced5 = [];
+        var json_list_reduced6 = [];
+        var list_refs_reduced6 = [];
+        var json_list_reduced7 = [];
+        var list_refs_reduced7 = [];
+
         function drawNodes() {
 
             showAndHide();
 
             s.graph.clear();
 
-            // First circle
+            emptyLists();
 
-            var json_list_reduced = [];
-            var list_refs_reduced = [];
+            // First circle
 
             for (h = 0; h < json_list.length; h++) {
                 if (typeof json_list[h].results[0].xref !== 'undefined' && list_refs[h].length > 40 && document.getElementById("selectParameter").value === 'xref') {
                     populateListsForCircles(json_list_reduced, list_refs_reduced, json_list[h], list_refs[h]);
-                    console.log("xref");
                 }
                 if (typeof json_list[h].results[0].comment !== 'undefined') {
                     if (json_list[h].results[0].comment.length > 100 && document.getElementById("selectParameter").value === 'comment') {
                         populateListsForCircles(json_list_reduced, list_refs_reduced, json_list[h], list_refs[h]);
-                        console.log("comment");
                     }
                 }
                 if (typeof json_list[h].results[0].example !== 'undefined') {
                     if (json_list[h].results[0].example.length > 30 && document.getElementById("selectParameter").value === 'example') {
                         populateListsForCircles(json_list_reduced, list_refs_reduced, json_list[h], list_refs[h]);
-                        console.log("example");
                     }
                 }
                 if (typeof json_list[h].results[0].formula !== 'undefined') {
                     if (json_list[h].results[0].formula.length > 100 && document.getElementById("selectParameter").value === 'formula') {
                         populateListsForCircles(json_list_reduced, list_refs_reduced, json_list[h], list_refs[h]);
-                        console.log("formula");
                     }
                 }
                 if (typeof json_list[h].results[0].reference !== 'undefined') {
                     if (json_list[h].results[0].reference.length > 100 && document.getElementById("selectParameter").value === 'reference') {
                         populateListsForCircles(json_list_reduced, list_refs_reduced, json_list[h], list_refs[h]);
-                        console.log("reference");
                     }
                 }
             }
-
-            //console.log(json_list_reduced);
 
             drawCircle(json_list_reduced, 3, "#132b43");
 
             // Second circle
 
-            var json_list_reduced2 = [];
-            var list_refs_reduced2 = [];
-
-            for (h = 0; h < json_list.length; h++) {
-                if (typeof json_list[h].results[0].xref !== 'undefined') {
-                    if (list_refs[h].length > 30 && list_refs[h].length <= 40 && document.getElementById("selectParameter").value === 'xref') {
-                        populateListsForCircles(json_list_reduced2, list_refs_reduced2, json_list[h], list_refs[h]);
-                    }
-                }
-                if (typeof json_list[h].results[0].comment !== 'undefined') {
-                    if (json_list[h].results[0].comment.length > 80 && json_list[h].results[0].comment.length <= 100 && document.getElementById("selectParameter").value === 'comment') {
-                        populateListsForCircles(json_list_reduced2, list_refs_reduced2, json_list[h], list_refs[h]);
-                    }
-                }
-                if (typeof json_list[h].results[0].example !== 'undefined') {
-                    if (json_list[h].results[0].example.length > 25 && json_list[h].results[0].example.length <= 30 && document.getElementById("selectParameter").value === 'example') {
-                        populateListsForCircles(json_list_reduced2, list_refs_reduced2, json_list[h], list_refs[h]);
-                    }
-                }
-                if (typeof json_list[h].results[0].formula !== 'undefined') {
-                    if (json_list[h].results[0].formula.length > 80 && json_list[h].results[0].formula.length <= 100 && document.getElementById("selectParameter").value === 'formula') {
-                        populateListsForCircles(json_list_reduced2, list_refs_reduced2, json_list[h], list_refs[h]);
-                    }
-                }
-                if (typeof json_list[h].results[0].reference !== 'undefined') {
-                    if (json_list[h].results[0].reference.length > 80 && json_list[h].results[0].reference.length <= 100 && document.getElementById("selectParameter").value === 'reference') {
-                        populateListsForCircles(json_list_reduced2, list_refs_reduced2, json_list[h], list_refs[h]);
-                    }
-                }
-            }
+            stripInitializationRoutine(30, 40, 80, 100, 25, 30, 80, 100, 80, 100, json_list_reduced2, list_refs_reduced2);
             drawCircle(json_list_reduced2, 6, "#1d3f5d");
 
             // Third circle
 
-            var json_list_reduced3 = [];
-            var list_refs_reduced3 = [];
-
-            for (h = 0; h < json_list.length; h++) {
-                if (typeof json_list[h].results[0].xref !== 'undefined') {
-                    if (list_refs[h].length > 20 && list_refs[h].length <= 30 && document.getElementById("selectParameter").value === 'xref') {
-                        populateListsForCircles(json_list_reduced3, list_refs_reduced3, json_list[h], list_refs[h]);
-                    }
-                }
-                if (typeof json_list[h].results[0].comment !== 'undefined') {
-                    if (json_list[h].results[0].comment.length > 60 && json_list[h].results[0].comment.length <= 80 && document.getElementById("selectParameter").value === 'comment') {
-                        populateListsForCircles(json_list_reduced3, list_refs_reduced3, json_list[h], list_refs[h]);
-                    }
-                }
-                if (typeof json_list[h].results[0].example !== 'undefined') {
-                    if (json_list[h].results[0].example.length > 20 && json_list[h].results[0].example.length <= 25 && document.getElementById("selectParameter").value === 'example') {
-                        populateListsForCircles(json_list_reduced3, list_refs_reduced3, json_list[h], list_refs[h]);
-                    }
-                }
-                if (typeof json_list[h].results[0].formula !== 'undefined') {
-                    if (json_list[h].results[0].formula.length > 60 && json_list[h].results[0].formula.length <= 80 && document.getElementById("selectParameter").value === 'formula') {
-                        populateListsForCircles(json_list_reduced3, list_refs_reduced3, json_list[h], list_refs[h]);
-                    }
-                }
-                if (typeof json_list[h].results[0].reference !== 'undefined') {
-                    if (json_list[h].results[0].reference.length > 60 && json_list[h].results[0].reference.length <= 80 && document.getElementById("selectParameter").value === 'reference') {
-                        populateListsForCircles(json_list_reduced3, list_refs_reduced3, json_list[h], list_refs[h]);
-                    }
-                }
-            }
+            stripInitializationRoutine(20, 30, 60, 80, 20, 25, 60, 80, 60, 80, json_list_reduced3, list_refs_reduced3);
             drawCircle(json_list_reduced3, 9, "#27547a");
 
             // Fourth circle
 
-            var json_list_reduced4 = [];
-            var list_refs_reduced4 = [];
-
-            for (h = 0; h < json_list.length; h++) {
-                if (typeof json_list[h].results[0].xref !== 'undefined') {
-                    if (list_refs[h].length > 10 && list_refs[h].length <= 20 && document.getElementById("selectParameter").value === 'xref') {
-                        populateListsForCircles(json_list_reduced4, list_refs_reduced4, json_list[h], list_refs[h]);
-                    }
-                }
-                if (typeof json_list[h].results[0].comment !== 'undefined') {
-                    if (json_list[h].results[0].comment.length > 40 && json_list[h].results[0].comment.length <= 60 && document.getElementById("selectParameter").value === 'comment') {
-                        populateListsForCircles(json_list_reduced4, list_refs_reduced4, json_list[h], list_refs[h]);
-                    }
-                }
-                if (typeof json_list[h].results[0].example !== 'undefined') {
-                    if (json_list[h].results[0].example.length > 15 && json_list[h].results[0].example.length <= 20 && document.getElementById("selectParameter").value === 'example') {
-                        populateListsForCircles(json_list_reduced4, list_refs_reduced4, json_list[h], list_refs[h]);
-                    }
-                }
-                if (typeof json_list[h].results[0].formula !== 'undefined') {
-                    if (json_list[h].results[0].formula.length > 40 && json_list[h].results[0].formula.length <= 60 && document.getElementById("selectParameter").value === 'formula') {
-                        populateListsForCircles(json_list_reduced4, list_refs_reduced4, json_list[h], list_refs[h]);
-                    }
-                }
-                if (typeof json_list[h].results[0].reference !== 'undefined') {
-                    if (json_list[h].results[0].reference.length > 40 && json_list[h].results[0].reference.length <= 60 && document.getElementById("selectParameter").value === 'reference') {
-                        populateListsForCircles(json_list_reduced4, list_refs_reduced4, json_list[h], list_refs[h]);
-                    }
-                }
-            }
-
+            stripInitializationRoutine(10, 20, 40, 60, 15, 20, 40, 60, 40, 60, json_list_reduced4, list_refs_reduced4);
             drawCircle(json_list_reduced4, 12, "#326896");
 
             // Fifth circle
 
-            var json_list_reduced5 = [];
-            var list_refs_reduced5 = [];
-
-            for (h = 0; h < json_list.length; h++) {
-                if (typeof json_list[h].results[0].xref !== 'undefined') {
-                    if (list_refs[h].length > 5 && list_refs[h].length <= 10 && document.getElementById("selectParameter").value === 'xref') {
-                        populateListsForCircles(json_list_reduced5, list_refs_reduced5, json_list[h], list_refs[h]);
-                    }
-                }
-                if (typeof json_list[h].results[0].comment !== 'undefined') {
-                    if (json_list[h].results[0].comment.length > 20 && json_list[h].results[0].comment.length <= 40 && document.getElementById("selectParameter").value === 'comment') {
-                        populateListsForCircles(json_list_reduced5, list_refs_reduced5, json_list[h], list_refs[h]);
-                    }
-                }
-                if (typeof json_list[h].results[0].example !== 'undefined') {
-                    if (json_list[h].results[0].example.length > 10 && json_list[h].results[0].example.length <= 15 && document.getElementById("selectParameter").value === 'example') {
-                        populateListsForCircles(json_list_reduced5, list_refs_reduced5, json_list[h], list_refs[h]);
-                    }
-                }
-                if (typeof json_list[h].results[0].formula !== 'undefined') {
-                    if (json_list[h].results[0].formula.length > 20 && json_list[h].results[0].formula.length <= 40 && document.getElementById("selectParameter").value === 'formula') {
-                        populateListsForCircles(json_list_reduced5, list_refs_reduced5, json_list[h], list_refs[h]);
-                    }
-                }
-                if (typeof json_list[h].results[0].reference !== 'undefined') {
-                    if (json_list[h].results[0].reference.length > 20 && json_list[h].results[0].reference.length <= 40 && document.getElementById("selectParameter").value === 'reference') {
-                        populateListsForCircles(json_list_reduced5, list_refs_reduced5, json_list[h], list_refs[h]);
-                    }
-                }
-            }
+            stripInitializationRoutine(5, 10, 20, 40, 10, 15, 20, 40, 20, 40, json_list_reduced5, list_refs_reduced5);
             drawCircle(json_list_reduced5, 15, "#3d7fb5");
 
             // Sixth circle
 
-            var json_list_reduced6 = [];
-            var list_refs_reduced6 = [];
-
-            for (h = 0; h < json_list.length; h++) {
-                if (typeof json_list[h].results[0].xref !== 'undefined') {
-                    if (list_refs[h].length <= 5 && document.getElementById("selectParameter").value === 'xref') {
-                        populateListsForCircles(json_list_reduced6, list_refs_reduced6, json_list[h], list_refs[h]);
-                    }
-                }
-                if (typeof json_list[h].results[0].comment !== 'undefined') {
-                    if (json_list[h].results[0].comment.length > 0 && json_list[h].results[0].comment.length <= 20 && document.getElementById("selectParameter").value === 'comment') {
-                        populateListsForCircles(json_list_reduced6, list_refs_reduced6, json_list[h], list_refs[h]);
-                    }
-                }
-                if (typeof json_list[h].results[0].example !== 'undefined') {
-                    if (json_list[h].results[0].example.length > 0 && json_list[h].results[0].example.length <= 10 && document.getElementById("selectParameter").value === 'example') {
-                        populateListsForCircles(json_list_reduced6, list_refs_reduced6, json_list[h], list_refs[h]);
-                    }
-                }
-                if (typeof json_list[h].results[0].formula !== 'undefined') {
-                    if (json_list[h].results[0].formula.length > 0 && json_list[h].results[0].formula.length <= 20 && document.getElementById("selectParameter").value === 'formula') {
-                        populateListsForCircles(json_list_reduced6, list_refs_reduced6, json_list[h], list_refs[h]);
-                    }
-                }
-                if (typeof json_list[h].results[0].reference !== 'undefined') {
-                    if (json_list[h].results[0].reference.length > 0 && json_list[h].results[0].reference.length <= 20 && document.getElementById("selectParameter").value === 'reference') {
-                        populateListsForCircles(json_list_reduced6, list_refs_reduced6, json_list[h], list_refs[h]);
-                    }
-                }
-            }
-
+            stripInitializationRoutine(0, 5, 0, 20, 0, 10, 0, 20, 0, 20, json_list_reduced6, list_refs_reduced6);
             drawCircle(json_list_reduced6, 18, "#4897d4");
 
             // Seventh circle
-
-            var json_list_reduced7 = [];
-            var list_refs_reduced7 = [];
 
             for (h = 0; h < json_list.length; h++) {
                 if (typeof json_list[h].results[0].xref === 'undefined' && document.getElementById("selectParameter").value === 'xref') {
@@ -586,11 +441,7 @@
             firstStripe = document.getElementById("input").value;
             secondStripe = document.getElementById("input2").value;
             thirdStripe = document.getElementById("input3").value;
-
-            /*if ((firstStripe === "1" || firstStripe === "2" || firstStripe === "3" || firstStripe === "4" || firstStripe === "5" || firstStripe === "6" || firstStripe === "7") &&
-                (secondStripe === "1" || secondStripe === "2" || secondStripe === "3" || secondStripe === "4" || secondStripe === "5" || secondStripe === "6" || secondStripe === "7") &&
-                (thirdStripe === "1" || thirdStripe === "2" || thirdStripe === "3" || thirdStripe === "4" || thirdStripe === "5" || thirdStripe === "6" || thirdStripe === "7")) {*/
-
+     
             drawCircle(json_list_reduced, 3, "#132b43");
             drawCircle(json_list_reduced2, 6, "#1d3f5d");
             drawCircle(json_list_reduced3, 9, "#27547a");
@@ -601,8 +452,6 @@
 
             var json_list_for_edges = [];
             var list_refs_for_edges = [];
-
-            //var strip1 = document.getElementById("input").value;
 
             if (firstStripe !== "") {
                 getStrip(firstStripe, "1", json_list_reduced, list_refs_reduced, json_list_for_edges, list_refs_for_edges);
@@ -617,8 +466,6 @@
             var json_list_for_edges2 = [];
             var list_refs_for_edges2 = [];
 
-            //var strip2 = document.getElementById("input2").value;
-
             if (secondStripe !== "") {
                 getStrip(secondStripe, "1", json_list_reduced, list_refs_reduced, json_list_for_edges2, list_refs_for_edges2);
                 getStrip(secondStripe, "2", json_list_reduced2, list_refs_reduced2, json_list_for_edges2, list_refs_for_edges2);
@@ -631,8 +478,6 @@
 
             var json_list_for_edges3 = [];
             var list_refs_for_edges3 = [];
-
-            //var strip3 = document.getElementById("input3").value;
 
             if (thirdStripe !== "") {
                 getStrip(thirdStripe, "1", json_list_reduced, list_refs_reduced, json_list_for_edges3, list_refs_for_edges3);
@@ -703,12 +548,6 @@
             s.refresh();
 
             getNodesOverlap(3);
-
-            /*} else {
- 
-                alert("The value of first, second and third stripe have to be between 1 and 7 (both included)");
- 
-            }*/
 
         }
 
@@ -789,7 +628,7 @@
         }
 
         function showAndHide() {
-            
+
             var inputSelect = document.getElementById("selectParameter").value;
 
             document.getElementById("legendXref").style.display = "none";
@@ -797,7 +636,6 @@
             document.getElementById("legendFormula").style.display = "none";
             document.getElementById("legendReference").style.display = "none";
             document.getElementById("legendExample").style.display = "none";
-
 
             if (inputSelect === 'xref') {
                 document.getElementById("legendXref").style.display = "block";
@@ -819,7 +657,55 @@
                 document.getElementById("legendExample").style.display = "block";
             }
 
+        }
 
+        function stripInitializationRoutine(firstXrefLimit, secondXrefLimit, firstCommentLimit, secondCommentLimit, firstExampleLimit, secondExampleLimit, firstFormulaLimit, secondFormulaLimit, firstReferenceLimit, secondReferenceLimit, json_list_reduced_p, list_refs_reduced_p) {
+
+            for (h = 0; h < json_list.length; h++) {
+                if (typeof json_list[h].results[0].xref !== 'undefined') {
+                    if (list_refs[h].length > firstXrefLimit && list_refs[h].length <= secondXrefLimit && document.getElementById("selectParameter").value === 'xref') {
+                        populateListsForCircles(json_list_reduced_p, list_refs_reduced_p, json_list[h], list_refs[h]);
+                    }
+                }
+                if (typeof json_list[h].results[0].comment !== 'undefined') {
+                    if (json_list[h].results[0].comment.length > firstCommentLimit && json_list[h].results[0].comment.length <= secondCommentLimit && document.getElementById("selectParameter").value === 'comment') {
+                        populateListsForCircles(json_list_reduced_p, list_refs_reduced_p, json_list[h], list_refs[h]);
+                    }
+                }
+                if (typeof json_list[h].results[0].example !== 'undefined') {
+                    if (json_list[h].results[0].example.length > firstExampleLimit && json_list[h].results[0].example.length <= secondExampleLimit && document.getElementById("selectParameter").value === 'example') {
+                        populateListsForCircles(json_list_reduced_p, list_refs_reduced_p, json_list[h], list_refs[h]);
+                    }
+                }
+                if (typeof json_list[h].results[0].formula !== 'undefined') {
+                    if (json_list[h].results[0].formula.length > firstFormulaLimit && json_list[h].results[0].formula.length <= secondFormulaLimit && document.getElementById("selectParameter").value === 'formula') {
+                        populateListsForCircles(json_list_reduced_p, list_refs_reduced_p, json_list[h], list_refs[h]);
+                    }
+                }
+                if (typeof json_list[h].results[0].reference !== 'undefined') {
+                    if (json_list[h].results[0].reference.length > firstReferenceLimit && json_list[h].results[0].reference.length <= secondReferenceLimit && document.getElementById("selectParameter").value === 'reference') {
+                        populateListsForCircles(json_list_reduced_p, list_refs_reduced_p, json_list[h], list_refs[h]);
+                    }
+                }
+            }
+
+        }
+
+        function emptyLists() {
+            json_list_reduced = [];
+            list_refs_reduced = [];
+            json_list_reduced2 = [];
+            list_refs_reduced2 = [];
+            json_list_reduced3 = [];
+            list_refs_reduced3 = [];
+            json_list_reduced4 = [];
+            list_refs_reduced4 = [];
+            json_list_reduced5 = [];
+            list_refs_reduced5 = [];
+            json_list_reduced6 = [];
+            list_refs_reduced6 = [];
+            json_list_reduced7 = [];
+            list_refs_reduced7 = [];
         }
 
     </script>
