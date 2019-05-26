@@ -1,4 +1,4 @@
-function drawSpecializedLayout() {
+function drawBubbleLayout() {
 
     s.graph.clear();
 
@@ -89,15 +89,4 @@ function setWeight(w_list) {
 
     return weightForThisString;
 
-}
-
-function getNodesOverlap(node_m) {
-    var config = {
-        nodeMargin: node_m,
-        scaleNodes: 1.3
-    };
-
-    var listener = s.configNoverlap(config);
-
-    s.startNoverlap();
 }
