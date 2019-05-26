@@ -18,13 +18,13 @@
     <link rel="stylesheet" href="jquery-ui.css">
 
     <style type="text/css">
-
         body {
             margin: 10;
             background-color: #D3D3D3;
         }
 
-        div.accordion { /* css class syntax: the name class is accordion and its type is div */
+        div.accordion {
+            /* css class syntax: the name class is accordion and its type is div */
             width: 25%;
         }
 
@@ -119,7 +119,8 @@
 
 <body>
     <center>
-        <font size="10" color="Black" style="text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;"> <!-- w3schools -->
+        <font size="10" color="Black" style="text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;">
+            <!-- w3schools -->
             Interactive Graph
         </font>
         <br>
@@ -175,6 +176,34 @@
                     <option>Choose</option>
                 </select>
                 <input class="buttonRemove" type="submit" value="Remove node" id="buttonRemoveNode">
+            </form>
+        </div>
+        <h3>
+            <b>
+                Bubble layout
+            </b>
+        </h3>
+        <div class="section" id="sectionBubbleLayout">
+            <form action="javascript: drawBubbleLayout()">
+                Choose the sequence and the weight to create a bubble layout.
+                <br>
+                <br>
+                <input class="text" type="text" id="sequenceLayout">
+                <select required oninvalid="this.setCustomValidity('Please select an item of the list')"
+                    oninput="this.setCustomValidity('')" id="selectWeightForLayout">
+                    <option value="">Choose</option>
+                    <option>comment</option>
+                    <option>reference</option>
+                    <option>link</option>
+                    <option>formula</option>
+                    <option>example</option>
+                    <option>maple</option>
+                    <option>mathematica</option>
+                    <option>program</option>
+                </select>
+                <br>
+                <br>
+                <input class="button" type="submit" value="Draw it!" id="buttonLayout">
             </form>
         </div>
         <h3>
@@ -343,7 +372,9 @@
     <p class="nodesClick" hidden id="nodesClick">Left click on a node to show the associated informations</p>
     <p class="nodesClick" hidden id="nodesClick2">Right click on a node to show the associated xrefs </p>
 
-    <marquee direction="right" behavior="alternate"><h4>Double click on the background to activate or deactivate the zoom!</h4></marquee>
+    <marquee direction="right" behavior="alternate">
+        <h4>Double click on the background to activate or deactivate the zoom!</h4>
+    </marquee>
 
     <script src="..\libraries\build\sigma.min.js"></script>
 
@@ -363,13 +394,18 @@
     <script src="..\javascript/addRemoveNodesToSpecilizedGraph.js"></script>
     <script src="..\javascript/addRemoveNodesToIncrementalGraph.js"></script>
     <script src="..\javascript/initializationMenu.js"></script>
+    <script src="..\javascript/Bubblelayout.js"></script>
+    <script src="..\javascript/take_weight.js"></script>
+    <script src="..\libraries\sigma\plugins\sigma.layout.noverlap\sigma.layout.noverlap.js"></script>
+    <script src="..\libraries\sigma\plugins\sigma.plugins.animate\sigma.plugins.animate.js"></script>
+    <script src="..\javascript/getOverlap.js"></script>
 
     <script>
         var array_numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
         document.getElementById("download").addEventListener("click", clearInput);
         document.addEventListener('contextmenu', event => event.preventDefault()); //hide the menù that is showed in the browser at the right click of the mouse
         var zoom = false;
-        document.addEventListener('dblclick', function() {
+        document.addEventListener('dblclick', function () {
             if (!zoom) {
                 s.settings({
                     enableCamera: true
