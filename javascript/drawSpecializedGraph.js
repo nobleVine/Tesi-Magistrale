@@ -2,6 +2,10 @@ function drawSpecializedGraph() {
 
     s.graph.clear();
 
+    s.settings({
+        maxNodeSize: 6
+    });
+
     var present = false;
 
     specGraph = true;

@@ -2,6 +2,10 @@ function drawFetchedSequencesGraph() {
 
     s.graph.clear();
 
+    s.settings({
+        maxNodeSize: 6
+    });
+
     s.unbind('rightClickNode'); //to deactivate the event rightClickNode
 
     document.getElementById("nodesClick2").style.display = "none";

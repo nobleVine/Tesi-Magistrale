@@ -66,10 +66,6 @@ function drawBubbleLayout() {
 
     getNodesOverlap(5);
 
-    /*s.settings({
-        maxNodeSize: 6
-    });*/
-
 }
 
 function setWeight(w_list) {
