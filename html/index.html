@@ -306,6 +306,66 @@
         </div>
         <h3>
             <b>
+                Shortest path
+            </b>
+        </h3>
+        <div class="section" id="section5">
+            <form action="javascript: shortestPath()">
+                <table>
+                    Insert the id of the source node and the destination node of which you want to show the shortest
+                    path of edges.
+                    <br>
+                    <br>
+                    <tr>
+                        <td>
+                            <b>first sequence</b>
+                        </td>
+                        <td>
+                            <input class="text" type="text" id="firstSequence">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>second sequence</b>
+                        </td>
+                        <td>
+                            <input class="text" type="text" id="secondSequence">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <br>
+                            <input class="button" type="submit" value="Draw It!" id="buttonPath">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <br>
+                            <b>
+                                Number of nodes
+                            </b>
+                        </td>
+                        <td>
+                            <br>
+                            <input class="text" type="text" id="numNodes">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>
+                                Number of edges
+                            </b>
+                        </td>
+                        <td>
+                            <input class="text" type="text" id="numEdges">
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <h3>
+            <b>
                 Download Sequences
             </b>
         </h3>
@@ -392,6 +452,7 @@
 
     <script src="..\libraries/sigma/plugins/sigma.layout.forceAtlas2/supervisor.js"></script>
     <script src="..\libraries/sigma/plugins/sigma.layout.forceAtlas2/worker.js"></script>
+    <script src="..\libraries\sigma\plugins\sigma.pathfinding.astar\sigma.pathfinding.astar.js"></script>
     <script src="..\javascript/take_sequences.js"></script>
     <script src="..\javascript/drawSpecializedGraph.js"></script>
     <script src="..\javascript/showInformation.js"></script>
@@ -407,6 +468,7 @@
     <script src="..\libraries\sigma\plugins\sigma.layout.noverlap\sigma.layout.noverlap.js"></script>
     <script src="..\libraries\sigma\plugins\sigma.plugins.animate\sigma.plugins.animate.js"></script>
     <script src="..\javascript/getNodesOverlap.js"></script>
+    <script src="..\javascript\shortestPath.js"></script>
 
     <script>
         var array_numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
@@ -520,6 +582,7 @@
             document.getElementById("buttonDraw3").addEventListener("click", hideAccordion);
             document.getElementById("buttonCompute").addEventListener("click", hideAccordion);
             document.getElementById("buttonLayout").addEventListener("click", hideAccordion);
+            document.getElementById("buttonPath").addEventListener("click", hideAccordion);
         }
 
     </script>
