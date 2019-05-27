@@ -366,6 +366,14 @@
         <div class="section" id="sequenceNumber"></div>
     </div>
 
+    <div class="accordion" id="accordion3" style="float: right;">
+        <h3>
+            <b id="Title3">
+            </b>
+        </h3>
+        <div class="section" id="clickedInfo"></div>
+    </div>
+
     <div id="graphSection" style="float: left;">
     </div>
 
@@ -499,6 +507,7 @@
 
         function hideAccordion() {
             document.getElementById("accordion2").style.display = "none";
+            document.getElementById("accordion3").style.display = "none";
         }
 
         sigma.plugins.dragNodes(s, s.renderers[
@@ -509,6 +518,7 @@
             document.getElementById("buttonDraw2").addEventListener("click", hideAccordion);
             document.getElementById("buttonDraw3").addEventListener("click", hideAccordion);
             document.getElementById("buttonCompute").addEventListener("click", hideAccordion);
+            document.getElementById("buttonLayout").addEventListener("click", hideAccordion);
         }
 
     </script>
