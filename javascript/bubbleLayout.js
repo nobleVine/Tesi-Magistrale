@@ -19,6 +19,7 @@ function drawBubbleLayout() {
 
     if (sequenceForLayout === "") {
         alert('There is no sequence inserted');
+        document.getElementById("nodesClick").style.display = "none";
         return;
     }
 
@@ -38,7 +39,8 @@ function drawBubbleLayout() {
     });
 
     if (!downloaded) {
-        alert("The sequence has not been fetched!");
+        alert("The sequence "+ sequenceForLayout +  " has not been fetched!");
+        document.getElementById("nodesClick").style.display = "none";
         return;
     }
 
