@@ -1,4 +1,5 @@
 function getNodesOverlap(node_m) {
+
     var config = {
         nodeMargin: node_m,
         scaleNodes: 1.3
@@ -7,4 +8,5 @@ function getNodesOverlap(node_m) {
     var listener = s.configNoverlap(config);
 
     s.startNoverlap();
+
 }
