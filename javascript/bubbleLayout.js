@@ -1,5 +1,13 @@
 function drawBubbleLayout() {
 
+    document.getElementById("nodesClick").style.display = "block";
+    document.getElementById("nodesClick2").style.display = "none";
+
+    // Common listeners.
+    initializationCommonListeners();
+
+    s.unbind('rightClickNode');
+
     s.graph.clear();
 
     s.settings({
@@ -8,6 +16,11 @@ function drawBubbleLayout() {
 
     var sequenceForLayout = document.getElementById("sequenceLayout").value;
     var downloaded = false;
+
+    if (sequenceForLayout === "") {
+        alert('There is no sequence inserted');
+        return;
+    }
 
     json_list.forEach(element => {
         if (element.query.substring(3, 11) === sequenceForLayout) {
@@ -53,9 +66,9 @@ function drawBubbleLayout() {
 
     getNodesOverlap(5);
 
-    s.settings({
+    /*s.settings({
         maxNodeSize: 6
-    });
+    });*/
 
 }
 
