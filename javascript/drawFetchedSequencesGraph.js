@@ -2,10 +2,6 @@ function drawFetchedSequencesGraph() {
 
     s.graph.clear();
 
-    s.settings({
-        maxNodeSize: 6
-    });
-
     s.unbind('rightClickNode'); //to deactivate the event rightClickNode
 
     document.getElementById("nodesClick2").style.display = "none";
@@ -96,6 +92,13 @@ function drawFetchedSequencesGraph() {
 
         window.setTimeout(function () { s.killForceAtlas2() }, 500);
 
+        s.settings({
+            maxNodeSize: 10,
+            minNodeSize: 3
+        });
+
+        sigma.plugins.relativeSize(s, 3);
+
     }
 
     if (layout === "Force Layout Edges") {
@@ -105,12 +108,19 @@ function drawFetchedSequencesGraph() {
             scalingRation: 10000,
             outboundAttractionDistribution: true,
             slowDown: 50,
-            edgeWeightInfluence : 1000
+            edgeWeightInfluence: 1000
         }
 
         s.startForceAtlas2(configuration);
 
         window.setTimeout(function () { s.killForceAtlas2() }, 500);
+
+        s.settings({
+            maxNodeSize: 30,
+            minNodeSize: 3
+        });
+
+        sigma.plugins.relativeSize(s, 3);
 
     }
 
