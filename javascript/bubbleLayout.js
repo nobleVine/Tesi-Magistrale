@@ -6,6 +6,8 @@ function drawBubbleLayout() {
     // Common listeners.
     initializationCommonListeners();
 
+    document.getElementById("sequenceLayout").addEventListener("click", clearInput);
+
     s.unbind('rightClickNode');
 
     s.graph.clear();
