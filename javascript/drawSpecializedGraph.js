@@ -1,5 +1,7 @@
 function drawSpecializedGraph() {
 
+    currentLayout = "Specialized Layout";
+    
     s.graph.clear();
 
     s.settings({

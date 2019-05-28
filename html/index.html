@@ -496,6 +496,20 @@
         var specGraph = true; // This boolean serves to hide the second part of the helper.
         var nodes_added = []; // This list serves to record the nodes that are added with showXRef() function.
         var lastNodeIdClickedWithRight = ""; // It is useful for the nodes removal.
+        var currentLayout = "";
+
+        /*
+            Possible layouts:
+
+                            1) Specialized Layout
+                            2) Bubble Layout
+                            3) Circle Layout
+                            4) Force Layout Default
+                            5) Force Layout Edges
+                            6) Incremental Layout
+        
+        */
+
 
 
         $.ajax({ // This ajax request serves to storage the string with names of json files in the folder fetched.

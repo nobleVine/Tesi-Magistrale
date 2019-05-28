@@ -1,5 +1,7 @@
 function drawIncrementalGraph() {
 
+    currentLayout = "Incremental Layout";
+
     s.graph.clear();
 
     specGraph = false;

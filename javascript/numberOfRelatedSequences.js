@@ -1,5 +1,7 @@
 function numberOfRelatedSequences() {
 
+    if (currentLayout !== "Bubble Layout") {
+
     // Common listeners.
     initializationCommonListeners();
 
@@ -74,4 +76,10 @@ function numberOfRelatedSequences() {
     s.refresh();
 
     document.getElementById("nodesClick").style.display = "block";
+
+    } else {
+
+        alert("This algorithm is not applicable to " + currentLayout);
+
+    }
 }

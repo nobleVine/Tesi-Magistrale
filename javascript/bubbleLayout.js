@@ -1,5 +1,7 @@
 function drawBubbleLayout() {
 
+    currentLayout = "Bubble Layout";
+
     document.getElementById("nodesClick").style.display = "block";
     document.getElementById("nodesClick2").style.display = "none";
 
