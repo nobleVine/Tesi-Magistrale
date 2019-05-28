@@ -1,6 +1,12 @@
 function drawFetchedSequencesGraph() {
 
+    currentLayout = "Circle Layout";
+
     s.graph.clear();
+
+    s.settings({
+        maxNodeSize: 6
+    })
 
     s.unbind('rightClickNode'); //to deactivate the event rightClickNode
 
@@ -84,6 +90,8 @@ function drawFetchedSequencesGraph() {
 
     if (layout === "Force Layout Default") {
 
+        currentLayout = "Force Layout Default";
+
         configuration = {
             outboundAttractionDistribution: true,
         }
@@ -102,6 +110,8 @@ function drawFetchedSequencesGraph() {
     }
 
     if (layout === "Force Layout Edges") {
+
+        currentLayout = "Force Layout Edges";
 
         configuration = {
             linLogMode: true,
