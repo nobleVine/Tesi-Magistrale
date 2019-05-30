@@ -4,6 +4,10 @@ function drawIncrementalGraph() {
 
     s.graph.clear();
 
+    s.settings({
+        maxNodeSize: 6
+    });
+
     specGraph = false;
 
     s.unbind('rightClickNode'); //to deactivate the event rightClickNode
@@ -100,7 +104,8 @@ function addNodeToIncrementalGraph() {
         x: Math.round(getRandomArbitrary(0, 10000)),
         y: Math.round(getRandomArbitrary(0, 10000))
     }).addEdge({
-        id: 'e' + id + sequenceToDraw,
+        id: 'e' + '(' + id + ',' + sequenceToDraw + ')',
+        //id: 'e' + id + sequenceToDraw,
         source: '' + id,
         target: '' + sequenceToDraw,
         size: 3
