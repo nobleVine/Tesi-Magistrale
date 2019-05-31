@@ -77,7 +77,7 @@ function drawFetchedSequencesGraph() {
     for (q = 0; q < list_edges.length; q++) { //double for to remove the duplicate edges (edges which have the same source and target nodes)
         for (p = q + 1; p < list_edges.length; p++) {
             if ((list_edges[q].source === list_edges[p].target) && (list_edges[q].target === list_edges[p]
-                    .source)) {
+                .source)) {
                 s.graph.dropEdge(list_edges[p].id);
             }
         }
@@ -163,5 +163,69 @@ function drawFetchedSequencesGraph() {
     }
 
     $("#selectLayout").empty().append('<option value="">Choose</option>').append('<option>Circle Layout</option>').append('<option>Force Layout Default</option>').append('<option>Force Layout Edges</option>').append('<option>FR Layout</option>');
+
+}
+
+function louvainLayout() {
+
+    var colors = [];
+
+    for(c=0; c < 100; c++) {
+        colors[c] = '#' + (
+            Math.floor(Math.random() * 16777215).toString(16) + '000000'
+          ).substr(0, 6);
+    }
+
+    var louvainInstance;
+
+        louvainInstance = sigma.plugins.louvain(s.graph, {
+            setter: function (communityId) {
+                this.my_community = communityId;
+            }
+        });
+
+        var nbLevels = louvainInstance.countLevels();
+        var partitions = louvainInstance.getPartitions();
+        var nbPartitions = louvainInstance.countPartitions(partitions);
+
+        document.getElementById('numberOfCommunities').value = nbPartitions;
+
+        s.graph.nodes().forEach(function (node) {
+            node.color = colors[node.my_community];
+        });
+
+        s.refresh(); // { skipIndexation: true }
+
+        var levelElt = document.getElementById('selectLevel');
+        levelElt.innerHTML = '';
+
+        for (var i = 0; i < nbLevels; i++) {
+            var optionElt = document.createElement("option");
+            optionElt.text = i + 1;
+            if (i === nbLevels - 1) {
+                optionElt.selected = true;
+            }
+            levelElt.add(optionElt);
+        }
+
+
+        levelElt.addEventListener("change", function (e) {
+
+            var level = +e.target[e.target.selectedIndex].value;
+            louvainInstance.setResults({ level: level });
+
+            // Partition count
+            partitions = louvainInstance.getPartitions(level);
+            nbPartitions = louvainInstance.countPartitions(partitions);
+            document.getElementById('numberOfCommunities').value = nbPartitions;
+
+            // Color nodes based on their community
+            s.graph.nodes().forEach(function (node) {
+                node.color = colors[node.my_community];
+            });
+
+            s.refresh({ skipIndexation: true });
+
+        });
 
 }

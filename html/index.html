@@ -215,7 +215,7 @@
             Choose the layout and draw the graph with the fetched sequences (maximum 100).
             <br>
             <br>
-            <table>
+            <table cellspacing="10">
                 <tr>
                     <td>
                         <b>number of nodes</b>
@@ -227,7 +227,6 @@
                 </tr>
                 <tr>
                     <td>
-                        <br>
                         <form action="javascript:drawFetchedSequencesGraph()" id="form2">
                             <select required oninvalid="this.setCustomValidity('Please select an item of the list')"
                                 oninput="this.setCustomValidity('')" id="selectLayout">
@@ -244,6 +243,37 @@
                     </td>
                     </form>
                 </tr>
+                <form action="javascript: louvainLayout()">
+                    <tr>
+                        <td colspan="2" style ="text-align: justify;">
+                            Click on Apply to detect the communities in the current graph. A communities is a subset of vertices where there are many edges connecting between vertices of the same subset.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input class="button" type="submit" value="Apply!" id="applyCommunitiesLayout">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>
+                                communities
+                            </b>
+                        </td>
+                        <td>
+                            <input class="text" type="text" id="numberOfCommunities">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>levels</b>
+                        </td>
+                        <td>
+                            <select id="selectLevel">
+                            </select>
+                        </td>
+                    </tr>
+                </form>
             </table>
         </div>
         <h3>
@@ -450,7 +480,8 @@
     <script src="..\libraries/sigma/plugins/sigma.plugins.dragNodes/sigma.plugins.dragNodes.js"></script>
 
     <script src="..\libraries/sigma/plugins/sigma.plugins.animate/sigma.plugins.animate.js"></script>
-    <script src="../libraries/sigma/plugins/sigma.layouts.fruchtermanReingold/sigma.layout.fruchtermanReingold.js"></script>
+    <script
+        src="../libraries/sigma/plugins/sigma.layouts.fruchtermanReingold/sigma.layout.fruchtermanReingold.js"></script>
 
     <script src="..\libraries/sigma/plugins/sigma.layout.forceAtlas2/supervisor.js"></script>
     <script src="..\libraries/sigma/plugins/sigma.layout.forceAtlas2/worker.js"></script>
@@ -470,8 +501,13 @@
     <script src="..\libraries\sigma\plugins\sigma.layout.noverlap\sigma.layout.noverlap.js"></script>
     <script src="..\libraries\sigma\plugins\sigma.plugins.animate\sigma.plugins.animate.js"></script>
     <script src="..\javascript/getNodesOverlap.js"></script>
-    <script src="..\libraries\sigma\plugins\sigma.plugins.relativeSize\sigma.plugins.relativeSize.js"></script> 
+    <script src="..\libraries\sigma\plugins\sigma.plugins.relativeSize\sigma.plugins.relativeSize.js"></script>
     <script src="..\javascript\shortestPath.js"></script>
+
+    <script src="..\libraries\sigma\plugins/sigma.layouts.forceLink/worker.js"></script>
+    <script src="..\libraries\sigma\plugins/sigma.layouts.forceLink/supervisor.js"></script>
+
+    <script src="..\libraries\sigma\plugins/sigma.statistics.louvain/sigma.statistics.louvain.js"></script>
 
     <script>
         var array_numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
