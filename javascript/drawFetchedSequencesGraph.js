@@ -74,10 +74,10 @@ function drawFetchedSequencesGraph() {
 
     list_edges = s.graph.edges();
 
-    for (q = 0; q < list_edges.length; q++) {  //double for to remove the duplicate edges (edges which have the same source and target nodes)
+    for (q = 0; q < list_edges.length; q++) { //double for to remove the duplicate edges (edges which have the same source and target nodes)
         for (p = q + 1; p < list_edges.length; p++) {
             if ((list_edges[q].source === list_edges[p].target) && (list_edges[q].target === list_edges[p]
-                .source)) {
+                    .source)) {
                 s.graph.dropEdge(list_edges[p].id);
             }
         }
@@ -98,7 +98,9 @@ function drawFetchedSequencesGraph() {
 
         s.startForceAtlas2(configuration);
 
-        window.setTimeout(function () { s.killForceAtlas2() }, 500);
+        window.setTimeout(function () {
+            s.killForceAtlas2()
+        }, 500);
 
         s.settings({
             maxNodeSize: 10,
@@ -123,7 +125,9 @@ function drawFetchedSequencesGraph() {
 
         s.startForceAtlas2(configuration);
 
-        window.setTimeout(function () { s.killForceAtlas2() }, 500);
+        window.setTimeout(function () {
+            s.killForceAtlas2()
+        }, 500);
 
         s.settings({
             maxNodeSize: 30,
@@ -134,6 +138,30 @@ function drawFetchedSequencesGraph() {
 
     }
 
-    $("#selectLayout").empty().append('<option value="">Choose</option>').append('<option>Circle Layout</option>').append('<option>Force Layout Default</option>').append('<option>Force Layout Edges</option>');
+    if (layout === "FR Layout") {
+
+        currentLayout = "FR Layout";
+
+        // Configure the Fruchterman-Reingold algorithm:
+        var frListener = sigma.layouts.fruchtermanReingold.configure(s, {
+            gravity: 50,
+            iterations: 500,
+            easing: 'quadraticInOut',
+            duration: 800
+        });
+
+        // Start the Fruchterman-Reingold algorithm:
+        sigma.layouts.fruchtermanReingold.start(s);
+
+        s.settings({
+            maxNodeSize: 30,
+            minNodeSize: 3
+        });
+
+        sigma.plugins.relativeSize(s, 3);
+
+    }
+
+    $("#selectLayout").empty().append('<option value="">Choose</option>').append('<option>Circle Layout</option>').append('<option>Force Layout Default</option>').append('<option>Force Layout Edges</option>').append('<option>FR Layout</option>');
 
 }
