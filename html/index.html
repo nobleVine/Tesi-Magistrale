@@ -215,7 +215,7 @@
             Choose the layout and draw the graph with the fetched sequences (maximum 100).
             <br>
             <br>
-            <table>
+            <table cellspacing="10">
                 <tr>
                     <td>
                         <b>number of nodes</b>
@@ -227,7 +227,6 @@
                 </tr>
                 <tr>
                     <td>
-                        <br>
                         <form action="javascript:drawFetchedSequencesGraph()" id="form2">
                             <select required oninvalid="this.setCustomValidity('Please select an item of the list')"
                                 oninput="this.setCustomValidity('')" id="selectLayout">
@@ -244,57 +243,37 @@
                     </td>
                     </form>
                 </tr>
-                <!--<tr>
-                    <td>
-                        <div id="control-pane">
-                        <h2 class="underline">
-                            <span id="numberOfPartitions">
-                                0
-                            </span> 
-                            communities
-                        </h2>
-                        <div>
-                            <h3>levels</h3>
-                            <select id="levels"></select>
-                        </div>
-                        <span class="line"></span>
-                        <div>
-                            <button id="detectCommunities">Detect communities</button>
-                            <button id="resetCommunities">Reset</button>
-                        </div>
-                    </div>-->
-                </table>
-                <table cellspacing = 4>
-                        <form>
-                <tr>
-                    <td>
-                        <input class="button" type="submit" value="Apply!" id="applyCommunitiesLayout">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <b>
-                            communities
-                        </b>
-                    </td>
-                    <td>
-                        <input class="text" type="text" id="numberOfCommunities">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <b>levels</b>
-                    </td>
-                    <td>
-                        <select required oninvalid="this.setCustomValidity('Please select an item of the list')"
-                            oninput="this.setCustomValidity('')" id="selectLevel">
-                            <option value="">Choose</option>
-                        </select>
-                    </td>
-                </tr>
+                <form action="javascript: louvainLayout()">
+                    <tr>
+                        <td colspan="2" style ="text-align: justify;">
+                            Click on Apply to detect the communities in the current graph. A communities is a subset of vertices where there are many edges connecting between vertices of the same subset.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input class="button" type="submit" value="Apply!" id="applyCommunitiesLayout">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>
+                                communities
+                            </b>
+                        </td>
+                        <td>
+                            <input class="text" type="text" id="numberOfCommunities">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>levels</b>
+                        </td>
+                        <td>
+                            <select id="selectLevel">
+                            </select>
+                        </td>
+                    </tr>
                 </form>
-                </td>
-                </tr>
             </table>
         </div>
         <h3>
