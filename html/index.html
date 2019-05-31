@@ -235,7 +235,7 @@
                                 <option>Circle Layout</option>
                                 <option>Force Layout Default</option>
                                 <option>Force Layout Edges</option>
-                                <option>Louvain Layout</option>
+                                <option>FR Layout</option>
                             </select>
                     </td>
                     <td>
@@ -244,9 +244,9 @@
                     </td>
                     </form>
                 </tr>
-                <tr>
+                <!--<tr>
                     <td>
-                    <div id="control-pane">
+                        <div id="control-pane">
                         <h2 class="underline">
                             <span id="numberOfPartitions">
                                 0
@@ -262,7 +262,37 @@
                             <button id="detectCommunities">Detect communities</button>
                             <button id="resetCommunities">Reset</button>
                         </div>
-                    </div>
+                    </div>-->
+                </table>
+                <table cellspacing = 4>
+                        <form>
+                <tr>
+                    <td>
+                        <input class="button" type="submit" value="Apply!" id="applyCommunitiesLayout">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <b>
+                            communities
+                        </b>
+                    </td>
+                    <td>
+                        <input class="text" type="text" id="numberOfCommunities">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <b>levels</b>
+                    </td>
+                    <td>
+                        <select required oninvalid="this.setCustomValidity('Please select an item of the list')"
+                            oninput="this.setCustomValidity('')" id="selectLevel">
+                            <option value="">Choose</option>
+                        </select>
+                    </td>
+                </tr>
+                </form>
                 </td>
                 </tr>
             </table>
@@ -471,6 +501,8 @@
     <script src="..\libraries/sigma/plugins/sigma.plugins.dragNodes/sigma.plugins.dragNodes.js"></script>
 
     <script src="..\libraries/sigma/plugins/sigma.plugins.animate/sigma.plugins.animate.js"></script>
+    <script
+        src="../libraries/sigma/plugins/sigma.layouts.fruchtermanReingold/sigma.layout.fruchtermanReingold.js"></script>
 
     <script src="..\libraries/sigma/plugins/sigma.layout.forceAtlas2/supervisor.js"></script>
     <script src="..\libraries/sigma/plugins/sigma.layout.forceAtlas2/worker.js"></script>

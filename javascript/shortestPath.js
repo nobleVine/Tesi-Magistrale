@@ -1,6 +1,6 @@
 function shortestPath() {
 
-    if (currentLayout === "Force Layout Default" || currentLayout === "Force Layout Edges" || currentLayout === "Incremental Layout") {
+    if (currentLayout === "Force Layout Default" || currentLayout === "Force Layout Edges" || currentLayout === "Incremental Layout" || currentLayout === "FR Layout") {
 
         document.getElementById("nodesClick").style.display = "block";
 
