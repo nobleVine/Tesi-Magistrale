@@ -235,6 +235,7 @@
                                 <option>Circle Layout</option>
                                 <option>Force Layout Default</option>
                                 <option>Force Layout Edges</option>
+                                <option>Louvain Layout</option>
                             </select>
                     </td>
                     <td>
@@ -242,6 +243,27 @@
                             title="Click here to draw the graph with maximum 100 fetched related sequences">
                     </td>
                     </form>
+                </tr>
+                <tr>
+                    <td>
+                    <div id="control-pane">
+                        <h2 class="underline">
+                            <span id="numberOfPartitions">
+                                0
+                            </span> 
+                            communities
+                        </h2>
+                        <div>
+                            <h3>levels</h3>
+                            <select id="levels"></select>
+                        </div>
+                        <span class="line"></span>
+                        <div>
+                            <button id="detectCommunities">Detect communities</button>
+                            <button id="resetCommunities">Reset</button>
+                        </div>
+                    </div>
+                </td>
                 </tr>
             </table>
         </div>
@@ -468,8 +490,13 @@
     <script src="..\libraries\sigma\plugins\sigma.layout.noverlap\sigma.layout.noverlap.js"></script>
     <script src="..\libraries\sigma\plugins\sigma.plugins.animate\sigma.plugins.animate.js"></script>
     <script src="..\javascript/getNodesOverlap.js"></script>
-    <script src="..\libraries\sigma\plugins\sigma.plugins.relativeSize\sigma.plugins.relativeSize.js"></script> 
+    <script src="..\libraries\sigma\plugins\sigma.plugins.relativeSize\sigma.plugins.relativeSize.js"></script>
     <script src="..\javascript\shortestPath.js"></script>
+
+    <script src="..\libraries\sigma\plugins/sigma.layouts.forceLink/worker.js"></script>
+    <script src="..\libraries\sigma\plugins/sigma.layouts.forceLink/supervisor.js"></script>
+
+    <script src="..\libraries\sigma\plugins/sigma.statistics.louvain/sigma.statistics.louvain.js"></script>
 
     <script>
         var array_numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
