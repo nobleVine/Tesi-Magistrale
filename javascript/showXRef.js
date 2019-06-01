@@ -1,24 +1,24 @@
 function showXref() {
 
-    s.unbind('rightClickNode'); //to avoid to create more than one bind at time
+    s.unbind('rightClickNode'); // To avoid to create more than one bind at time
 
     s.bind('rightClickNode', function (e) {
 
-            lastNodeIdClickedWithRight = e.data.node.id;
+        lastNodeIdClickedWithRight = e.data.node.id;
 
-            var youCantDraw = false;
+        var youCantDraw = false;
 
-            nodes_added.forEach(element => { // We have to check if the user clicks on a node of second level.
-                if (element === e.data.node.id) {
-                    youCantDraw = true;
-                    return;
-                }
-            });
-
-            if (youCantDraw) {
-                alert("You can't draw the next level of xref, for legibility reasons!");
+        nodes_added.forEach(element => { // We have to check if the user clicks on a node of second level.
+            if (element === e.data.node.id) {
+                youCantDraw = true;
                 return;
             }
+        });
+
+        if (youCantDraw) {
+            alert("You can't draw the next level of xref, for legibility reasons!");
+            return;
+        }
 
         fetched = false;
 
@@ -71,7 +71,7 @@ function showXref() {
                     size: 6,
                     color: "#0a0a0a"
                 }).addEdge({
-                    id: 'e' + '(' + e.data.node.id + ',' + xref[i] +')',
+                    id: 'e' + '(' + e.data.node.id + ',' + xref[i] + ')',
                     source: '' + e.data.node.id,
                     target: '' + xref[i],
                     size: 20,

@@ -50,9 +50,8 @@ function numberOfRelatedSequences() {
     s.graph.nodes().forEach(element => {
         if (element.id === sequenceToEvaluate) {
             element.color = "#ff0000";
-            element.size = 2;
+            element.size = element.size + 1;
         } else {
-            element.size = 1;
             element.color = "#007fff";
         }
     });

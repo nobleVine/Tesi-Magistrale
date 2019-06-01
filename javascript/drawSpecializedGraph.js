@@ -66,7 +66,6 @@ function drawSpecializedGraph() {
                 y: 10 * Math.cos(theta),
                 size: 3
             }).addEdge({
-                //id: 'e' + s.graph.edges().length,
                 id: 'e' + '(' + sequence + ',' + nodes_list[i] + ')',
                 source: '' + sequence,
                 target: '' + nodes_list[i],

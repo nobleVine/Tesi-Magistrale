@@ -171,6 +171,18 @@
 
     <script>
 
+        $.ajax({ // This ajax request is useful to update the database with the last fatched sequences.
+            type: "GET",
+            url: "https://localhost/tesi-magistrale/php/populateDB.php",
+            async: false,
+            success: function () {
+                alert("database successfully updated!");
+            },
+            error: function () {
+                alert("Error in the ajax request!");
+            }
+        });
+
         document.getElementById("input1").addEventListener("click", clearInput);
 
         function query1() {
@@ -333,7 +345,7 @@
                 data: {
                     string1: document.getElementById("textInputQuery").value,
                 },
-                success: function (queryResults) {   
+                success: function (queryResults) {
 
                     var column = takeColummn(queryResults);
                     document.getElementById("tableResults").innerHTML = "";
@@ -363,12 +375,12 @@
 
         function takeColummn(queryResults) {
             var i = 0;
-            while(true) {
+            while (true) {
                 if (queryResults[i] === '"') {
                     var j = i + 1;
-                    while(true) {
+                    while (true) {
                         if (queryResults[j] === '"') {
-                            return queryResults.substring(i, j+1);
+                            return queryResults.substring(i, j + 1);
                         }
                         j++;
                     }

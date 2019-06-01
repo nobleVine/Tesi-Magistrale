@@ -208,7 +208,6 @@ function louvainLayout() {
             levelElt.add(optionElt);
         }
 
-
         levelElt.addEventListener("change", function (e) {
 
             var level = +e.target[e.target.selectedIndex].value;

@@ -87,7 +87,6 @@ function shortestPath() {
         for (i = 0; i < listEdges.length; i++) {
             for (j = 0; j < nodesInThePath.length - 1; j++) {
                 if (listEdges[i].source === nodesInThePath[j].id && listEdges[i].target === nodesInThePath[j + 1].id) {
-                    console.log("Archi colorati: " + listEdges[i].id);
                     listEdges[i].color = "#ff0000";
                     numEdges++;
                     break;
