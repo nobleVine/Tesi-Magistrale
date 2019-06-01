@@ -77,6 +77,10 @@
             text-shadow: 7px 7px 7px rgb(122, 122, 82);
             font-size: 20;
         }
+        table.table {
+            position: relative;
+            right: 10px;
+        }
 
         #graphSection {
             width: 50%;
@@ -215,7 +219,7 @@
             Choose the layout and draw the graph with the fetched sequences (maximum 100).
             <br>
             <br>
-            <table cellspacing="10">
+            <table class="table" cellspacing="10">
                 <tr>
                     <td>
                         <b>number of nodes</b>
@@ -243,18 +247,18 @@
                     </td>
                     </form>
                 </tr>
+            </table>
+            Click on Apply to detect the communities in the current graph. A community is a subset
+            of vertices where there are many edges connecting between vertices of the same subset.
+            <br>
+            <br>
+            <table class="table" cellspacing="10">
                 <form action="javascript: louvainLayout()">
+
                     <tr>
-                        <td colspan="2" style ="text-align: justify;">
-                            Click on Apply to detect the communities in the current graph. A communities is a subset of vertices where there are many edges connecting between vertices of the same subset.
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
+                        <td rowspan="2"> 
                             <input class="button" type="submit" value="Apply!" id="applyCommunitiesLayout">
                         </td>
-                    </tr>
-                    <tr>
                         <td>
                             <b>
                                 communities
