@@ -26,7 +26,7 @@ foreach ($array_content as $json) {
     $query = checkAndSetSingleColumn($json['query']);
     $count = checkAndSetSingleColumn($json['count']);
     $start = checkAndSetSingleColumn($json['start']);
-    $number = checkAndSetSingleColumn($json['number']);
+    $number = checkAndSetSingleColumn($json['results'][0]['number']);
     $id = checkAndSetSingleColumn($json['results'][0]['id']);
     $data = checkAndSetSingleColumn($json['results'][0]['data']);
     $name = checkAndSetSingleColumn($json['results'][0]['name']);

@@ -5,12 +5,16 @@ $string = $_POST['string2'];
 
 require_once 'readAndConnection.php';
 
-function searchInName($string, $connectionToDB, $column) {
-    $sql_query = "SELECT * FROM json " . "WHERE " . $column . " LIKE " . "'%" . $string . "%'";
+function searchInColumn($string, $connectionToDB, $column) {
+    if ($column == "greeting" || $column == "count" || $column == "start" || $column == "number" || $column == "id" || $column == "data" || $column == "name" || $column == "comment" || $column == "reference" || $column == "link") {
+        $sql_query = "SELECT * FROM json1 " . "WHERE " . $column . " LIKE " . "'%" . $string . "%'";
+    } else {
+        $sql_query = "SELECT * FROM json2 " . "WHERE " . $column . " LIKE " . "'%" . $string . "%'";
+    }
     return $connectionToDB->query($sql_query);
 }
 
-$query_result = searchInName($string, $connectionToDB, $column);
+$query_result = searchInColumn($string, $connectionToDB, $column);
 
 $r = array();
 
@@ -19,5 +23,3 @@ while ($row = $query_result->fetch_assoc()) {
 }
 
 echo json_encode($r);
-
-?>

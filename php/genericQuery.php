@@ -4,7 +4,12 @@ $column = $_POST['string'];
 
 require_once 'readAndConnection.php';
 
-$sql_query = "SELECT query, " . $column . " FROM json";
+if ($column == "greeting" || $column == "count" || $column == "start" || $column == "number" || $column == "id" || $column == "data" || $column == "name" || $column == "comment" || $column == "reference" || $column == "link") {
+    $sql_query = "SELECT query, " . $column . " FROM json1";
+} else {
+    $sql_query = "SELECT query, " . $column . " FROM json2";
+}
+
 $query_result = mysqli_query($connectionToDB, $sql_query);
 
 $r = array();
