@@ -4,9 +4,12 @@ $column = $_POST['string'];
 
 require_once 'readAndConnection.php';
 
+require_once 'checkDatabaseMapping.php';
+
 if ($column == "greeting" || $column == "count" || $column == "start" || $column == "number" || $column == "id" || $column == "data" || $column == "name" || $column == "comment" || $column == "reference" || $column == "link") {
     $sql_query = "SELECT query, " . $column . " FROM json1";
 } else {
+    $column = checkDatabaseMapping($column);
     $sql_query = "SELECT query, " . $column . " FROM json2";
 }
 

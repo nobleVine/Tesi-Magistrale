@@ -92,9 +92,9 @@
                         <option>keyword</option>
                         <option>offset</option>
                         <option>author</option>
-                        <option>nReferences</option>
+                        <option>references</option>
                         <option>revision</option>
-                        <option>tTime</option>
+                        <option>time</option>
                         <option>created</option>
                     </select>
             </td>
@@ -131,9 +131,9 @@
                         <li><b>Offset:</b> index of the first term of a sequence </li>
                         <li><b>Author:</b> the person who submitted the sequence,<br> not the author of the sequence
                         </li>
-                        <li><b>NReferences:</b> number of references of a sequence </li>
+                        <li><b>References:</b> number of references of a sequence </li>
                         <li><b>Revision:</b> number of a revisions of the page of a sequence in the website </li>
-                        <li><b>tTime:</b> time in which has been done the last revision of the page </li>
+                        <li><b>Time:</b> time in which has been done the last revision of the page </li>
                         <li><b>Created:</b> date of the creation of the page</li>
                     </ul>
                 </fieldset>
@@ -173,11 +173,13 @@
                         <option>keyword</option>
                         <option>offset</option>
                         <option>author</option>
-                        <option>nReferences</option>
+                        <option>references</option>
                         <option>revision</option>
-                        <option>tTime</option>
+                        <option>time</option>
                         <option>created</option>
                     </select>
+                    <br>
+                    <br>
                     <input class="text" type="text" id="input1">
             </td>
             <td>
@@ -262,8 +264,8 @@
                     if (input === "greeting" || input === "count" || input === "start" || input === "number" || input === "id"
                         || input === "data" || input === "name" || input === "comment" || input === "reference" || input === "link"
                         || input === "formula" || input === "example" || input === "maple" || input === "mathematica" || input === "program"
-                        || input === "xref" || input === "keyword" || input === "offset" || input === "author" || input === "nReferences"
-                        || input === "revision" || input === "tTime" || input === "created") {
+                        || input === "xref" || input === "keyword" || input === "offset" || input === "author" || input === "references"
+                        || input === "revision" || input === "time" || input === "created") {
 
                         var array_results = splitString(queryResults);
                     }
@@ -384,7 +386,7 @@
                 append('<option>formula</option>').append('<option>example</option>').append('<option>maple</option>').
                 append('<option>mathematica</option>').append('<option>program</option>').append('<option>xref</option>').
                 append('<option>keyword</option>').append('<option>offset</option>').append('<option>author</option>').
-                append('<option>nReferences</option>').append('<option>revision</option>').append('<option>tTime</option>').
+                append('<option>references</option>').append('<option>revision</option>').append('<option>time</option>').
                 append('<option>created</option>');
         }
 
