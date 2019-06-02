@@ -259,7 +259,12 @@
 
                     var input = document.getElementById("selectInfo").value;
 
-                    if (input === "id" || input === "data" || input === "name" || input === "comment" || input === "reference" || input === "formula" || input === "example" || input === "xref") {
+                    if (input === "greeting" || input === "count" || input === "start" || input === "number" || input === "id"
+                        || input === "data" || input === "name" || input === "comment" || input === "reference" || input === "link"
+                        || input === "formula" || input === "example" || input === "maple" || input === "mathematica" || input === "program"
+                        || input === "xref" || input === "keyword" || input === "offset" || input === "author" || input === "nReferences"
+                        || input === "revision" || input === "tTime" || input === "created") {
+
                         var array_results = splitString(queryResults);
                     }
 
@@ -373,13 +378,14 @@
 
         function reinitializationDropDownMenu(id) {
             $("#" + id).empty().append('<option value="">Choose</option>').append('<option>greeting</option>').
-                append('<option>start</option>').append('<option>number</option>').append('<option>id</option>').
-                append('<option>data</option>').append('<option>name</option>').append('<option>comment</option>').
-                append('<option>reference</option>').append('<option>link</option>').append('<option>formula</option>').
-                append('<option>example</option>').append('<option>maple</option>').append('<option>mathematica</option>').
-                append('<option>program</option>').append('<option>xref</option>').append('<option>keyword</option>').
-                append('<option>offset</option>').append('<option>author</option>').append('<option>nReferences</option>').
-                append('<option>revision</option>').append('<option>tTime</option>').append('<option>created</option>');
+                append('<option>count</option>').append('<option>start</option>').append('<option>number</option>').
+                append('<option>id</option>').append('<option>data</option>').append('<option>name</option>').
+                append('<option>comment</option>').append('<option>reference</option>').append('<option>link</option>').
+                append('<option>formula</option>').append('<option>example</option>').append('<option>maple</option>').
+                append('<option>mathematica</option>').append('<option>program</option>').append('<option>xref</option>').
+                append('<option>keyword</option>').append('<option>offset</option>').append('<option>author</option>').
+                append('<option>nReferences</option>').append('<option>revision</option>').append('<option>tTime</option>').
+                append('<option>created</option>');
         }
 
         function clearInput() {
