@@ -39,7 +39,7 @@
             height: auto;
             position: relative;
             bottom: 42px;
-            left: 30px;
+            left: 10px;
             margin-left: 0.5x;
             margin-right: 0.5px;
         }
@@ -73,36 +73,68 @@
                     <select required oninvalid="this.setCustomValidity('Please select an item of the list')"
                         oninput="this.setCustomValidity('')" id="selectInfo">
                         <option value="">Choose</option>
+                        <option>greeting</option>
+                        <option>count</option>
+                        <option>start</option>
+                        <option>number</option>
                         <option>id</option>
                         <option>data</option>
                         <option>name</option>
                         <option>comment</option>
                         <option>reference</option>
+                        <option>link</option>
                         <option>formula</option>
                         <option>example</option>
+                        <option>maple</option>
+                        <option>mathematica</option>
+                        <option>program</option>
                         <option>xref</option>
+                        <option>keyword</option>
+                        <option>offset</option>
+                        <option>author</option>
+                        <option>nReferences</option>
+                        <option>revision</option>
+                        <option>tTime</option>
+                        <option>created</option>
                     </select>
             </td>
             <td>
                 <input class="button" type="submit" value="Query 1">
             </td>
             </form>
-            <td rowspan="2">
+            <td rowspan="3">
                 <fieldset>
                     <legend>
                         <h3><b>Legend</b></h3>
                     </legend>
                     Possible informations to show: <br>
                     <ul>
+                        <li><b>Greeting:</b> website where a sequence is located </li>
+                        <li><b>Number:</b> number of a sequence </li>
                         <li><b>Id:</b> id of a sequence </li>
-                        <li><b>Data</b>: the numbers which belong to a sequence</li>
-                        <li><b>Name</b>: name of a sequence</li>
-                        <li><b>Comment</b>: informations about a sequence and <br> her relationships with other
+                        <li><b>Data:</b> the numbers which belong to a sequence</li>
+                        <li><b>Name:</b> name of a sequence</li>
+                        <li><b>Comment:</b> informations about a sequence and her relationships with <br> other
                             sequences</li>
-                        <li><b>Reference</b>: references to printed documents (books, papers)</li>
-                        <li><b>Formula</b>: formulas, recurrences, generating functions for a sequence</li>
-                        <li><b>Example</b>: some examples of sequence member values</li>
-                        <li><b>XRef</b>: which sequences are related to a sequence </li>
+                        <li><b>Reference:</b> references to books, journal papers, and other material not found online
+                        </li>
+                        <li><b>Link:</b> links to journal papers, preprints, illustrations, web pages, and other
+                            material</li>
+                        <li><b>Formula:</b> formulas, recurrences, generating functions for a sequence</li>
+                        <li><b>Example:</b> examples of how to find or interpret terms of a sequence</li>
+                        <li><b>Maple:</b> a Maple program </li>
+                        <li><b>Mathematica:</b> a Wolfram Mathematica program. </li>
+                        <li><b>Program:</b> a program in some language other than Maple or Mathematica </li>
+                        <li><b>XRef:</b> which sequences are related to a sequence </li>
+                        <li><b>Keyword:</b> the OEIS has its own standard set of keywords <br> that characterize each
+                            sequence</li>
+                        <li><b>Offset:</b> index of the first term of a sequence </li>
+                        <li><b>Author:</b> the person who submitted the sequence,<br> not the author of the sequence
+                        </li>
+                        <li><b>NReferences:</b> number of references of a sequence </li>
+                        <li><b>Revision:</b> number of a revisions of the page of a sequence in the website </li>
+                        <li><b>tTime:</b> time in which has been done the last revision of the page </li>
+                        <li><b>Created:</b> date of the creation of the page</li>
                     </ul>
                 </fieldset>
             </td>
@@ -122,14 +154,29 @@
                     <select required oninvalid="this.setCustomValidity('Please select an item of the list')"
                         oninput="this.setCustomValidity('')" id="selectInfo2">
                         <option value="">Choose</option>
+                        <option>greeting</option>
+                        <option>count</option>
+                        <option>start</option>
+                        <option>number</option>
                         <option>id</option>
                         <option>data</option>
                         <option>name</option>
                         <option>comment</option>
                         <option>reference</option>
+                        <option>link</option>
                         <option>formula</option>
                         <option>example</option>
+                        <option>maple</option>
+                        <option>mathematica</option>
+                        <option>program</option>
                         <option>xref</option>
+                        <option>keyword</option>
+                        <option>offset</option>
+                        <option>author</option>
+                        <option>nReferences</option>
+                        <option>revision</option>
+                        <option>tTime</option>
+                        <option>created</option>
                     </select>
                     <input class="text" type="text" id="input1">
             </td>
@@ -325,9 +372,14 @@
         }
 
         function reinitializationDropDownMenu(id) {
-            $("#" + id).empty().append('<option value="">Choose</option>').append('<option>id</option>').append('<option>data</option>').
-                append('<option>name</option>').append('<option>comment</option>').append('<option>reference</option>').
-                append('<option>formula</option>').append('<option>example</option>').append('<option>xref</option>');
+            $("#" + id).empty().append('<option value="">Choose</option>').append('<option>greeting</option>').
+                append('<option>start</option>').append('<option>number</option>').append('<option>id</option>').
+                append('<option>data</option>').append('<option>name</option>').append('<option>comment</option>').
+                append('<option>reference</option>').append('<option>link</option>').append('<option>formula</option>').
+                append('<option>example</option>').append('<option>maple</option>').append('<option>mathematica</option>').
+                append('<option>program</option>').append('<option>xref</option>').append('<option>keyword</option>').
+                append('<option>offset</option>').append('<option>author</option>').append('<option>nReferences</option>').
+                append('<option>revision</option>').append('<option>tTime</option>').append('<option>created</option>');
         }
 
         function clearInput() {
