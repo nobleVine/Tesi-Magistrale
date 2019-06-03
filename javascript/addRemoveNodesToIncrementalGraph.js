@@ -105,7 +105,6 @@ function addNodeToIncrementalGraph() {
         y: Math.round(getRandomArbitrary(0, 10000))
     }).addEdge({
         id: 'e' + '(' + id + ',' + sequenceToDraw + ')',
-        //id: 'e' + id + sequenceToDraw,
         source: '' + id,
         target: '' + sequenceToDraw,
         size: 3

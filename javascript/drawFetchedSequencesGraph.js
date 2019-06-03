@@ -6,9 +6,9 @@ function drawFetchedSequencesGraph() {
 
     s.settings({
         maxNodeSize: 6
-    })
+    });
 
-    s.unbind('rightClickNode'); //to deactivate the event rightClickNode
+    s.unbind('rightClickNode'); // To deactivate the event rightClickNode.
 
     document.getElementById("nodesClick2").style.display = "none";
 
@@ -74,7 +74,7 @@ function drawFetchedSequencesGraph() {
 
     list_edges = s.graph.edges();
 
-    for (q = 0; q < list_edges.length; q++) { //double for to remove the duplicate edges (edges which have the same source and target nodes)
+    for (q = 0; q < list_edges.length; q++) { // Double for to remove the duplicate edges (edges which have the same source and target nodes).
         for (p = q + 1; p < list_edges.length; p++) {
             if ((list_edges[q].source === list_edges[p].target) && (list_edges[q].target === list_edges[p]
                 .source)) {
@@ -170,7 +170,7 @@ function louvainLayout() {
 
     var colors = [];
 
-    for(c=0; c < 100; c++) {
+    for(c=0; c < 100; c++) { // Color random generation.
         colors[c] = '#' + (
             Math.floor(Math.random() * 16777215).toString(16) + '000000'
           ).substr(0, 6);
@@ -190,16 +190,16 @@ function louvainLayout() {
 
         document.getElementById('numberOfCommunities').value = nbPartitions;
 
-        s.graph.nodes().forEach(function (node) {
+        s.graph.nodes().forEach(function (node) { // This loop is useful to color the nodes of the same community with the same color.
             node.color = colors[node.my_community];
         });
 
-        s.refresh(); // { skipIndexation: true }
+        s.refresh();
 
         var levelElt = document.getElementById('selectLevel');
         levelElt.innerHTML = '';
 
-        for (var i = 0; i < nbLevels; i++) {
+        for (var i = 0; i < nbLevels; i++) { // Levels menu option population.
             var optionElt = document.createElement("option");
             optionElt.text = i + 1;
             if (i === nbLevels - 1) {
@@ -208,9 +208,9 @@ function louvainLayout() {
             levelElt.add(optionElt);
         }
 
-        levelElt.addEventListener("change", function (e) {
+        levelElt.addEventListener("change", function (e) { // Listener for the user. When he/she changes the value in the drop down menù.
 
-            var level = +e.target[e.target.selectedIndex].value;
+            var level = +e.target[e.target.selectedIndex].value; // It is a long that reflects the index of the first or last selected <option> element, depending on the value of multiple. The value -1 indicates that no element is selected.
             louvainInstance.setResults({ level: level });
 
             // Partition count
@@ -223,7 +223,7 @@ function louvainLayout() {
                 node.color = colors[node.my_community];
             });
 
-            s.refresh({ skipIndexation: true });
+            s.refresh();
 
         });
 

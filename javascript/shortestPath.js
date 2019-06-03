@@ -9,7 +9,7 @@ function shortestPath() {
         var numEdges = 0;
         var nodesInThePath = [];
 
-        var edges_list_before_all = s.graph.edges();
+        var edges_list_before_all = s.graph.edges(); // Initial graph edges.
 
         createGraphForShortestPath();
 
@@ -38,16 +38,18 @@ function shortestPath() {
 
         s.graph.nodes().forEach(element => {
             element.color = "#007fff";
-            element.size = 3;
         });
 
         s.graph.edges().forEach(element => {
             element.color = "#000000";
-            element.size = 3;
         });
 
-        nodesInThePathLeftRight = s.graph.astar(sourceNode, destinationNode, true); //returns a list of the nodes of the shortest path
+        nodesInThePathLeftRight = s.graph.astar(sourceNode, destinationNode, true); 
         nodesInThePathRightLeft = s.graph.astar(destinationNode, sourceNode, true);
+
+        /*  
+            Double execution of astar because sometimes one execution doesn't return the shortest path between sourceNode and destinationNode. 
+        */
 
         if (typeof nodesInThePathLeftRight === 'undefined' && typeof nodesInThePathRightLeft === 'undefined') {
             alert("There is no path between the inserted sequence");
@@ -87,18 +89,18 @@ function shortestPath() {
         for (i = 0; i < listEdges.length; i++) {
             for (j = 0; j < nodesInThePath.length - 1; j++) {
                 if (listEdges[i].source === nodesInThePath[j].id && listEdges[i].target === nodesInThePath[j + 1].id) {
-                    listEdges[i].color = "#ff0000";
+                    listEdges[i].color = "#ff0000"; /* Coloration of the shortest path in the graph between the two nodes. */
                     numEdges++;
                     break;
                 }
             }
         }
 
-        s.graph.edges().forEach(element => {
+        s.graph.edges().forEach(element => { // Clean the graph from edges.
             s.graph.dropEdge(element.id);
         });
 
-        edges_list_before_all.forEach(element => {
+        edges_list_before_all.forEach(element => { // Readd the edges.
             s.graph.addEdge(element);
         });
 
@@ -107,7 +109,7 @@ function shortestPath() {
         list_edges_final.forEach(element => {
             for (i = 0; i < nodesInThePath.length - 1; i++) {
                 if ((element.source === nodesInThePath[i].id && element.target === nodesInThePath[i + 1].id) || (element.target === nodesInThePath[i].id && element.source === nodesInThePath[i + 1].id)) {
-                    element.color = "#ff0000";
+                    element.color = "#ff0000"; /* Coloration of specific edges */
                 }
             }
         });
@@ -135,7 +137,7 @@ function clearInputSecondSequence() {
     document.getElementById("secondSequence").value = "";
 }
 
-function createGraphForShortestPath() {
+function createGraphForShortestPath() { // This function is useful to create a graph when the plugin astar can work.
     s.graph.edges().forEach(element => {
         try {
             s.graph.addEdge({

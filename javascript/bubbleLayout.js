@@ -61,7 +61,6 @@ function drawBubbleLayout() {
             y: getRandomArbitrary(0, 50) * Math.cos(theta),
             size: setWeight(weight_list[i])
         }).addEdge({
-            //id: 'e' + s.graph.edges().length,
             id: 'e' + '(' + sequenceForLayout + ',' + i + ')', 
             source: '' + sequenceForLayout,
             target: '' + i,

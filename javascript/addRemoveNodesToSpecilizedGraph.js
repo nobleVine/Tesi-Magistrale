@@ -38,7 +38,6 @@ function addNodeToSpecializedGraph() {
         size: 3
     }).addEdge({
         id: 'e' + '(' + document.getElementById("startingSequence").value + ',' + sequenceToDraw + ')',
-        //id: 'e' + document.getElementById("startingSequence").value + sequenceToDraw,
         source: '' + document.getElementById("startingSequence").value,
         target: '' + sequenceToDraw,
         size: 3
