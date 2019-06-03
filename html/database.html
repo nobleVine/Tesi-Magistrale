@@ -210,9 +210,8 @@
         </b>
     </h3>
 
-    <table id="tableResults" border=1>
+    <table id="tableResults">
         <!-- Query results -->
-
     </table>
 
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -248,6 +247,7 @@
                 success: function (queryResults) {
 
                     var tableResults = document.getElementById("tableResults");
+                    tableResults.setAttribute("border", 1);
 
                     if (tableResults === null) {
                         var tableResults = document.createElement("table");
@@ -309,6 +309,14 @@
                 success: function (queryResults) {
 
                     document.getElementById("tableResults").innerHTML = "";
+
+                    if(checkEmptyResult(queryResults) === -1) {
+                        document.getElementById("tableResults").setAttribute("border", 0);
+                        return;
+                    }
+
+                    document.getElementById("tableResults").setAttribute("border", 1);
+
                     queryResults = queryResults.slice(1, queryResults.length - 1);
                     var array_results = queryResults.split(",");
 
@@ -409,6 +417,14 @@
 
                     var column = takeColummn(queryResults);
                     document.getElementById("tableResults").innerHTML = "";
+
+                    if(checkEmptyResult(queryResults) === -1) {
+                        document.getElementById("tableResults").setAttribute("border", 0);
+                        return;
+                    }
+
+                    document.getElementById("tableResults").setAttribute("border", 1);
+
                     queryResults = queryResults.slice(1, queryResults.length - 1);
                     var array_results = queryResults.split("{" + column + ":");
 
@@ -447,6 +463,13 @@
                 } else {
                     i++;
                 }
+            }
+        }
+
+        function checkEmptyResult(qResult) {
+            if (qResult === "[]") {
+                alert("The query result is empty!");
+                return -1;
             }
         }
 
