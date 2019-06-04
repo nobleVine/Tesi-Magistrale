@@ -40,7 +40,6 @@ function addNodeToSpecializedGraph() {
         id: 'e' + '(' + document.getElementById("startingSequence").value + ',' + sequenceToDraw + ')',
         source: '' + document.getElementById("startingSequence").value,
         target: '' + sequenceToDraw,
-        size: 3
     });
 
     s.graph.nodes().forEach(function (element, k) {
@@ -110,7 +109,6 @@ function removeNodeToSpecializedGraph() {
     
         s.graph.edges().forEach(element => {
             element.color = "#000000";
-            element.size = 3;
         });
 
     }

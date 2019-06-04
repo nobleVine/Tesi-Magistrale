@@ -69,7 +69,7 @@ function drawSpecializedGraph() {
                 id: 'e' + '(' + sequence + ',' + nodes_list[i] + ')',
                 source: '' + sequence,
                 target: '' + nodes_list[i],
-                size: 3
+                //size: 3
             });
         }
         s.refresh();

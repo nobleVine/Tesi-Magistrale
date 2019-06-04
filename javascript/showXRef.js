@@ -32,12 +32,16 @@ function showXref() {
 
         s.graph.nodes().forEach(element => {
             element.color = "#007fff";
-            element.size = 3;
+            if (element.id === document.getElementById("startingSequence").value) {
+                element.size = 5;
+            } else {
+                element.size = 3;
+            }
         });
 
         s.graph.edges().forEach(element => {
             element.color = "#000000";
-            element.size = 3;
+            //element.size = 3;
         });
 
         nodes_added = [];
@@ -74,7 +78,6 @@ function showXref() {
                     id: 'e' + '(' + e.data.node.id + ',' + xref[i] + ')',
                     source: '' + e.data.node.id,
                     target: '' + xref[i],
-                    size: 20,
                     color: "#0a0a0a"
                 });
                 nodes_added.push(xref[i]); // Push for backtrack.
@@ -83,7 +86,6 @@ function showXref() {
                 s.graph.nodes(xref[i]).size = 6;
                 s.graph.edges().forEach(element => {
                     if (element.source === e.data.node.id) {
-                        element.size = 20;
                         element.color = "#0a0a0a"
                     }
                 })

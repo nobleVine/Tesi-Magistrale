@@ -53,7 +53,7 @@ function drawFetchedSequencesGraph() {
             label: '' + json_list[i].query.substring(3, 11),
             x: 10 * Math.cos(theta),
             y: 10 * Math.sin(theta),
-            size: 1
+            size: 3
         });
     }
 
@@ -65,7 +65,6 @@ function drawFetchedSequencesGraph() {
                         id: 'e' + '(' + json_list[i].query.substring(3, 11) + ',' + json_list[k].query.substring(3, 11) + ')',
                         source: '' + json_list[i].query.substring(3, 11),
                         target: '' + json_list[k].query.substring(3, 11),
-                        size: 1
                     });
                 }
             }
@@ -168,6 +167,8 @@ function drawFetchedSequencesGraph() {
 
 function louvainLayout() {
 
+    if (currentLayout === "Circle Layout" || currentLayout === "Force Layout Default" || currentLayout === "Force Layout Edges" || currentLayout === "FR Layout") {
+
     var colors = [];
 
     for(c=0; c < 100; c++) { // Color random generation.
@@ -226,5 +227,11 @@ function louvainLayout() {
             s.refresh();
 
         });
+
+    } else {
+
+        alert("This algorithm is not applicable to " + currentLayout);
+
+    }
 
 }
