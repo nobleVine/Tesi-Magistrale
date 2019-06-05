@@ -149,8 +149,7 @@
                             <b>starting sequence</b>
                         </td>
                         <td>
-                            <input class="text" type="text" id="startingSequence"
-                                title="Insert the id of the sequence of which you want to see all the references">
+                            <input class="text" type="text" id="startingSequence">
                         </td>
                     </tr>
                     <tr>
@@ -158,14 +157,12 @@
                             <b>number of nodes</b>
                         </td>
                         <td>
-                            <input class="text" type="text" id="numberOfNodes"
-                                title="Insert the maximum number of related sequences that you want to show">
+                            <input class="text" type="text" id="numberOfNodes">
                         </td>
                     </tr>
                 </table>
                 <br>
-                <input class="button" type="submit" value="Draw It!" id="buttonDraw"
-                    title="Click here to draw the graph with all the related sequences from starting sequence">
+                <input class="button" type="submit" value="Draw It!" id="buttonDraw">
             </form>
             <form action="javascript: addNodeToSpecializedGraph()">
                 <select required oninvalid="this.setCustomValidity('Please select an item of the list')"
@@ -225,8 +222,7 @@
                         <b>number of nodes</b>
                     </td>
                     <td>
-                        <input class="text" type="text" id="numberOfNodes2"
-                            title="Insert the number of related sequences that you want to show">
+                        <input class="text" type="text" id="numberOfNodes2">
                     </td>
                 </tr>
                 <tr>
@@ -242,8 +238,7 @@
                             </select>
                     </td>
                     <td>
-                        <input class="button" type="submit" value="Draw It!" id="buttonDraw2"
-                            title="Click here to draw the graph with maximum 100 fetched related sequences">
+                        <input class="button" type="submit" value="Draw It!" id="buttonDraw2">
                     </td>
                     </form>
                 </tr>
@@ -291,8 +286,8 @@
                 only the nodes and the edges directly connected to the input sequence.
                 <br>
                 <br>
-                <input class="text" type="text" id="sequence" title="Insert the sequence id">
-                <input type="submit" value="Compute" id="buttonCompute" title="Click here to compute">
+                <input class="text" type="text" id="sequence">
+                <input type="submit" value="Compute" id="buttonCompute">
                 <input class="text" type="text" id="result">
             </form>
         </div>
@@ -312,14 +307,12 @@
                             <b>starting sequence</b>
                         </td>
                         <td>
-                            <input class="text" type="text" id="initialSequence"
-                                title="Insert the id of the sequence which you want to draw the first node">
+                            <input class="text" type="text" id="initialSequence">
                         </td>
                     </tr>
                 </table>
                 <br>
-                <input class="button" type="submit" value="Draw It!" id="buttonDraw3"
-                    title="Click here to draw the first node of the incremental graph">
+                <input class="button" type="submit" value="Draw It!" id="buttonDraw3">
             </form>
             Left click on a node to show on the drop-down menù its references, to add them to the graph.
             <br>
