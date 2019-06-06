@@ -80,7 +80,9 @@ function shortestPath() {
         nodesInThePath.forEach(element => {
             if (s.graph.nodes().includes(element)) {
                 element.color = "#ff0000";
-                element.size = 6;
+                if (currentLayout === "Incremental Layout") {
+                    element.size = 6;
+                }
             }
         });
 
@@ -116,7 +118,7 @@ function shortestPath() {
 
         document.getElementById("numEdges").value = numEdges;
 
-        if (currentLayout === "Force Layout Default" || currentLayout === "Force Layout Edges") {
+        if (currentLayout === "Force Layout Default" || currentLayout === "Force Layout Edges" || currentLayout === "FR Layout") {
             sigma.plugins.relativeSize(s, 3);
         }
 

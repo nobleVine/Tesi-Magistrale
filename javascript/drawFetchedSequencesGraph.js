@@ -169,15 +169,19 @@ function louvainLayout() {
 
     if (currentLayout === "Circle Layout" || currentLayout === "Force Layout Default" || currentLayout === "Force Layout Edges" || currentLayout === "FR Layout") {
 
-    var colors = [];
+        s.graph.edges().forEach(element => {
+            element.color = "#000000";
+        });
 
-    for(c=0; c < 100; c++) { // Color random generation.
-        colors[c] = '#' + (
-            Math.floor(Math.random() * 16777215).toString(16) + '000000'
-          ).substr(0, 6);
-    }
+        var colors = [];
 
-    var louvainInstance;
+        for (c = 0; c < 100; c++) { // Color random generation.
+            colors[c] = '#' + (
+                Math.floor(Math.random() * 16777215).toString(16) + '000000'
+            ).substr(0, 6);
+        }
+
+        var louvainInstance;
 
         louvainInstance = sigma.plugins.louvain(s.graph, {
             setter: function (communityId) {
