@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS json1(
     comment TEXT,
     reference TEXT,
     link TEXT,
-    FULLTEXT(name, comment, reference)
+    FULLTEXT(comment)
 );
 
 CREATE TABLE IF NOT EXISTS json2(
@@ -32,5 +32,6 @@ CREATE TABLE IF NOT EXISTS json2(
     revision VARCHAR(20),
     tTime VARCHAR(50),
     created VARCHAR(50),
+    FULLTEXT(formula),
     FOREIGN KEY(query) REFERENCES json1(query)
 )
