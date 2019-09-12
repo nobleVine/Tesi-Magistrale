@@ -62,7 +62,7 @@
         <tr>
             <td>
                 <h3>
-                    Select from those in the drop-down menù 
+                    Select in the drop-down menù 
                     <br>
                     which information of the fetched sequences shows
                 </h3>
@@ -142,11 +142,11 @@
         <tr>
             <td>
                 <h3>
-                    Select the information from those in the
+                    Select the information in the
                     <br>
                     drop-down menù of the fetched sequences in  
                     <br>
-                    which search the string inserted in the text box
+                    which search the string inserted in the textbox
                 </h3>
             </td>
             <td>
@@ -238,7 +238,7 @@
             document.getElementById("QR").style.display = "block";
 
             $.ajax({
-                type: "POST",
+                type: "GET",
                 url: "https://localhost/tesi-magistrale/php/genericQuery.php",
                 async: false,
                 data: {
@@ -299,7 +299,7 @@
             document.getElementById("QR").style.display = "block";
 
             $.ajax({
-                type: "POST",
+                type: "GET",
                 url: "https://localhost/tesi-magistrale/php/querySearchStringInColumn.php",
                 async: false,
                 data: {
@@ -407,7 +407,7 @@
             document.getElementById("QR").style.display = "block";
 
             $.ajax({
-                type: "POST",
+                type: "GET",
                 url: "https://localhost/tesi-magistrale/php/freeQuery.php",
                 async: false,
                 data: {

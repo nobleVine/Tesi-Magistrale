@@ -1,7 +1,7 @@
 <?php
 
-$column = $_POST['string1'];
-$string = $_POST['string2'];
+$column = $_GET['string1'];
+$string = $_GET['string2'];
 
 require_once 'readAndConnection.php';
 

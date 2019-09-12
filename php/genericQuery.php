@@ -1,6 +1,6 @@
 <?php
 
-$column = $_POST['string'];
+$column = $_GET['string'];
 
 require_once 'readAndConnection.php';
 

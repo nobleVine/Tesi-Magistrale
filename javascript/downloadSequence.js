@@ -1,4 +1,5 @@
 function downloadSequence() {
+
     var sequenceToFetch = document.getElementById("download").value;
     $.ajax({
         type: "GET",
@@ -7,6 +8,7 @@ function downloadSequence() {
         data: {
             download: sequenceToFetch
         },
+        
         success: function (JSONfile) {
             alert("Sequence " + sequenceToFetch + " has been correctly fetched!");
             $.ajax({

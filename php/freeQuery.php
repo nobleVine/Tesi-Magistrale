@@ -1,6 +1,6 @@
 <?php
 
-$textQuery = $_POST['string1'];
+$textQuery = $_GET['string1'];
 
 require_once 'readAndConnection.php';
 

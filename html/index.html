@@ -139,7 +139,7 @@
         <div class="section" id="section1">
             <form action="javascript:drawSpecializedGraph()">
                 <table>
-                    Insert the id of the sequence of which you want to see all her references and the maximum number of
+                    Insert the id of the sequence of which you want to see all its references and the maximum number of
                     related sequences that you want to show, to draw the graph with these sequences related to the
                     starting sequence.
                     <br>
@@ -244,7 +244,7 @@
                 </tr>
             </table>
             Click on Apply to detect the communities in the current graph. A community is a subset
-            of vertices where there are many edges connecting between vertices of the same subset.
+            of vertices where there are many edges connecting vertices of the same subset.
             <br>
             <br>
             <table class="table" cellspacing="10">
@@ -282,7 +282,7 @@
         </h3>
         <div class="section" id="section3">
             <form action="javascript:numberOfRelatedSequences()">
-                Calculates how many related sequences there are compared to the one given among those fetched and shows
+                Calculate how many sequences are related to the one given among those fetched and shows
                 only the nodes and the edges directly connected to the input sequence.
                 <br>
                 <br>
@@ -299,7 +299,7 @@
         <div class="section" id="section4">
             <form action="javascript: drawIncrementalGraph()">
                 <table>
-                    Insert the id of the initial sequence from which starting to build the incremental graph
+                    Insert the id of the initial sequence from which start to build the incremental graph
                     <br>
                     <br>
                     <tr>
@@ -340,8 +340,7 @@
         <div class="section" id="section5">
             <form action="javascript: shortestPath()">
                 <table>
-                    Insert the id of the source node and the destination node of which you want to show the shortest
-                    path of edges.
+                    Insert the id of the source node and the destination node of which you want to show the shortest path between them.
                     <br>
                     <br>
                     <tr>
@@ -546,7 +545,7 @@
         */
 
         $.ajax({ // This ajax request serves to storage the string with names of json files in the folder fetched.
-            type: "POST",
+            type: "GET",
             url: "https://localhost/tesi-magistrale/php/getFetchedInfo.php",
             async: false, // The program 'll wait until this request'll not be executed.
             success: function (list) {
@@ -563,7 +562,7 @@
 
         json_list_support.forEach(element => { // This ajax request purpouse is create a json files list.
             $.ajax({
-                type: "POST",
+                type: "GET",
                 url: "https://localhost/materiale_Nocentini/oeis-tools-master/src/fetched/" + element + ".json",
                 async: false,
                 success: function (fileJSON) {

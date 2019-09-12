@@ -3,7 +3,10 @@ function showInformation() { // This function shows informations about the selec
     s.bind("clickNode", function (e) {
 
         if (e.data.node.id[0] === 'A') {
-            document.getElementById("accordion3").style.display = "none";
+        
+            /*
+                document.getElementById("accordion3").style.display = "none";
+            }*/
 
             $("#accordion2").accordion({ // This is the accordion where informations'll shown.
                 collapsible: true,
